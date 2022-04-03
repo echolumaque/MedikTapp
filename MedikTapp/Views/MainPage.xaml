@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:MedikTapp.Views.Base"
+                xmlns:vm="clr-namespace:MedikTapp.ViewModels"
+                x:TypeArguments="vm:MainPageViewModel"
+                x:DataType="vm:MainPageViewModel"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:Class="MedikTapp.Views.MainPage">
+
+    <xct:TabView IsSwipeEnabled="False"
+                 TabStripPlacement="Bottom"
+                 TabStripHeight="60"
+                 TabStripBackgroundColor="White">
+        <xct:TabView.Behaviors>
+            <xct:EventToCommandBehavior EventName="SelectionChanged" 
+                                        Command="{Binding TabSelectionChangedCmd}"/>
+        </xct:TabView.Behaviors>
+
+        <xct:TabViewItem Text="{Binding Tabs[0].Text}"
+                         Icon="{Binding Tabs[0].Icon}">
+            <ContentView Content="{Binding Tabs[0].ViewTemplate}"/>
+        </xct:TabViewItem>
+
+        <xct:TabViewItem Text="{Binding Tabs[1].Text}"
+                         Icon="{Binding Tabs[1].Icon}">
+            <ContentView Content="{Binding Tabs[1].ViewTemplate}"/>
+        </xct:TabViewItem>
+
+        <xct:TabViewItem Text="{Binding Tabs[2].Text}"
+                         Icon="{Binding Tabs[2].Icon}">
+            <ContentView Content="{Binding Tabs[2].ViewTemplate}"/>
+        </xct:TabViewItem>
+
+        <xct:TabViewItem Text="{Binding Tabs[3].Text}"
+                         Icon="{Binding Tabs[3].Icon}">
+            <ContentView Content="{Binding Tabs[3].ViewTemplate}"/>
+        </xct:TabViewItem>
+    </xct:TabView>
+</views:BasePage>
