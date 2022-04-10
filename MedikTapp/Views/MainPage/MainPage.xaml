@@ -32,6 +32,7 @@
                     </xct:BadgeView.Triggers>
                     <Label Text="{Binding Icon}"
                            FontFamily="fas"
+                           FontSize="18"
                            TextColor="Gray">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label"

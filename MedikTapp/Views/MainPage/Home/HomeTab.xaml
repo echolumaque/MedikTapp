@@ -161,7 +161,8 @@
                                        TextColor="Black"
                                        FontFamily="med"
                                        FontSize="15"
-                                       HorizontalOptions="Center"/>
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"/>
 
                                 <Label Text="{Binding ServiceDescription}"
                                        FontFamily="med"
