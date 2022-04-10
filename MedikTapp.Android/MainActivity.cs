@@ -25,6 +25,7 @@ namespace MedikTapp.Droid
             Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
         }
 

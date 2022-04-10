@@ -15,6 +15,8 @@ namespace MedikTapp.DI
                 .AddTransient<MainPageViewModel>()
                 .AddTransient<HomeTabViewModel>()
                 .AddTransient<CartTabViewModel>()
+                .AddTransient<onboardingViewModel>()
+                .AddTransient<registerViewModel>()
                 .AddTransient<ScheduleTabViewModel>()
                 .AddTransient<SettingsTabViewModel>();
         }
