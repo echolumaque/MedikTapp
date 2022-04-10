@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MedikTapp.Views.MainPage.Home"
+             x:DataType="vm:HomeTabViewModel"
+             xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+             xmlns:models="clr-namespace:MedikTapp.Models"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:svgs="clr-namespace:MedikTapp.Resources.SVGs"
+             xmlns:shadows="http://sharpnado.com"
+             x:Class="MedikTapp.Views.MainPage.Home.HomeTab">
+
+    <ScrollView HorizontalScrollBarVisibility="Never"
+                VerticalScrollBarVisibility="Never"
+                Margin="20,0">
+        <Grid RowDefinitions="250,200,*">
+            <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="80,*">
+                <Label FontFamily="sembold"
+                       TextColor="Black"
+                       FontSize="30"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Elsie Adkins "/>
+                            <Span Text="👋🏼"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Frame Grid.Column="0"
+                       Grid.Row="1"
+                       CornerRadius="15"
+                       BackgroundColor="#695CD4"
+                       VerticalOptions="Fill"
+                       Padding="10">
+                    <Grid RowDefinitions="*,*">
+                        <Label Text="{x:Static fonts:FontAwesomeIcons.Hospital}"
+                               FontFamily="far"
+                               TextColor="White"
+                               FontSize="35"
+                               Grid.Row="0"/>
+
+                        <Label Text="Book a service"
+                               FontFamily="med"
+                               Grid.Row="1"
+                               TextColor="White"
+                               VerticalOptions="Start"
+                               FontSize="15"/>
+
+                        <Label Text="Schedule a service with us"
+                               TextColor="White"
+                               Grid.Row="1"
+                               VerticalOptions="Center"
+                               FontFamily="reg"
+                               FontSize="12"/>
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       Grid.Row="1"
+                       CornerRadius="15"
+                       BackgroundColor="White"
+                       Padding="10">
+                    <Grid RowDefinitions="*,*">
+                        <Label Text="{x:Static fonts:FontAwesomeIcons.UserDoctorHair}"
+                               FontFamily="far"
+                               TextColor="#695CD4"
+                               FontSize="35"
+                               Grid.Row="0"/>
+
+                        <Label Text="Book a doctor"
+                               FontFamily="med"
+                               Grid.Row="1"
+                               TextColor="Black"
+                               VerticalOptions="Start"
+                               FontSize="15"/>
+
+                        <Label Text="Make an appointment"
+                               TextColor="DarkGray"
+                               Grid.Row="1"
+                               VerticalOptions="Center"
+                               FontFamily="reg"
+                               FontSize="12"/>
+                    </Grid>
+                </Frame>
+            </Grid>
+            <!--#endregion-->
+            
+            <!--#region Promos-->
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding PromosCollection}"
+                            ItemSizingStrategy="MeasureAllItems"
+                            VerticalOptions="Start">
+                <CollectionView.Header>
+                    <Label Text="What are you feeling?"
+                           FontFamily="sembold"
+                           FontSize="20"
+                           TextColor="Black"/>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     HorizontalItemSpacing="10"
+                                     VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Promos">
+                        <Frame BackgroundColor="#EEF1F6">
+                            <Grid ColumnDefinitions="30,Auto">
+                                <Label Text="{Binding Emoji}"
+                                       Grid.Column="0"/>
+
+                                <Label Text="{Binding Category}"
+                                       FontFamily="med"
+                                       TextColor="Black"
+                                       HorizontalOptions="Start"
+                                       Grid.Column="1"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--#endregion-->
+            
+            <!--#region Popular services-->
+            <CollectionView ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding ServicesCollection}"
+                            Grid.Row="2"
+                            HeightRequest="580">
+                <CollectionView.Header>
+                    <Label Text="Popular Services"
+                           FontFamily="sembold"
+                           FontSize="20"
+                           TextColor="Black"/>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     HorizontalItemSpacing="10"
+                                     VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:ServicesOffered">
+                        <Frame CornerRadius="10"
+                               HasShadow="True"
+                               VerticalOptions="Center"
+                               HeightRequest="205">
+                            <StackLayout>
+                                <Image Source="{Binding ServiceImage}"
+                                       HeightRequest="100"
+                                       WidthRequest="100"/>
+
+                                <Label Text="{Binding ServiceName}"
+                                       TextColor="Black"
+                                       FontFamily="med"
+                                       FontSize="15"
+                                       HorizontalOptions="Center"/>
+
+                                <Label Text="{Binding ServiceDescription}"
+                                       FontFamily="med"
+                                       FontSize="12"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="3"/>
+
+                                <Label Text="{Binding ServicePrice, StringFormat='₱ {0:n}'}"
+                                       FontFamily="med"
+                                       FontSize="12"
+                                       HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--#endregion-->
+        </Grid>
+    </ScrollView>
+</ContentView>

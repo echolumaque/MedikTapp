@@ -1,7 +1,6 @@
-﻿using MedikTapp.ViewModels;
-using MedikTapp.Views.Base;
+﻿using MedikTapp.Views.Base;
 
-namespace MedikTapp.Views
+namespace MedikTapp.Views.MainPage
 {
     public partial class MainPage : BasePage<MainPageViewModel>
     {

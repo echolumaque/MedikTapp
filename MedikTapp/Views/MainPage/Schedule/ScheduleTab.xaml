@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MedikTapp.Views.MainPage.Schedule"
+             x:DataType="vm:ScheduleTabViewModel"
+             xmlns:models="clr-namespace:MedikTapp.Models"
+             BackgroundColor="#FBFBFB"
+             xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+             xmlns:enums="clr-namespace:MedikTapp.Enums"
+             x:Class="MedikTapp.Views.MainPage.Schedule.ScheduleTab">
+    <ContentView.Resources>
+        <Style x:Key="SelectedScheduleTypeFrame"
+               TargetType="Frame">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="BackgroundColor" Value="#695CD5"/>
+        </Style>
+        <Style x:Key="UnselectedScheduleTypeFrame"
+               TargetType="Frame">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="BackgroundColor" Value="#F4F5F9"/>
+        </Style>
+        <Style x:Key="SelectedScheduleTypeLabel"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="FontFamily" Value="sembold"/>
+        </Style>
+        <Style x:Key="UnselectedScheduleTypeLabel"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="LightGray"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="FontFamily" Value="sembold"/>
+        </Style>
+        <Style x:Key="ScheduleFontIcons"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="#A8AFBD"/>
+            <Setter Property="FontFamily" Value="fas"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+        </Style>
+        <Style x:Key="ScheduleFontIconsDesc"
+               TargetType="Label">
+            <Setter Property="FontFamily" Value="med"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+            <Setter Property="TextColor" Value="#2F2F32"/>
+        </Style>
+    </ContentView.Resources>
+    
+    <Grid ColumnDefinitions="*,*,*"
+          RowDefinitions="70,45,*"
+          Margin="20">
+        <Label Text="Schedule"
+               FontFamily="sembold"
+               TextColor="#2F2F32"
+               FontSize="40"
+               Grid.Column="0"
+               Grid.Row="0"
+               Grid.ColumnSpan="3"/>
+
+        <Frame Grid.Column="0"
+               Style="{StaticResource SelectedScheduleTypeFrame}">
+            <Label Text="Upcoming"
+                   Style="{StaticResource SelectedScheduleTypeLabel}"/>
+        </Frame>
+
+        <Frame Grid.Column="1"
+               Style="{StaticResource UnselectedScheduleTypeFrame}">
+            <Label Text="Completed"
+                   Style="{StaticResource UnselectedScheduleTypeLabel}"/>
+        </Frame>
+
+        <Frame Grid.Column="2"
+               Style="{StaticResource UnselectedScheduleTypeFrame}">
+            <Label Text="Cancelled"
+                   Style="{StaticResource UnselectedScheduleTypeLabel}"/>
+        </Frame>
+
+        <CollectionView Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Grid.Row="2"
+                        ItemSizingStrategy="MeasureAllItems"
+                        ItemsSource="{Binding Bookings}"
+                        Margin="0,20,0,0">
+            <CollectionView.Header>
+                <Label Text="Nearest visit"
+                       TextColor="#2F2F32"
+                       FontFamily="sembold"
+                       FontSize="20"/>
+            </CollectionView.Header>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="15"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Bookings">
+                    <Frame Padding="10"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="70,50,50">
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   VerticalOptions="Start"
+                                   Grid.ColumnSpan="2">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding DoctorName}"
+                                              TextColor="Black"
+                                              FontSize="20"
+                                              FontFamily="med"/>
+                                        <Span Text="&#10;"/>
+                                        <Span Text="{Binding DoctorSpecialty}"
+                                              TextColor="Gray"
+                                              FontFamily="reg"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Image Source="{Binding DoctorImage}"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
+                                   Grid.Column="1"
+                                   Grid.Row="0"
+                                   VerticalOptions="Start"
+                                   HorizontalOptions="End"/>
+
+                            <BoxView BackgroundColor="#F2F3F6"
+                                     HeightRequest=".7"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Grid.Row="0"
+                                     VerticalOptions="End"/>
+
+                            <Grid ColumnDefinitions="20,*,20,*,20,*"
+                                  Grid.Row="1"
+                                  Grid.Column="0"
+                                  Margin="0,10,0,10"
+                                  Grid.ColumnSpan="2">
+                                <Label Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}"
+                                       Style="{StaticResource ScheduleFontIcons}"
+                                       Grid.Column="0"/>
+                                <Label Text="{Binding BookingDate, StringFormat='{0: M/dd/yyy}'}"
+                                       Grid.Column="1"
+                                       Style="{StaticResource ScheduleFontIconsDesc}"/>
+
+                                <Label Text="{x:Static fonts:FontAwesomeIcons.Clock}"
+                                       Style="{StaticResource ScheduleFontIcons}"
+                                       Grid.Column="2"/>
+                                <Label Text="{Binding BookingDate, StringFormat='{0: HH:mm tt}'}"
+                                       Grid.Column="3"
+                                       Style="{StaticResource ScheduleFontIconsDesc}"/>
+
+                                <Ellipse Fill="#00DC54"
+                                         Grid.Column="4"
+                                         HeightRequest="10"
+                                         WidthRequest="10"
+                                         HorizontalOptions="Start"
+                                         VerticalOptions="Center">
+                                    <Ellipse.Triggers>
+                                        <DataTrigger TargetType="Ellipse"
+                                                     Binding="{Binding BookingStatus}"
+                                                     Value="{x:Static enums:BookingStatus.Pending}">
+                                            <Setter Property="Fill" Value="#FF8E00"/>
+                                        </DataTrigger>
+                                    </Ellipse.Triggers>
+                                </Ellipse>
+                                <Label Text="{Binding BookingStatus}"
+                                       Grid.Column="5"
+                                       Style="{StaticResource ScheduleFontIconsDesc}"/>
+                            </Grid>
+
+                            <Button Text="Cancel"
+                                    BackgroundColor="#F4F5F9"
+                                    FontFamily="sembold"
+                                    Grid.Row="2"
+                                    CornerRadius="10"
+                                    Grid.Column="0"
+                                    Margin="5,0"/>
+
+                            <Button Text="Reschedule"
+                                    TextColor="White"
+                                    BackgroundColor="#695CD5"
+                                    FontFamily="sembold"
+                                    Grid.Row="2"
+                                    CornerRadius="10"
+                                    Grid.Column="1"
+                                    Margin="5,0"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentView>

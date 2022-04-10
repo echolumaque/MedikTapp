@@ -1,8 +1,12 @@
 ﻿using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
+using MedikTapp.Views.MainPage.Bookings;
+using MedikTapp.Views.MainPage.Home;
+using MedikTapp.Views.MainPage.Schedule;
+using MedikTapp.Views.MainPage.Settings;
 using System;
 
-namespace MedikTapp.ViewModels
+namespace MedikTapp.Views.MainPage
 {
     public class MainPageViewModel : TabMainPageViewModelBase
     {
@@ -10,7 +14,7 @@ namespace MedikTapp.ViewModels
             : base(navigationService, serviceProvider)
         {
             AddTab<HomeTabViewModel>();
-            AddTab<CartTabViewModel>();
+            AddTab<BookingsTabViewModel>();
             AddTab<ScheduleTabViewModel>();
             AddTab<SettingsTabViewModel>();
         }
