@@ -19,6 +19,7 @@
     <None Remove="Resources\SVGs\docimage.png" />
     <None Remove="Resources\SVGs\Logo.svg" />
     <None Remove="Resources\SVGs\Logo2.png" />
+    <None Remove="Resources\SVGs\NewLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <EmbeddedResource Include="Resources\SVGs\docimage.png" />
     <EmbeddedResource Include="Resources\SVGs\Logo.svg" />
     <EmbeddedResource Include="Resources\SVGs\Logo2.png" />
+    <EmbeddedResource Include="Resources\SVGs\NewLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +48,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,7 +56,6 @@
     <Folder Include="Constants\" />
     <Folder Include="Converters\" />
     <Folder Include="Tables\" />
-    <Folder Include="Renderers\" />
   </ItemGroup>
 
   <ItemGroup>

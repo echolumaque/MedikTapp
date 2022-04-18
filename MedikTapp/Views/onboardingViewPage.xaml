@@ -24,16 +24,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--<ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Logo2.png }" 
+                        <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Logo2.png }" 
                                              HorizontalOptions="StartAndExpand"
                                              Grid.Row="0"
                                              VerticalOptions="Fill"
                                              Aspect="AspectFit"
                                              HeightRequest="49"
                                              WidthRequest="59"
-                                             Margin="80,0,0,60" />-->
+                                             Margin="80,0,0,60" />
 
-                        <ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>
+                        <!--<ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>-->
 
                         <Label Text="{Binding AppTitle}"
                                FontFamily="MR"
@@ -67,16 +67,16 @@
                                HorizontalTextAlignment="Center">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding AppTitle}"
-                                        TextColor="#695CD4"
-                                        FontFamily="MB"
-                                        FontSize="20"
+                                    <Span   Text="{Binding AppTitle}"
+                                            TextColor="#695CD4"
+                                            FontFamily="MB"
+                                            FontSize="20"
                                        />
 
-                                    <Span Text="{Binding MedikTappDescription}"
-                                          TextColor="Black"
-                                          FontSize="20"
-                                          FontFamily="MB"/>
+                                    <Span   Text="{Binding MedikTappDescription}"
+                                            TextColor="Black"
+                                            FontSize="20"
+                                            FontFamily="MB"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

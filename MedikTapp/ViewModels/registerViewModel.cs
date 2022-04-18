@@ -15,7 +15,8 @@ namespace MedikTapp.ViewModels
             {
                 new registerModels
                 {
-                    AppTitle="sad",
+                    AppTitle="MedikTapp",
+                    RegistraterNow="Register Now!"
                 }
             };
         }

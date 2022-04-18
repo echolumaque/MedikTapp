@@ -7,5 +7,7 @@ namespace MedikTapp.ViewModels
     public class registerModels
     {
         public string AppTitle { get; set; }
+        public string RegistraterNow { get; set; }
+        
     }
 }

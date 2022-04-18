@@ -14,7 +14,7 @@ namespace MedikTapp
     {
         public App(NavigationService navigationService)
         {
-            navigationService.SetRootPage<onboardingViewPage>();
+            navigationService.SetRootPage<registerViewPage>();
         }
     }
 }
