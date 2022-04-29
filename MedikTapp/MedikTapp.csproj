@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\Gilroy-Bold.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Medium.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-Regular.ttf" />
+    <None Remove="Resources\Fonts\Gilroy-SemiBold.ttf" />
     <None Remove="Resources\Fonts\Montserrat-Bold.ttf" />
     <None Remove="Resources\Fonts\Montserrat-Medium.ttf" />
     <None Remove="Resources\Fonts\Montserrat-Regular.ttf" />
@@ -23,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Medium.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Gilroy-SemiBold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Montserrat-Medium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Montserrat-Regular.ttf" />

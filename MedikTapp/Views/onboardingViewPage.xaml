@@ -8,6 +8,7 @@
                 xmlns:views="clr-namespace:MedikTapp.Views.Base" 
                 xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
                 x:DataType="vm:onboardingViewModel"
+                NavigationPage.HasNavigationBar="False"
                 x:TypeArguments="vm:onboardingViewModel"
                 x:Class="MedikTapp.Views.onboardingViewPage">
     <ContentPage.Content>
@@ -31,16 +32,16 @@
                                              Aspect="AspectFit"
                                              HeightRequest="49"
                                              WidthRequest="59"
-                                             Margin="80,0,0,60" />
+                                             Margin="80,60,0,0" />
 
                         <!--<ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>-->
 
                         <Label Text="{Binding AppTitle}"
-                               FontFamily="MR"
+                               FontFamily="GM"
                                Grid.Row="0"
                                FontAttributes="Bold"
                                FontSize="35"
-                               Margin="50,0,0,70"
+                               Margin="50,50,0,0"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center" />
 
@@ -49,9 +50,11 @@
 
                         <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.docimage.png}"
                                              Grid.Row="1"
-                                             Margin="-20"
-                                             WidthRequest="238"
-                                             HeightRequest="190"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Margin="0,20,0,0"
+                                             WidthRequest="210"
+                                             HeightRequest="182"
                                              />
 
 
@@ -59,37 +62,38 @@
                                Text="{Binding Description}"
                                TextColor="Black"
                                FontSize="30" 
-                               FontFamily="MB"
-                               Margin="40"
+                               FontFamily="GS"
+                               Margin="0,90,0,-30"
                                HorizontalTextAlignment="Center"/>
+                        
                         <Label Grid.Row="3"
-                               Margin="-20"
+                               Margin="42"
                                HorizontalTextAlignment="Center">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span   Text="{Binding AppTitle}"
                                             TextColor="#695CD4"
-                                            FontFamily="MB"
+                                            FontFamily="GS"
                                             FontSize="20"
                                        />
 
                                     <Span   Text="{Binding MedikTappDescription}"
                                             TextColor="Black"
                                             FontSize="20"
-                                            FontFamily="MB"/>
+                                            FontFamily="GS"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
 
                         <Button Text="SIGN UP"
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 CornerRadius="20"
                                 TextColor="White"
                                 FontSize="30"
                                 BackgroundColor="#695CD4"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="CenterAndExpand"
-                                Margin="20,0,20,-90"
+                                Margin="20,-90,20,0"
                                 Padding="20"
                                 />
 
@@ -99,7 +103,7 @@
                                 TextColor="White"
                                 CornerRadius="20"
                                 BackgroundColor="#695CD4"
-                                Margin="20,0,20,90"
+                                Margin="20,90,20,0"
                                 Padding="20"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="CenterAndExpand"

@@ -123,11 +123,12 @@
                                        HorizontalOptions="Center"
                                        Margin="0,20,0,0"
                                        TextColor="White"
-                                       FontFamily="MB"
-                                       FontSize="35"
+                                       FontFamily="GB"
+                                       FontSize="36"
                                        />
                                 <Label Text="Your info is safe with us"
                                        Grid.Row="1"
+                                       FontFamily="GR"
                                        TextColor="White"
                                        HorizontalOptions="Center"
                                        FontSize="15"/>
@@ -137,14 +138,16 @@
                                           
                                            Grid.Row="2">
                                         <renderer:BorderlessEntry Placeholder="Enter your FullName" 
+                                                                   FontFamily="GS"
                                                                    />
 
                                     </Frame>
 
                                     <Frame CornerRadius="20"
                                           Padding="10"
-                                           Grid.Row="3">
+                                          Grid.Row="3">
                                         <renderer:BorderlessEntry Placeholder="Enter your Email Address" 
+                                                                  FontFamily="GS"
                                                               />
 
                                     </Frame>
@@ -154,6 +157,7 @@
                                            Grid.Row="4">
                                         <renderer:BorderlessEntry Placeholder="Enter your Passaword" 
                                                                   IsPassword="True"
+                                                                  FontFamily="GS"
                                                                   Margin="0,0,0,0" />
 
                                     </Frame>
@@ -163,6 +167,7 @@
                                            Grid.Row="5">
                                         <renderer:BorderlessEntry Placeholder="Confirm your Passaword" 
                                                                   IsPassword="True"
+                                                                  FontFamily="GS"
                                                                   Margin="0,0,0,0" />
 
                                     </Frame>
