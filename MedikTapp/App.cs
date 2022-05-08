@@ -1,30 +1,52 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Services.MockService;
+using MedikTapp.Services.NavigationService;
+using MedikTapp.Services.ResourceService;
 using MedikTapp.Views.MainPage;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XF.Services.InitializeDataService;
 
-//[assembly: ExportFont("Montserrat-Bold.ttf", Alias = "bold")]
-//[assembly: ExportFont("Montserrat-Medium.ttf", Alias = "med")]
-//[assembly: ExportFont("Montserrat-Regular.ttf", Alias = "reg")]
-//[assembly: ExportFont("Montserrat-SemiBold.ttf", Alias = "sembold")]
-[assembly: ExportFont("Gilroy-Bold.ttf", Alias = "bold")]
-[assembly: ExportFont("Gilroy-Medium.ttf", Alias = "med")]
-[assembly: ExportFont("Gilroy-Regular.ttf", Alias = "reg")]
-[assembly: ExportFont("Gilroy-SemiBold.ttf", Alias = "sembold")]
-[assembly: ExportFont("MaterialIconsOutlined-Regular.ttf", Alias = "mato")]
-[assembly: ExportFont("MaterialIcons-Regular.ttf", Alias = "mat")]
-[assembly: ExportFont("Font Awesome 6 Pro-Regular-400.otf", Alias = "far")]
-[assembly: ExportFont("Font Awesome 6 Pro-Light-300.otf", Alias = "fal")]
-[assembly: ExportFont("Font Awesome 6 Pro-Solid-900.otf", Alias = "fas")]
+[assembly: ExportFont("Poppins-Bold.ttf", Alias = "bold")]
+[assembly: ExportFont("PoppinsMedium.ttf", Alias = "med")]
+[assembly: ExportFont("PoppinsRegular.ttf", Alias = "reg")]
+[assembly: ExportFont("Font Awesome 6.1.1 Pro-Light-300.otf", Alias = "fal")]
+[assembly: ExportFont("Font Awesome 6.1.1 Pro-Regular-400.otf", Alias = "far")]
+[assembly: ExportFont("Font Awesome 6.1.1 Pro-Solid-900.otf", Alias = "fas")]
+[assembly: ExportFont("Font Awesome 6.1.1 Pro-Thin-100.otf", Alias = "fat")]
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+
 namespace MedikTapp
 {
     public partial class App : Application
     {
-        public App(NavigationService navigationService)
+        private readonly InitializeDataService _initializeDataService;
+        private readonly MockService _mockService;
+
+        public App(NavigationService navigationService,
+            InitializeDataService initializeDataService,
+            MockService mockService)
         {
-            Sharpnado.Shades.Initializer.Initialize(false);
+            _initializeDataService = initializeDataService;
+            _mockService = mockService;
+
+            DefineResources();
             navigationService.SetRootPage<MainPage>();
+        }
+
+        private void DefineResources()
+        {
+            Resources.Add(new LightTheme());
+        }
+
+        protected override async void OnStart()
+        {
+            base.OnStart();
+            await Task.WhenAll
+            (
+                _initializeDataService.Init(),
+                _mockService.Init()
+            ).ConfigureAwait(false);
         }
     }
 }

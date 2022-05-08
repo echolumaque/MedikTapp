@@ -1,11 +1,14 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using MedikTapp.DI;
 using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
+using Color = Android.Graphics.Color;
+using Platform = Xamarin.Essentials.Platform;
 
 namespace MedikTapp.Droid
 {
@@ -18,22 +21,23 @@ namespace MedikTapp.Droid
         ConfigChanges.UiMode |
         ConfigChanges.ScreenLayout |
         ConfigChanges.SmallestScreenSize)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             Rg.Plugins.Popup.Popup.Init(this);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
+            Android.Glide.Forms.Init(this);
             SetStatusBarColor();
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -45,7 +49,7 @@ namespace MedikTapp.Droid
         {
             Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
             Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            Window.SetStatusBarColor(Color.White);
+            Window.SetStatusBarColor(Color.ParseColor("#F5F5F5"));
             if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
                 Window.InsetsController?.SetSystemBarsAppearance((int)WindowInsetsControllerAppearance.LightStatusBars,
                         (int)WindowInsetsControllerAppearance.LightStatusBars);

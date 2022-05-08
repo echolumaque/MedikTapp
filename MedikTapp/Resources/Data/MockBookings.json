@@ -1,0 +1,44 @@
+[
+  {
+    "EarliestAvailableDate": "2022-04-20T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor1.png",
+    "ProductName": "Urinalysis",
+    "ProductDescription": "A urinalysis is a test of your urine. It's used to detect and manage a wide range of disorders, such as urinary tract infections, kidney disease and diabetes. A urinalysis involves checking the appearance, concentration and content of urine.",
+    "ProductPrice": 5000.0
+  },
+  {
+    "EarliestAvailableDate": "2022-04-21T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor2.png",
+    "ProductName": "Drug Test",
+    "ProductDescription": "A drug test looks for the presence of one or more illegal or prescription drugs in your urine, blood, saliva, hair, or sweat. Urine testing is the most common type of drug screening.",
+    "ProductPrice": 5000.0
+  },
+  {
+    "EarliestAvailableDate": "2022-04-22T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor3.png",
+    "ProductName": "COVID 19 RT-PCR Test",
+    "ProductDescription": "Also called a molecular test, this COVID-19 test detects genetic material of the virus using a lab technique called reverse transcription polymerase chain reaction (RT-PCR)",
+    "ProductPrice": 5000.0
+  },
+  {
+    "EarliestAvailableDate": "2022-04-25T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor4.png",
+    "ProductName": "Dr. Chriz Frazier",
+    "ProductDescription": "Pediatrician",
+    "ProductPrice": 500.0
+  },
+  {
+    "EarliestAvailableDate": "2022-04-26T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor1.png",
+    "ProductName": "Dr. Charlie Black",
+    "ProductDescription": "Cardiologist",
+    "ProductPrice": 500.0
+  },
+  {
+    "EarliestAvailableDate": "2022-04-27T04:20:00",
+    "ProductImagePath": "MedikTapp.Resources.SVGs.doctor2.png",
+    "ProductName": "Dr. Viola Dunn",
+    "ProductDescription": "Therapist",
+    "ProductPrice": 500.0
+  }
+]

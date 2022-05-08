@@ -1,7 +1,3 @@
-//
-// 03_27_2022
-//
-
 namespace MedikTapp.Resources.Fonts
 {
     /// <summary>

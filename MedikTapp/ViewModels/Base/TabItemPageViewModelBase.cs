@@ -15,5 +15,6 @@ namespace MedikTapp.ViewModels.Base
         public abstract string Text { get; }
         public virtual string Icon { get; } = "";
         public abstract bool CanHaveBadge { get; }
+        public int BadgeCount { get; set; }
     }
 }

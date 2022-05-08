@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="MedikTapp.Templates.ComboBox"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:binding="clr-namespace:MedikTapp.Templates"
+             xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+             xmlns:renderers="clr-namespace:MedikTapp.Renderers"
+             xmlns:templates="clr-namespace:MedikTapp.Templates"
+             x:DataType="binding:ComboBox">
+
+    <ContentView.Resources>
+        <ControlTemplate x:Key="NotExpanded">
+            <renderers:CustomFrame x:Name="MainBox"
+                                   Padding="0"
+                                   templates:Gestures.Tapped="{TemplateBinding BindingContext.OpenComboBoxCommand}"
+                                   BackgroundColor="{TemplateBinding BindingContext.MainBoxBackgroundColor}"
+                                   CornerRadius="{TemplateBinding BindingContext.MainBoxCornerRadius}"
+                                   HasShadow="False"
+                                   WidthRequest="{TemplateBinding BindingContext.MainBoxWidthRequest}">
+
+                <Grid ColumnDefinitions="*,20">
+                    <Label Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="10,0,0,0"
+                           FontFamily="reg"
+                           HorizontalOptions="{TemplateBinding BindingContext.MainBoxTextHorizontalOptions}"
+                           Text="{TemplateBinding BindingContext.MainBoxText}"
+                           TextColor="{StaticResource Black}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Column="1"
+                           FontFamily="fas"
+                           FontSize="12"
+                           Text="{x:Static fonts:FontAwesomeIcons.ChevronDown}"
+                           TextColor="{StaticResource Black}"
+                           VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger Binding="{TemplateBinding BindingContext.IsExpanded}"
+                                         TargetType="Label"
+                                         Value="True">
+                                <Setter Property="Text" Value="{x:Static fonts:FontAwesomeIcons.ChevronUp}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </renderers:CustomFrame>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="IsExpanded">
+            <RelativeLayout WidthRequest="{TemplateBinding BindingContext.MainBoxWidthRequest}">
+                <renderers:CustomFrame x:Name="SecondMainBox"
+                                       Padding="0"
+                                       templates:Gestures.Tapped="{TemplateBinding BindingContext.OpenComboBoxCommand}"
+                                       BackgroundColor="{TemplateBinding BindingContext.MainBoxBackgroundColor}"
+                                       CornerRadius="{TemplateBinding BindingContext.MainBoxCornerRadius}"
+                                       HasShadow="False"
+                                       WidthRequest="{TemplateBinding BindingContext.MainBoxWidthRequest}">
+
+                    <Grid ColumnDefinitions="*,20">
+                        <Label Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               Margin="10,0,0,0"
+                               FontFamily="reg"
+                               HorizontalOptions="{TemplateBinding BindingContext.MainBoxTextHorizontalOptions}"
+                               Text="{TemplateBinding BindingContext.MainBoxText}"
+                               TextColor="{StaticResource Black}"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Column="1"
+                               FontFamily="fas"
+                               FontSize="12"
+                               Text="{x:Static fonts:FontAwesomeIcons.ChevronDown}"
+                               TextColor="{StaticResource Black}"
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger Binding="{TemplateBinding BindingContext.IsExpanded}"
+                                             TargetType="Label"
+                                             Value="True">
+                                    <Setter Property="Text" Value="{x:Static fonts:FontAwesomeIcons.ChevronUp}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </Grid>
+                </renderers:CustomFrame>
+
+                <renderers:CustomFrame Margin="{TemplateBinding BindingContext.DropdownBoxMargin}"
+                                       Padding="10"
+                                       BackgroundColor="{TemplateBinding BindingContext.DropdownBoxBackgroundColor}"
+                                       CornerRadius="{TemplateBinding BindingContext.DropdownBoxCornerRadius}"
+                                       HasShadow="False"
+                                       HeightRequest="{TemplateBinding BindingContext.DropdownBoxHeight}"
+                                       HorizontalOptions="Center"
+                                       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView,
+                                                                                         ElementName=SecondMainBox,
+                                                                                         Property=Height,
+                                                                                         Factor=1}"
+                                       WidthRequest="{TemplateBinding BindingContext.DropdownBoxWidthRequest}">
+
+                    <CollectionView ItemSizingStrategy="MeasureAllItems"
+                                    ItemTemplate="{TemplateBinding BindingContext.ItemTemplate}"
+                                    ItemsSource="{TemplateBinding BindingContext.ItemsSource}"
+                                    SelectedItem="{TemplateBinding BindingContext.SelectedItem}"
+                                    SelectionChangedCommand="{TemplateBinding BindingContext.SelectionChangedCommand}"
+                                    SelectionChangedCommandParameter="{TemplateBinding BindingContext.SelectionChangedCommandParameter}"
+                                    SelectionMode="Single"
+                                    VerticalScrollBarVisibility="Never" />
+                </renderers:CustomFrame>
+            </RelativeLayout>
+        </ControlTemplate>
+    </ContentView.Resources>
+
+    <ContentView ControlTemplate="{StaticResource NotExpanded}">
+        <ContentView.Triggers>
+            <DataTrigger Binding="{Binding IsExpanded}"
+                         TargetType="ContentView"
+                         Value="True">
+                <Setter Property="ControlTemplate" Value="{StaticResource IsExpanded}" />
+            </DataTrigger>
+        </ContentView.Triggers>
+    </ContentView>
+</ContentView>

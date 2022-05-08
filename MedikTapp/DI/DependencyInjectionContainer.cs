@@ -1,10 +1,15 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Services.DatabaseService;
+using MedikTapp.Services.MockService;
+using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.MainPage;
-using MedikTapp.Views.MainPage.Bookings;
-using MedikTapp.Views.MainPage.Home;
-using MedikTapp.Views.MainPage.Schedule;
-using MedikTapp.Views.MainPage.Settings;
+using MedikTapp.Views.Welcome.Main.Bookings;
+using MedikTapp.Views.Welcome.Main.Home;
+using MedikTapp.Views.Welcome.Main.Home.Products;
+using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
+using MedikTapp.Views.Welcome.Main.Schedule;
+using MedikTapp.Views.Welcome.Main.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using XF.Services.InitializeDataService;
 
 namespace MedikTapp.DI
 {
@@ -15,11 +20,16 @@ namespace MedikTapp.DI
             return services
                 .AddSingleton<App>()
                 .AddSingleton<NavigationService>()
+                .AddSingleton<MockService>()
+                .AddSingleton<DatabaseService>()
+                .AddSingleton<InitializeDataService>()
 
                 .AddTransient<MainPageViewModel>()
                 .AddTransient<HomeTabViewModel>()
                 .AddTransient<BookingsTabViewModel>()
                 .AddTransient<ScheduleTabViewModel>()
+                .AddTransient<ServiceConfirmationPopupViewModel>()
+                .AddTransient<ProductsPageViewModel>()
                 .AddTransient<SettingsTabViewModel>();
         }
     }
