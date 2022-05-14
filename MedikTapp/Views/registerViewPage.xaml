@@ -179,7 +179,8 @@
                                             BorderWidth="1"
                                             BorderColor="Black"
                                             CornerRadius="20"
-                                            Grid.Row="6"/>
+                                            Grid.Row="6"
+                                          />
 
                                 </Grid>
 

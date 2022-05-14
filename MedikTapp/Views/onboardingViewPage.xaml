@@ -95,6 +95,7 @@
                                 VerticalOptions="CenterAndExpand"
                                 Margin="20,-90,20,0"
                                 Padding="20"
+                                Command="{Binding GoToRegister}"
                                 />
 
                         <Button Text="LOG IN"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.ViewModels
 {
@@ -8,6 +9,7 @@ namespace MedikTapp.ViewModels
     {
         public string AppTitle { get; set; }
         public string RegistraterNow { get; set; }
-        
+       
+
     }
 }

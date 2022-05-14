@@ -1,9 +1,11 @@
 ﻿using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
+using MedikTapp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.ViewModels
 {
@@ -16,9 +18,16 @@ namespace MedikTapp.ViewModels
                 new registerModels
                 {
                     AppTitle="MedikTapp",
-                    RegistraterNow="Register Now!"
+                    RegistraterNow="Register Now!",
+                   
+
+                   
                 }
+
+                
             };
+            
+
         }
 
         private ObservableCollection<registerModels> _registers;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.Views
 {
@@ -11,7 +12,7 @@ namespace MedikTapp.Views
         public string AppTitle { get; set; }
         public string Description { get; set; }
         public string MedikTappDescription { get; set; }
-
+        public IAsyncCommand GoToRegister { get; set; }
 
 
      }

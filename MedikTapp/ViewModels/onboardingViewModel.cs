@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.ViewModels
 {
@@ -23,8 +24,9 @@ namespace MedikTapp.ViewModels
                      "\n" + "with us" ,
                     MedikTappDescription = " offers an easy appointment" +"\n"+
                      "to our best Physicians available"+"\n"+
-                    "and ensuring the best quality to you"
-                    
+                    "and ensuring the best quality to you",
+                     GoToRegister = new AsyncCommand(() => NavigationService.GoTo<registerViewPage>(), allowsMultipleExecutions: false)
+
                 }
             };
         }
