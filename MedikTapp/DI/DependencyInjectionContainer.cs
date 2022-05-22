@@ -7,6 +7,7 @@ using MedikTapp.Views.Welcome.Main.Home;
 using MedikTapp.Views.Welcome.Main.Home.Products;
 using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
 using MedikTapp.Views.Welcome.Main.Schedule;
+using MedikTapp.Views.Welcome.Main.Schedule.Calendar;
 using MedikTapp.Views.Welcome.Main.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using XF.Services.InitializeDataService;
@@ -30,6 +31,7 @@ namespace MedikTapp.DI
                 .AddTransient<ScheduleTabViewModel>()
                 .AddTransient<ServiceConfirmationPopupViewModel>()
                 .AddTransient<ProductsPageViewModel>()
+                .AddTransient<CalendarPopupViewModel>()
                 .AddTransient<SettingsTabViewModel>();
         }
     }

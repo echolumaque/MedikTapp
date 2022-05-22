@@ -5,7 +5,7 @@ namespace MedikTapp.Templates.Base
 {
     public class BaseTab<TViewModel> : ContentView where TViewModel : ViewModelBase
     {
-        protected BaseTab(in TViewModel viewModel)
+        public BaseTab(in TViewModel viewModel)
         {
             BindingContext = ViewModel = viewModel;
             BackgroundColor = Color.FromHex("#F5F5F5");

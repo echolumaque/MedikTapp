@@ -270,6 +270,8 @@
                                     Grid.Column="1"
                                     Margin="5,0"
                                     BackgroundColor="{StaticResource DarkPurple}"
+                                    Command="{Binding BindingContext.RescheduleCmd, Source={x:Reference this}}"
+                                    CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="med"
                                     Text="Reschedule"

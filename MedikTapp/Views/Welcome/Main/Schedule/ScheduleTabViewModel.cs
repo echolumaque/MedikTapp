@@ -1,11 +1,11 @@
 ﻿using MedikTapp.Enums;
+using MedikTapp.Helpers.Command;
 using MedikTapp.Models;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
 using System.Collections.Generic;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Schedule
@@ -28,7 +28,8 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             FilterCompletedCmd = new Command(InitCompletedCollections);
             FilterUpcomingCmd = new Command(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
-            CancelScheduleCmd = new AsyncCommand<Schedules>(CancelSchedule, allowsMultipleExecutions: false);
+            CancelScheduleCmd = new AsyncSingleCommand<Schedules>(CancelSchedule);
+            RescheduleCmd = new AsyncSingleCommand<Schedules>(schedule => Reschedule(schedule));
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using MedikTapp.Services.DatabaseService;
+﻿using MedikTapp.Helpers.Command;
+using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation
 {
@@ -14,7 +14,7 @@ namespace MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation
         {
             _databaseService = databaseService;
 
-            AddToBookingCmd = new AsyncCommand(AddToBooking, allowsMultipleExecutions: false);
+            AddToBookingCmd = new AsyncSingleCommand(AddToBooking);
         }
     }
 }

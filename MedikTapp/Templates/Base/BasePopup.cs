@@ -7,7 +7,7 @@ namespace MedikTapp.Templates.Base
 {
     public class BasePopup<TViewModel> : PopupPage where TViewModel : ViewModelBase
     {
-        protected BasePopup(in TViewModel viewModel)
+        public BasePopup(in TViewModel viewModel)
         {
             BindingContext = ViewModel = viewModel;
             Animation = new FadeAnimation

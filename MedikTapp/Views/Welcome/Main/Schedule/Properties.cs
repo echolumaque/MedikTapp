@@ -26,6 +26,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
         public ICommand OpenComboBoxCmd { get; }
         public bool IsFilterExpanded { get; set; }
         public ICommand ChangeFilterCmd { get; }
-        public IAsyncCommand<Schedules> CancelScheduleCmd { get; set; }
+        public IAsyncCommand<Schedules> CancelScheduleCmd { get; }
+        public IAsyncCommand<Schedules> RescheduleCmd { get; }
     }
 }

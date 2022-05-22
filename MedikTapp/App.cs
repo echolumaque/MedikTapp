@@ -2,6 +2,7 @@
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
 using MedikTapp.Views.MainPage;
+using Syncfusion.Licensing;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -29,6 +30,7 @@ namespace MedikTapp
         {
             _initializeDataService = initializeDataService;
             _mockService = mockService;
+            SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
 
             DefineResources();
             navigationService.SetRootPage<MainPage>();

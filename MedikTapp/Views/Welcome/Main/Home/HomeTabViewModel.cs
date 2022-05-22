@@ -1,11 +1,11 @@
-﻿using MedikTapp.Services.MockService;
+﻿using MedikTapp.Helpers.Command;
+using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
 using MedikTapp.Views.Welcome.Main.Home.Products;
 using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
 using System;
 using System.Linq;
-using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.Views.Welcome.Main.Home
 {
@@ -18,14 +18,14 @@ namespace MedikTapp.Views.Welcome.Main.Home
         {
             _mockService = mockService;
 
-            GotoProductsCmd = new AsyncCommand(() => NavigationService.GoTo<ProductsPage>(), allowsMultipleExecutions: false);
-            ServiceConfirmationCmd = new AsyncCommand<Models.Services>(service =>
+            GotoProductsCmd = new AsyncSingleCommand(() => NavigationService.GoTo<ProductsPage>());
+            ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(service =>
             {
                 return NavigationService.GoTo<ServiceConfirmationPopup>(new()
                 {
                     { "service", service }
                 });
-            }, allowsMultipleExecutions: false);
+            });
 
             InitPromos();
             _mockService.OnMockServiceInitialized += (s, e) =>

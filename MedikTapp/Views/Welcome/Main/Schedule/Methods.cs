@@ -1,6 +1,7 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Models;
 using MedikTapp.Services.NavigationService;
+using MedikTapp.Views.Welcome.Main.Schedule.Calendar;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,9 +10,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
 {
     public partial class ScheduleTabViewModel
     {
-        public override async void Initialized(NavigationParameters parameters)
+        public override async void OnNavigatedTo(NavigationParameters parameters)
         {
-            _schedules = await _databaseService.Find<Models.Schedules>();
+            _schedules = await _databaseService.Find<Schedules>();
             Schedules = new(_schedules);
             InitUpcomingCollections();
 
@@ -25,6 +26,14 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             Schedules.Remove(schedule);
             //remove to remote db
             return _databaseService.Delete(schedule);
+        }
+
+        private Task Reschedule(Schedules schedule)
+        {
+            return NavigationService.GoTo<CalendarPopup>(new()
+            {
+                { "schedule", schedule }
+            });
         }
 
         private void InitUpcomingCollections()

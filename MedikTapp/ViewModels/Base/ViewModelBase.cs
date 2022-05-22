@@ -1,4 +1,5 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Helpers.Command;
+using MedikTapp.Services.NavigationService;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace MedikTapp.ViewModels.Base
@@ -10,8 +11,8 @@ namespace MedikTapp.ViewModels.Base
         {
             NavigationService = navigationService;
 
-            PopPage = new AsyncCommand(() => navigationService.PopPage(), allowsMultipleExecutions: false);
-            PopPopup = new AsyncCommand(() => navigationService.PopPopup(navigationService.GetCurrentPage()), allowsMultipleExecutions: false);
+            PopPage = new AsyncSingleCommand(() => navigationService.PopPage());
+            PopPopup = new AsyncSingleCommand(() => navigationService.PopPopup(navigationService.GetCurrentPage()));
         }
 
         public IAsyncCommand PopPage { get; }
