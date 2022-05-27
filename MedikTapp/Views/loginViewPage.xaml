@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="MedikTapp.Views.loginViewPage"
+			 x:DataType="vm:loginViewModel"
+			 xmlns:views="clr-namespace:MedikTapp.Views.Base"
+			 xmlns:vm="clr-namespace:MedikTapp.ViewModels" 
+			 xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+			 xmlns:images="clr-namespace:MedikTapp.Resources.SVGs"
+			 xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+			 x:TypeArguments="vm:loginViewModel" 
+              NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid  RowDefinitions="Auto,*"
+						   HorizontalOptions="FillAndExpand"
+						   VerticalOptions="FillAndExpand"
+						  
+						   RowSpacing="0">
+
+            <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Mediktapp .png}"
+											 HeightRequest="150"
+											 
+											 Margin="0,10,0,0"/>
+
+            <Frame Grid.Row="1"
+				   Margin="0,20,0,-40"
+				   HasShadow="True"  
+				   HeightRequest="449"
+				   BackgroundColor="#695CD4"
+			   	   HorizontalOptions="Fill"
+				   VerticalOptions="Fill">
+
+                <Grid HorizontalOptions="FillAndExpand"
+					  VerticalOptions="FillAndExpand"
+					  RowDefinitions="auto,*"
+					  RowSpacing="0"
+								  >
+                    <StackLayout>
+                        <Label Text="Hi there!"
+							   HorizontalTextAlignment="Center"
+							   FontFamily="med"
+							   FontSize="25"
+							   TextColor="White"/>
+                        
+                        <Label Text="Login your account"
+							   HorizontalTextAlignment="Center"
+							   FontFamily="med"
+							   TextColor="White"
+							   Margin="-10"/>
+
+
+                    </StackLayout>
+
+                    <StackLayout Margin="15,80"
+											 Padding="0">
+
+                        <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.loginImage1-removebg.png}"
+                                             HeightRequest="250"
+                                             WidthRequest="170"
+                                             Margin="0,-99,0,0"/>
+
+                        <renderer:CustomFrame BackgroundColor="White" 
+											  Padding="0"
+											  Margin="0,10,0,0"
+											  HorizontalOptions="FillAndExpand">
+                            <renderer:BorderlessEntry Placeholder="Enter your Email"
+													  TextColor="#695CD4"
+													  FontFamily="med"
+													  HorizontalOptions="FillAndExpand"
+													  Margin="20,0,20,0"/>
+                        </renderer:CustomFrame>
+
+
+                        <renderer:CustomFrame BackgroundColor="White" 
+											  Padding="0"
+											  Margin="0,10,0,0"	 
+											  HorizontalOptions="FillAndExpand">
+                            <renderer:BorderlessEntry Placeholder="Enter your Password"
+													  IsPassword="True"
+													  TextColor="#695CD4"
+													  FontFamily="med"
+													  HorizontalOptions="FillAndExpand"
+													  Margin="20,0,20,0"/>
+                        </renderer:CustomFrame>
+
+                        
+
+                        <Button  Text="LOGIN"
+								 BackgroundColor="White"
+								 CornerRadius="10"
+							     Margin="20,20,20,0"
+											/>
+                    </StackLayout>
+
+                </Grid>
+
+            </Frame>
+
+        </Grid>
+
+    </ContentPage.Content>
+</views:BasePage>

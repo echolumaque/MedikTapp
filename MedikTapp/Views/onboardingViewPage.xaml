@@ -6,7 +6,6 @@
                 xmlns:vm="clr-namespace:MedikTapp.ViewModels"
                 xmlns:Models="clr-namespace:MedikTapp.Views"
                 xmlns:views="clr-namespace:MedikTapp.Views.Base" 
-                xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
                 x:DataType="vm:onboardingViewModel"
                 NavigationPage.HasNavigationBar="False"
                 x:TypeArguments="vm:onboardingViewModel"
@@ -25,62 +24,65 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Logo2.png }" 
-                                             HorizontalOptions="StartAndExpand"
+                        <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Mediktapp .png }" 
+                                             HorizontalOptions="Center"
+                                            
                                              Grid.Row="0"
-                                             VerticalOptions="Fill"
+                                             VerticalOptions="Center"
                                              Aspect="AspectFit"
-                                             HeightRequest="49"
-                                             WidthRequest="59"
-                                             Margin="80,60,0,0" />
+                                             Margin="0,50,0,0"
+                                             HeightRequest="139"
+                                             WidthRequest="139"
+                                             />
 
                         <!--<ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>-->
 
-                        <Label Text="{Binding AppTitle}"
+                        <!--<Label Text="{Binding AppTitle}"
                                FontFamily="GM"
                                Grid.Row="0"
                                FontAttributes="Bold"
                                FontSize="35"
                                Margin="50,50,0,0"
                                VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center" />-->
 
 
                        
 
-                        <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.docimage.png}"
+                        <!--<ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.docimage.png}"
                                              Grid.Row="1"
                                              VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              Margin="0,20,0,0"
-                                             WidthRequest="210"
-                                             HeightRequest="182"
-                                             />
+                                             WidthRequest="110"
+                                             HeightRequest="132"
+                                             />-->
 
 
                         <Label Grid.Row="2"
                                Text="{Binding Description}"
                                TextColor="Black"
                                FontSize="30" 
-                               FontFamily="GS"
-                               Margin="0,90,0,-30"
+                               FontFamily="bold"
+                               Margin="0,20,0,0"
                                HorizontalTextAlignment="Center"/>
                         
                         <Label Grid.Row="3"
-                               Margin="42"
+                               HorizontalOptions="End"
+                               Margin="0,0,30,0"
                                HorizontalTextAlignment="Center">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span   Text="{Binding AppTitle}"
                                             TextColor="#695CD4"
-                                            FontFamily="GS"
+                                            FontFamily="bold"
                                             FontSize="20"
                                        />
 
                                     <Span   Text="{Binding MedikTappDescription}"
                                             TextColor="Black"
-                                            FontSize="20"
-                                            FontFamily="GS"/>
+                                            FontSize="15"
+                                            FontFamily="med"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -93,9 +95,9 @@
                                 BackgroundColor="#695CD4"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="CenterAndExpand"
-                                Margin="20,-90,20,0"
+                                Margin="20,-130,20,0"
                                 Padding="20"
-                                Command="{Binding GoToRegister}"
+                                Command="{Binding SignupCommand}"
                                 />
 
                         <Button Text="LOG IN"
@@ -104,10 +106,10 @@
                                 TextColor="White"
                                 CornerRadius="20"
                                 BackgroundColor="#695CD4"
-                                Margin="20,90,20,0"
+                                Margin="20,70,20,0"
                                 Padding="20"
-                                HorizontalOptions="FillAndExpand"
                                 VerticalOptions="CenterAndExpand"
+                                Command="{Binding LoginCommand}"
                                 />
                     </Grid>
                 </DataTemplate>

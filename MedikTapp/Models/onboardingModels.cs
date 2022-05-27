@@ -12,7 +12,8 @@ namespace MedikTapp.Views
         public string AppTitle { get; set; }
         public string Description { get; set; }
         public string MedikTappDescription { get; set; }
-        public IAsyncCommand GoToRegister { get; set; }
+        public IAsyncCommand SignupCommand { get; set; }
+        public IAsyncCommand LoginCommand { get; set; }
 
 
      }

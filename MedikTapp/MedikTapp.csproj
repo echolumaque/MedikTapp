@@ -20,10 +20,23 @@
     <None Remove="Resources\Fonts\Montserrat-Medium.ttf" />
     <None Remove="Resources\Fonts\Montserrat-Regular.ttf" />
     <None Remove="Resources\Fonts\Montserrat-SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
+    <None Remove="Resources\Fonts\PoppinsMedium.ttf" />
+    <None Remove="Resources\Fonts\PoppinsRegular.ttf" />
     <None Remove="Resources\SVGs\docimage.png" />
+    <None Remove="Resources\SVGs\loginImage.png" />
+    <None Remove="Resources\SVGs\loginImage1-removebg.png" />
+    <None Remove="Resources\SVGs\loginImage1.jpg" />
     <None Remove="Resources\SVGs\Logo.svg" />
     <None Remove="Resources\SVGs\Logo2.png" />
+    <None Remove="Resources\SVGs\Mediktapp .png" />
     <None Remove="Resources\SVGs\NewLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,8 +49,12 @@
     <EmbeddedResource Include="Resources\Fonts\Montserrat-Regular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Montserrat-SemiBold.ttf" />
     <EmbeddedResource Include="Resources\SVGs\docimage.png" />
+    <EmbeddedResource Include="Resources\SVGs\loginImage.png" />
+    <EmbeddedResource Include="Resources\SVGs\loginImage1-removebg.png" />
+    <EmbeddedResource Include="Resources\SVGs\loginImage1.jpg" />
     <EmbeddedResource Include="Resources\SVGs\Logo.svg" />
     <EmbeddedResource Include="Resources\SVGs\Logo2.png" />
+    <EmbeddedResource Include="Resources\SVGs\Mediktapp .png" />
     <EmbeddedResource Include="Resources\SVGs\NewLogo.png" />
   </ItemGroup>
 
@@ -77,6 +94,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomeTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\loginViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainPage.xaml">

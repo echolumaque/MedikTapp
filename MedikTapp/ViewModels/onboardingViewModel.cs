@@ -25,7 +25,7 @@ namespace MedikTapp.ViewModels
                     MedikTappDescription = " offers an easy appointment" +"\n"+
                      "to our best Physicians available"+"\n"+
                     "and ensuring the best quality to you",
-                     GoToRegister = new AsyncCommand(() => NavigationService.GoTo<registerViewPage>(), allowsMultipleExecutions: false)
+                     SignupCommand = new AsyncCommand(() => NavigationService.GoTo<registerViewPage>(), allowsMultipleExecutions: false)
 
                 }
             };

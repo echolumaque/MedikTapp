@@ -9,6 +9,8 @@ namespace MedikTapp.ViewModels
     {
         public string AppTitle { get; set; }
         public string RegistraterNow { get; set; }
+        public string Description { get; set; }
+        public IAsyncCommand RegisterCommand { get; set; }
        
 
     }
