@@ -24,15 +24,15 @@
                            RowSpacing="0">
 
                         <ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.Mediktapp .png}"
-                                             HeightRequest="170"
+                                             Margin="10"
                                              
-                                             Margin="0,20,0,0"/>
+                                            />
 
                         <Frame Grid.Row="1"
-                               Margin="0,20,0,-40"
+                               Margin="0,0,0,-40"
                                HasShadow="True"
                               
-                               HeightRequest="449"
+                               HeightRequest="435"
                                BackgroundColor="#695CD4"
                               HorizontalOptions="Fill"
                               VerticalOptions="Fill">
@@ -47,17 +47,18 @@
                                            HorizontalTextAlignment="Center"
                                            FontFamily="med"
                                            FontSize="25"
+                                           Margin="-10"
                                            TextColor="White"/>
                                     <Label Text="{Binding Description}"
                                            HorizontalTextAlignment="Center"
                                            FontFamily="med"
                                            TextColor="White"
-                                           Margin="-10"/>
+                                           Margin="5"/>
 
                                  
                                 </StackLayout>
 
-                                <StackLayout Margin="15,80"
+                                <StackLayout Margin="15,78"
                                              Padding="0">
 
                                     <StackLayout Orientation="Horizontal">

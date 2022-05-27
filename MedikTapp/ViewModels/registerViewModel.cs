@@ -17,11 +17,9 @@ namespace MedikTapp.ViewModels
             {
                 new registerModels
                 {
-                    AppTitle="MedikTapp",
+                    Description="Your information is safe with us",
                     RegistraterNow="Register Now!",
-                   
-
-                   
+                    RegisterCommand = new AsyncCommand (() => NavigationService.GoTo<loginViewPage>(),allowsMultipleExecutions:false)
                 }
 
                 
