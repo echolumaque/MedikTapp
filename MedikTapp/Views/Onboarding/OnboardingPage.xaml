@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage x:Class="MedikTapp.Views.Onboarding.OnboardingPage"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:Models="clr-namespace:MedikTapp.Views"
+                xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                xmlns:images="clr-namespace:MedikTapp.Resources.SVGs"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding"
+                x:DataType="vm:OnboardingPageViewModel"
+                x:TypeArguments="vm:OnboardingPageViewModel"
+                NavigationPage.HasNavigationBar="False">
+    <CollectionView ItemsSource="{Binding Content}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="Models:onboardingModels">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ffimage:CachedImage Grid.Row="0"
+                                         Margin="0,50,0,0"
+                                         Aspect="AspectFit"
+                                         HeightRequest="139"
+                                         HorizontalOptions="Center"
+                                         Source="{images:ImageResource MedikTapp.Resources.SVGs.Mediktapp.png}"
+                                         VerticalOptions="Center"
+                                         WidthRequest="139" />
+
+                    <!--<ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>-->
+
+                    <!--<Label Text="{Binding AppTitle}"
+                               FontFamily="GM"
+                               Grid.Row="0"
+                               FontAttributes="Bold"
+                               FontSize="35"
+                               Margin="50,50,0,0"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />-->
+
+
+
+
+                    <!--<ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.docimage.png}"
+                                             Grid.Row="1"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Margin="0,20,0,0"
+                                             WidthRequest="110"
+                                             HeightRequest="132"
+                                             />-->
+
+
+                    <Label Grid.Row="2"
+                           Margin="0,20,0,0"
+                           FontFamily="bold"
+                           FontSize="30"
+                           HorizontalTextAlignment="Center"
+                           Text="{Binding Description}"
+                           TextColor="Black" />
+
+                    <Label Grid.Row="3"
+                           Margin="0,0,30,0"
+                           HorizontalOptions="End"
+                           HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="bold"
+                                      FontSize="20"
+                                      Text="{Binding AppTitle}"
+                                      TextColor="#695CD4" />
+
+                                <Span FontFamily="med"
+                                      FontSize="15"
+                                      Text="{Binding MedikTappDescription}"
+                                      TextColor="Black" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Button Grid.Row="4"
+                            Margin="20,-130,20,0"
+                            Padding="20"
+                            BackgroundColor="#695CD4"
+                            Command="{Binding SignupCommand}"
+                            CornerRadius="20"
+                            FontSize="30"
+                            HorizontalOptions="FillAndExpand"
+                            Text="SIGN UP"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+
+                    <Button Grid.Row="4"
+                            Margin="20,70,20,0"
+                            Padding="20"
+                            BackgroundColor="#695CD4"
+                            Command="{Binding LoginCommand}"
+                            CornerRadius="20"
+                            FontSize="30"
+                            Text="LOG IN"
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</views:BasePage> 

@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Services.NavigationService;
-using MedikTapp.ViewModels;
+using MedikTapp.Views.Onboarding;
+using MedikTapp.Views.Onboarding.Account;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MedikTapp.DI
@@ -12,14 +13,8 @@ namespace MedikTapp.DI
                 .AddSingleton<App>()
                 .AddSingleton<NavigationService>()
 
-                .AddTransient<MainPageViewModel>()
-                .AddTransient<HomeTabViewModel>()
-                .AddTransient<CartTabViewModel>()
-                .AddTransient<onboardingViewModel>()
-                .AddTransient<registerViewModel>()
-                .AddTransient<loginViewModel>()
-                .AddTransient<ScheduleTabViewModel>()
-                .AddTransient<SettingsTabViewModel>();
+                .AddTransient<OnboardingPageViewModel>()
+                .AddTransient<AccountPageViewModel>();
         }
     }
 }

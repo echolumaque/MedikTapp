@@ -12,18 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Gilroy-Bold.ttf" />
-    <None Remove="Resources\Fonts\Gilroy-Medium.ttf" />
-    <None Remove="Resources\Fonts\Gilroy-Regular.ttf" />
-    <None Remove="Resources\Fonts\Gilroy-SemiBold.ttf" />
-    <None Remove="Resources\Fonts\Montserrat-Bold.ttf" />
-    <None Remove="Resources\Fonts\Montserrat-Medium.ttf" />
-    <None Remove="Resources\Fonts\Montserrat-Regular.ttf" />
-    <None Remove="Resources\Fonts\Montserrat-SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Light-300.otf" />
+    <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Regular-400.otf" />
+    <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Solid-900.otf" />
+    <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Thin-100.otf" />
     <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
     <None Remove="Resources\Fonts\PoppinsMedium.ttf" />
     <None Remove="Resources\Fonts\PoppinsRegular.ttf" />
     <None Remove="Resources\SVGs\docimage.png" />
+    <None Remove="Resources\SVGs\login1.png" />
+    <None Remove="Resources\SVGs\login2.png" />
     <None Remove="Resources\SVGs\loginImage.png" />
     <None Remove="Resources\SVGs\loginImage1-removebg.png" />
     <None Remove="Resources\SVGs\loginImage1.jpg" />
@@ -34,25 +32,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Light-300.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Regular-400.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Solid-900.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Thin-100.otf" />
     <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\Gilroy-Bold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Gilroy-Medium.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Gilroy-Regular.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Gilroy-SemiBold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Montserrat-Bold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Montserrat-Medium.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Montserrat-Regular.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Montserrat-SemiBold.ttf" />
-    <EmbeddedResource Include="Resources\SVGs\docimage.png" />
-    <EmbeddedResource Include="Resources\SVGs\loginImage.png" />
-    <EmbeddedResource Include="Resources\SVGs\loginImage1-removebg.png" />
-    <EmbeddedResource Include="Resources\SVGs\loginImage1.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\Logo.svg" />
+    <EmbeddedResource Include="Resources\SVGs\login1.png" />
+    <EmbeddedResource Include="Resources\SVGs\login2.png" />
     <EmbeddedResource Include="Resources\SVGs\Logo2.png" />
     <EmbeddedResource Include="Resources\SVGs\Mediktapp .png" />
     <EmbeddedResource Include="Resources\SVGs\NewLogo.png" />
@@ -74,6 +65,7 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2401" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,34 +76,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Update="Views\Onboarding\OnboardingPage.xaml.cs">
+      <DependentUpon>OnboardingPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\CartTab.xaml">
+    <EmbeddedResource Update="Views\Onboarding\Account\AccountPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\HomeTab.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\loginViewPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\onboardingViewPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\registerViewPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\ScheduleTab.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\SettingsTab.xaml">
+    <EmbeddedResource Update="Views\Onboarding\OnboardingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -2,8 +2,12 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using FFImageLoading.Forms.Platform;
 using MedikTapp.DI;
 using Microsoft.Extensions.DependencyInjection;
+using Rg.Plugins.Popup;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MedikTapp.Droid
 {
@@ -22,10 +26,11 @@ namespace MedikTapp.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Rg.Plugins.Popup.Popup.Init(this);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
+            Forms.Init(this, savedInstanceState);
+            FormsMaterial.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
+            Popup.Init(this);
+            CachedImageRenderer.Init(true);
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
         }
 

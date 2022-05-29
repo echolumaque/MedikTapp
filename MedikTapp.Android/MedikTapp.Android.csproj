@@ -72,11 +72,15 @@
     <PackageReference Include="Xamarin.Forms.PancakeView">
       <Version>2.3.0.759</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms.Visual.Material">
+      <Version>5.0.0.2401</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoderlessEntryAndroid.cs" />
-    <Compile Include="CustomFrameAndroid.cs" />
+    <Compile Include="Renderer\CustomFrameAndroid.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderer\BorderlesMaterialEntryAndroid.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,7 +107,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Implementations\" />
-    <Folder Include="Renderers\" />
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
