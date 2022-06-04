@@ -72,6 +72,7 @@
                        HorizontalOptions="CenterAndExpand"
                        IndicatorColor="DarkGray"
                        IndicatorSize="8"
+                       Position="{Binding Position}"
                        SelectedIndicatorColor="#695CD5"
                        VerticalOptions="CenterAndExpand" />
 
@@ -82,7 +83,7 @@
                 FontFamily="med"
                 HeightRequest="50"
                 HorizontalOptions="CenterAndExpand"
-                IsVisible="{Binding BindingContext.IsSkipVisible, Source={x:Reference this}, Converter={xct:InvertedBoolConverter}}"
+                IsVisible="{Binding IsSkipVisible}"
                 Text="Get started"
                 VerticalOptions="StartAndExpand"
                 WidthRequest="200" />
