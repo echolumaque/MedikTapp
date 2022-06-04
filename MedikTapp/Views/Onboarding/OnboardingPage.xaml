@@ -2,111 +2,89 @@
 <views:BasePage x:Class="MedikTapp.Views.Onboarding.OnboardingPage"
                 xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:Models="clr-namespace:MedikTapp.Views"
                 xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-                xmlns:images="clr-namespace:MedikTapp.Resources.SVGs"
+                xmlns:helper="clr-namespace:MedikTapp.Helpers"
+                xmlns:model="clr-namespace:MedikTapp.Views"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:Name="this"
                 x:DataType="vm:OnboardingPageViewModel"
                 x:TypeArguments="vm:OnboardingPageViewModel"
+                BackgroundColor="White"
                 NavigationPage.HasNavigationBar="False">
-    <CollectionView ItemsSource="{Binding Content}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="Models:onboardingModels">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+    <Grid Margin="20,0"
+          RowDefinitions="520,*,*">
+        <CarouselView Grid.Row="0"
+                      HorizontalScrollBarVisibility="Never"
+                      IndicatorView="IndicatorView"
+                      IsBounceEnabled="True"
+                      IsScrollAnimated="True"
+                      IsSwipeEnabled="True"
+                      ItemsSource="{Binding Onboarding}"
+                      Loop="False"
+                      Position="{Binding Position}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="model:OnboardingModel">
+                    <Grid RowDefinitions="20,300,200">
+                        <Label Grid.Row="0"
+                               helper:Gestures.Tapped="{Binding BindingContext.SkipCmd, Source={x:Reference this}}"
+                               FontFamily="med"
+                               HorizontalOptions="EndAndExpand"
+                               IsVisible="{Binding BindingContext.IsSkipVisible, Source={x:Reference this}}"
+                               Text="Skip"
+                               TextColor="#695CD5"
+                               VerticalOptions="CenterAndExpand" />
 
-                    <ffimage:CachedImage Grid.Row="0"
-                                         Margin="0,50,0,0"
-                                         Aspect="AspectFit"
-                                         HeightRequest="139"
-                                         HorizontalOptions="Center"
-                                         Source="{images:ImageResource MedikTapp.Resources.SVGs.Mediktapp.png}"
-                                         VerticalOptions="Center"
-                                         WidthRequest="139" />
+                        <ffimage:CachedImage Grid.Row="1"
+                                             HeightRequest="300"
+                                             HorizontalOptions="CenterAndExpand"
+                                             Source="{Binding ImagePath}"
+                                             VerticalOptions="CenterAndExpand"
+                                             WidthRequest="300" />
 
-                    <!--<ffsvg:SvgCachedImage Source="resource://MedikTapp.Resources.SVGs.Logo.svg"/>-->
+                        <Label Grid.Row="2"
+                               HorizontalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black"
+                               VerticalOptions="CenterAndExpand">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontFamily="med"
+                                          FontSize="25"
+                                          Text="{Binding Title}" />
+                                    <Span Text="&#10;" />
+                                    <Span Text="&#10;" />
+                                    <Span FontFamily="reg"
+                                          FontSize="15"
+                                          Text="{Binding Subtitle}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
 
-                    <!--<Label Text="{Binding AppTitle}"
-                               FontFamily="GM"
-                               Grid.Row="0"
-                               FontAttributes="Bold"
-                               FontSize="35"
-                               Margin="50,50,0,0"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" />-->
+        <IndicatorView x:Name="IndicatorView"
+                       Grid.Row="1"
+                       Count="3"
+                       HorizontalOptions="CenterAndExpand"
+                       IndicatorColor="DarkGray"
+                       IndicatorSize="8"
+                       SelectedIndicatorColor="#695CD5"
+                       VerticalOptions="CenterAndExpand" />
 
-
-
-
-                    <!--<ffimage:CachedImage Source="{images:ImageResource MedikTapp.Resources.SVGs.docimage.png}"
-                                             Grid.Row="1"
-                                             VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             Margin="0,20,0,0"
-                                             WidthRequest="110"
-                                             HeightRequest="132"
-                                             />-->
-
-
-                    <Label Grid.Row="2"
-                           Margin="0,20,0,0"
-                           FontFamily="bold"
-                           FontSize="30"
-                           HorizontalTextAlignment="Center"
-                           Text="{Binding Description}"
-                           TextColor="Black" />
-
-                    <Label Grid.Row="3"
-                           Margin="0,0,30,0"
-                           HorizontalOptions="End"
-                           HorizontalTextAlignment="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span FontFamily="bold"
-                                      FontSize="20"
-                                      Text="{Binding AppTitle}"
-                                      TextColor="#695CD4" />
-
-                                <Span FontFamily="med"
-                                      FontSize="15"
-                                      Text="{Binding MedikTappDescription}"
-                                      TextColor="Black" />
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-
-                    <Button Grid.Row="4"
-                            Margin="20,-130,20,0"
-                            Padding="20"
-                            BackgroundColor="#695CD4"
-                            Command="{Binding SignupCommand}"
-                            CornerRadius="20"
-                            FontSize="30"
-                            HorizontalOptions="FillAndExpand"
-                            Text="SIGN UP"
-                            TextColor="White"
-                            VerticalOptions="CenterAndExpand" />
-
-                    <Button Grid.Row="4"
-                            Margin="20,70,20,0"
-                            Padding="20"
-                            BackgroundColor="#695CD4"
-                            Command="{Binding LoginCommand}"
-                            CornerRadius="20"
-                            FontSize="30"
-                            Text="LOG IN"
-                            TextColor="White"
-                            VerticalOptions="CenterAndExpand" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        <Button Grid.Row="2"
+                BackgroundColor="#695CD5"
+                Command="{Binding ContinueCmd}"
+                CornerRadius="30"
+                FontFamily="med"
+                HeightRequest="50"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding BindingContext.IsSkipVisible, Source={x:Reference this}, Converter={xct:InvertedBoolConverter}}"
+                Text="Get started"
+                VerticalOptions="StartAndExpand"
+                WidthRequest="200" />
+    </Grid>
 </views:BasePage> 

@@ -1,6 +1,5 @@
 ﻿using MedikTapp.Services.NavigationService;
-using MedikTapp.Views.Onboarding.Account;
-
+using MedikTapp.Views.Onboarding;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +17,7 @@ namespace MedikTapp
     {
         public App(NavigationService navigationService)
         {
-            navigationService.SetRootPage<AccountPage>();
+            navigationService.SetRootPage<OnboardingPage>();
         }
     }
 }

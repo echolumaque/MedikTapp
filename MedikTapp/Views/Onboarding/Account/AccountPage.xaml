@@ -4,20 +4,14 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                 xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+                xmlns:helper="clr-namespace:MedikTapp.Helpers"
                 xmlns:images="clr-namespace:MedikTapp.Resources.SVGs"
                 xmlns:renderer="clr-namespace:MedikTapp.Renderers"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
-                xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account" 
-                xmlns:converters="clr-namespace:MedikTapp.Converters"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
                 x:DataType="vm:AccountPageViewModel"
                 x:TypeArguments="vm:AccountPageViewModel">
-    
-    
     <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:UserNameCorrectConverter x:Key="UserNameCorrectConverter" />
-            <converters:UserNameCorrectConverter x:Key="PasswordCorrectConverter" />
-        </ResourceDictionary>
         <ControlTemplate x:Key="Login">
             <StackLayout Margin="20,0"
                          Spacing="10">
@@ -60,22 +54,22 @@
                            Text="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
                            VerticalOptions="Center" />
 
-                    <renderer:BorderlesMaterialEntry Grid.Row="0"
+                    <renderer:BorderlesMaterialEntry x:Name="NameEntry"
+                                                     Grid.Row="0"
                                                      Grid.Column="1"
                                                      BackgroundColor="#F9F9F9"
                                                      FontFamily="reg"
                                                      Placeholder="Enter your email"
-                                                     x:Name="NameEntry"
                                                      TextColor="#2F2F32"
                                                      VerticalOptions="Center" />
 
-                    <renderer:BorderlesMaterialEntry Grid.Row="1"
+                    <renderer:BorderlesMaterialEntry x:Name="PasswordEntry"
+                                                     Grid.Row="1"
                                                      Grid.Column="1"
                                                      BackgroundColor="#F9F9F9"
                                                      FontFamily="reg"
                                                      IsPassword="True"
                                                      Placeholder="Enter your password"
-                                                     x:Name="PasswordEntry"
                                                      TextColor="#2F2F32"
                                                      VerticalOptions="Center" />
                 </Grid>
@@ -91,18 +85,10 @@
                         CornerRadius="10"
                         FontFamily="med"
                         Text="Login"
-                        Command="{Binding }"
-                        VerticalOptions="Center" >
+                        VerticalOptions="Center" />
 
-
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button">
-                            
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
-
-                <Label FontFamily="reg"
+                <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       FontFamily="reg"
                        HorizontalOptions="Center">
                     <Label.FormattedText>
                         <FormattedString>
@@ -120,7 +106,7 @@
                          Spacing="10">
                 <ffimage:CachedImage HeightRequest="200"
                                      HorizontalOptions="Center"
-                                     Source="{images:ImageResource login1}"
+                                     Source="{images:ImageResource login2}"
                                      VerticalOptions="Center"
                                      WidthRequest="200" />
 
@@ -170,7 +156,6 @@
                                                      Grid.Column="1"
                                                      BackgroundColor="#F9F9F9"
                                                      FontFamily="reg"
-                                                     x:Name="FullNameEntry"
                                                      Placeholder="Full name"
                                                      TextColor="#2F2F32"
                                                      VerticalOptions="Center" />
@@ -179,9 +164,7 @@
                                                      Grid.Column="1"
                                                      BackgroundColor="#F9F9F9"
                                                      FontFamily="reg"
-                                                    
                                                      Placeholder="Email"
-                                                     x:Name="EmailEntry"
                                                      TextColor="#2F2F32"
                                                      VerticalOptions="Center" />
 
@@ -191,7 +174,6 @@
                                                      FontFamily="reg"
                                                      IsPassword="True"
                                                      Placeholder="Password"
-                                                     x:Name="PasswordEntry"
                                                      TextColor="#2F2F32"
                                                      VerticalOptions="Center" />
                 </Grid>
@@ -216,64 +198,10 @@
                         CornerRadius="10"
                         FontFamily="med"
                         Text="Continue"
-                        IsEnabled="False"
-                        x:Name="ContinueBtn"
-                        VerticalOptions="Center"
-                        >
-                    <Button.Triggers>
-                        <MultiTrigger TargetType="Button">
-                            <MultiTrigger.Conditions>
+                        VerticalOptions="Center" />
 
-                                <BindingCondition Binding="{Binding Source={x:Reference PasswordEntry}, 
-                                    Path=Text, Converter={StaticResource PasswordCorrectConverter }}" Value="True"/>
-
-
-                                <BindingCondition Binding="{Binding Source={x:Reference EmailEntry}, 
-                                    Path=Text, Converter={StaticResource UserNameCorrectConverter }}" Value="True"/>
-                            </MultiTrigger.Conditions>
-
-                            <Setter  Property="IsVisible" Value="True"/>
-                        </MultiTrigger>
-                    </Button.Triggers>
-
-
-                </Button>
-
-                <ActivityIndicator 
-                     x:Name="ShowLoginIndicator"
-                     HorizontalOptions="Center"
-                    IsRunning="False"
-                    IsVisible="False"
-                    VerticalOptions="Center"
-                    Color="#2F2F32"
-                    
-                    >
-
-                    <ActivityIndicator.Triggers>
-                        <MultiTrigger TargetType="ActivityIndicator">
-                            <MultiTrigger.Conditions>
-
-                                <BindingCondition Binding="{Binding Source={x:Reference FullNameEntry}, 
-                                    Path=Text, Converter={StaticResource UserNameCorrectConverter }}" Value="True"/>
-
-                                <BindingCondition Binding="{Binding Source={x:Reference PasswordEntry}, 
-                                    Path=Text, Converter={StaticResource PasswordCorrectConverter }}" Value="True"/>
-
-                                <BindingCondition Binding="{Binding Source={x:Reference EmailEntry}, 
-                                    Path=Text, Converter={StaticResource UserNameCorrectConverter }}" Value="True"/>
-                            </MultiTrigger.Conditions>
-
-                            <Setter  Property="IsVisible" Value="True"/>
-                        </MultiTrigger>
-                    </ActivityIndicator.Triggers>
-                </ActivityIndicator>
-
-
-
-
-
-
-                <Label FontFamily="reg"
+                <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       FontFamily="reg"
                        HorizontalOptions="Center">
                     <Label.FormattedText>
                         <FormattedString>
@@ -287,5 +215,5 @@
         </ControlTemplate>
     </ContentPage.Resources>
 
-    <ContentView ControlTemplate="{StaticResource Register}" />
+    <ContentView ControlTemplate="{Binding AccountPageTemplate}" />
 </views:BasePage>
