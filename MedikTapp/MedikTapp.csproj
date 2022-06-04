@@ -94,7 +94,6 @@
     <Folder Include="Constants\" />
     <Folder Include="Converters\" />
     <Folder Include="Tables\" />
-    <Folder Include="Views\Welcome\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -108,6 +107,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Onboarding\OnboardingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Welcome\Main\Services\ServicesTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

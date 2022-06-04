@@ -63,10 +63,11 @@
     </ContentPage.Resources>
     <xct:TabView BackgroundColor="White"
                  IsSwipeEnabled="False"
-                 IsTabTransitionEnabled="False"
+                 IsTabTransitionEnabled="True"
                  SelectedIndex="{Binding ActiveTabIndex}"
                  TabContentDataTemplate="{StaticResource TabContentTemplateSelector}"
                  TabIndicatorColor="{StaticResource Purple}"
+                 TabIndicatorPlacement="Top"
                  TabItemsSource="{Binding Tabs}"
                  TabStripBackgroundColor="White"
                  TabStripHeight="65"

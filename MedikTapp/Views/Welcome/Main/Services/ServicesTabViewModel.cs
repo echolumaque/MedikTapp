@@ -2,23 +2,20 @@
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using MedikTapp.Views.Welcome.Main.Home.Products;
 using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
-using System;
-using System.Linq;
+using Xamarin.Forms;
 
-namespace MedikTapp.Views.Welcome.Main.Home
+namespace MedikTapp.Views.Welcome.Main.Services
 {
-    public partial class HomeTabViewModel : TabItemPageViewModelBase
+    public partial class ServicesTabViewModel : TabItemPageViewModelBase
     {
-        private bool _isAlreadyTimed;
         private readonly MockService _mockService;
 
-        public HomeTabViewModel(NavigationService navigationService, MockService mockService) : base(navigationService)
+        public ServicesTabViewModel(NavigationService navigationService, MockService mockService) : base(navigationService)
         {
             _mockService = mockService;
 
-            GotoProductsCmd = new AsyncSingleCommand(() => NavigationService.GoTo<ProductsPage>());
+            SearchEntryTextChangedCmd = new Command<TextChangedEventArgs>(args => FilterServices(args));
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(service =>
             {
                 return NavigationService.GoTo<ServiceConfirmationPopup>(new()
@@ -27,8 +24,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
                 });
             });
 
-            InitPromos();
-            ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(4));
+            AvailableServices = new(_mockService.MockServices);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
 {
     public partial class HomeTabViewModel
     {
-        public override string Icon => FontAwesomeIcons.HouseBlank;
+        public override string Icon => FontAwesomeIcons.House;
         public override string Text => "Home";
         public override View ViewTemplate => new HomeTab(this);
         public override bool CanHaveBadge => false;

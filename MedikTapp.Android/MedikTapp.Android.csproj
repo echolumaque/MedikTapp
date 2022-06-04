@@ -101,6 +101,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Renderer\BorderlessEntryAndroid.cs" />
     <Compile Include="Renderer\CustomFrameAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderer\BorderlesMaterialEntryAndroid.cs" />

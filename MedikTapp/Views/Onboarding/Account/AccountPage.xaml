@@ -105,11 +105,11 @@
         <ControlTemplate x:Key="Register">
             <StackLayout Margin="20,0"
                          Spacing="10">
-                <ffimage:CachedImage HeightRequest="200"
+                <ffimage:CachedImage HeightRequest="250"
                                      HorizontalOptions="Center"
                                      Source="{images:ImageResource login2}"
                                      VerticalOptions="Center"
-                                     WidthRequest="200" />
+                                     WidthRequest="250" />
 
                 <Label HorizontalTextAlignment="Center"
                        TextColor="#2F2F32">
