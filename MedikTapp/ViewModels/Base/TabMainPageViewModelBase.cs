@@ -48,6 +48,7 @@ namespace MedikTapp.ViewModels.Base
             {
                 ActiveTabIndex = index;
                 tabVm.IsCurrentTab = true;
+                tabVm.Initialized(parameters);
                 tabVm.OnNavigatedTo(parameters);
             }
             else

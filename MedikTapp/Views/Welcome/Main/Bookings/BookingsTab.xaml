@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Bookings.BookingsTab"
+               xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:converter="clr-namespace:MedikTapp.Converters"
+               xmlns:enums="clr-namespace:MedikTapp.Enums"
+               xmlns:tables="clr-namespace:MedikTapp.Tables"
+               xmlns:templates="clr-namespace:MedikTapp.Templates"
+               xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+               xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Bookings"
+               x:Name="this"
+               x:DataType="vm:BookingsTabViewModel"
+               x:TypeArguments="vm:BookingsTabViewModel">
+    <ContentView.Resources>
+        <Style x:Key="SelectedScheduleTypeFrame"
+               TargetType="Frame">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Grid.Row" Value="1" />
+            <Setter Property="BackgroundColor" Value="#695CD5" />
+        </Style>
+        <Style x:Key="UnselectedScheduleTypeFrame"
+               TargetType="Frame">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Grid.Row" Value="1" />
+            <Setter Property="BackgroundColor" Value="#F4F5F9" />
+        </Style>
+        <Style x:Key="SelectedScheduleTypeLabel"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="med" />
+        </Style>
+        <Style x:Key="UnselectedScheduleTypeLabel"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="LightGray" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="FontFamily" Value="med" />
+        </Style>
+        <Style x:Key="ScheduleFontIcons"
+               TargetType="Label">
+            <Setter Property="TextColor" Value="#A8AFBD" />
+            <Setter Property="FontFamily" Value="fas" />
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+        </Style>
+        <Style x:Key="ScheduleFontIconsDesc"
+               TargetType="Label">
+            <Setter Property="FontFamily" Value="med" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalOptions" Value="End" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="TextColor" Value="#2F2F32" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="70,50,*">
+        <Label Grid.Row="0"
+               FontFamily="med"
+               FontSize="40"
+               Text="Bookings"
+               TextColor="#2F2F32" />
+
+        <CollectionView Grid.Row="2"
+                        ItemSizingStrategy="MeasureAllItems"
+                        ItemsSource="{Binding Bookings}">
+            <CollectionView.EmptyView>
+                <Frame BackgroundColor="#FBFBFB">
+                    <Label FontFamily="med"
+                           HorizontalOptions="CenterAndExpand"
+                           Text="No records found"
+                           TextColor="Gray"
+                           VerticalOptions="CenterAndExpand" />
+                </Frame>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="15"
+                                   Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="tables:Bookings">
+                    <Frame Padding="10"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="80,50,50">
+
+                            <!--#region  Doc or Service Name, Doc Specialty, and Image-->
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   FontFamily="med"
+                                   FontSize="20"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="1"
+                                   Text="{Binding ProductName}"
+                                   TextColor="{StaticResource Black}"
+                                   WidthRequest="280" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Margin="0,20,0,0"
+                                   FontFamily="reg"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="2"
+                                   Text="{Binding ProductDescription}"
+                                   TextColor="Gray"
+                                   VerticalOptions="CenterAndExpand"
+                                   WidthRequest="280" />
+
+                            <Image Grid.Row="0"
+                                   Grid.Column="1"
+                                   HeightRequest="65"
+                                   HorizontalOptions="End"
+                                   Source="{Binding ProductImagePath, Converter={converter:MockImageConverter}}"
+                                   VerticalOptions="Start"
+                                   WidthRequest="65" />
+
+                            <BoxView Grid.Row="0"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Margin="0,0,0,-7"
+                                     BackgroundColor="#F2F3F6"
+                                     HeightRequest=".7"
+                                     VerticalOptions="End" />
+
+                            <!--#endregion-->
+
+                            <!--#region Earliest time available-->
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   FontFamily="bold"
+                                   FontSize="12"
+                                   Text="Earliest appoinment available: "
+                                   TextColor="{StaticResource Black}"
+                                   VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="reg"
+                                              Text="Earliest time available: " />
+                                        <Span Text="{Binding EarliestAvailableDate.Date, StringFormat='{0:MMMM dd, yyyy - HH:mm}'}" />
+                                        <Span Text="&#10;" />
+                                        <Span FontFamily="reg"
+                                              Text="Price: " />
+                                        <Span Text="{Binding ProductPrice, StringFormat='₱{0:N2}'}" />
+                                        <!--<Span Text="{Binding BookingSchedule.t}" />-->
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <!--  endregion  -->
+
+                            <Button Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="5,0"
+                                    BackgroundColor="#F4F5F9"
+                                    Command="{Binding BindingContext.CancelBookingCmd, Source={x:Reference this}}"
+                                    CommandParameter="{Binding .}"
+                                    CornerRadius="10"
+                                    FontFamily="med"
+                                    FontSize="12"
+                                    Text="Cancel"
+                                    TextColor="Black" />
+
+                            <Button Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="5,0"
+                                    BackgroundColor="{StaticResource DarkPurple}"
+                                    Command="{Binding BindingContext.AddBookingCmd, Source={x:Reference this}}"
+                                    CommandParameter="{Binding .}"
+                                    CornerRadius="10"
+                                    FontFamily="med"
+                                    FontSize="12"
+                                    Text="Confirm Booking"
+                                    TextColor="White" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <templates:ComboBox Grid.Row="1"
+                            Grid.RowSpan="2"
+                            DropdownBoxBackgroundColor="#FBFBFB"
+                            DropdownBoxHeight="50"
+                            DropdownBoxWidthRequest="160"
+                            HorizontalOptions="EndAndExpand"
+                            IsExpanded="{Binding IsFilterExpanded}"
+                            ItemsSource="{Binding BookingSortCollection}"
+                            MainBoxBackgroundColor="#FBFBFB"
+                            MainBoxText="{Binding BookingSortMainBoxText}"
+                            MainBoxTextColor="Black"
+                            MainBoxTextHorizontalOptions="StartAndExpand"
+                            MainBoxWidthRequest="180"
+                            OpenComboBoxCommand="{Binding OpenComboBoxCmd}"
+                            SelectedItem="{Binding SelectedBookingSort}"
+                            SelectionChangedCommand="{Binding ChangeFilterCmd}"
+                            SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                            VerticalOptions="StartAndExpand">
+            <templates:ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="enums:BookingSort">
+                    <Label Margin="0,5"
+                           Text="{Binding ., Converter={converter:BookingSortDescriptionConverter}}"
+                           TextColor="{StaticResource Black}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#FBFBFB" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Label>
+                </DataTemplate>
+            </templates:ComboBox.ItemTemplate>
+        </templates:ComboBox>
+    </Grid>
+</views:BaseTab>

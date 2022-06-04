@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Home.HomeTab"
+               xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:converter="clr-namespace:MedikTapp.Converters"
+               xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+               xmlns:models="clr-namespace:MedikTapp.Models"
+               xmlns:templates="clr-namespace:MedikTapp.Templates"
+               xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+               xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Home"
+               x:Name="this"
+               x:DataType="vm:HomeTabViewModel"
+               x:TypeArguments="vm:HomeTabViewModel">
+
+    <ScrollView HorizontalScrollBarVisibility="Never"
+                VerticalScrollBarVisibility="Never">
+        <Grid RowDefinitions="250,200,*">
+            <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="80,*">
+                <Label x:Name="Test"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       FontFamily="med"
+                       FontSize="30"
+                       HorizontalOptions="Start"
+                       TextColor="Black"
+                       VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Elsie Adkins " />
+                            <Span Text="👋🏼" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Frame Grid.Row="1"
+                       Grid.Column="0"
+                       Padding="10,15"
+                       templates:Gestures.Tapped="{Binding GotoProductsCmd}"
+                       BackgroundColor="#695CD4"
+                       CornerRadius="15"
+                       HasShadow="False"
+                       VerticalOptions="Fill">
+                    <Grid RowDefinitions="*,*">
+                        <Image Grid.RowSpan="2"
+                               Margin="-40"
+                               HeightRequest="200"
+                               Opacity=".5"
+                               Rotation="-25"
+                               Source="{templates:Image squiggles1}"
+                               WidthRequest="200" />
+
+
+                        <Label Grid.Row="0"
+                               FontFamily="fas"
+                               FontSize="35"
+                               Text="{x:Static fonts:FontAwesomeIcons.FlaskVial}"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Row="1"
+                               FontFamily="med"
+                               FontSize="15"
+                               Text="Book a service"
+                               TextColor="White"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Row="1"
+                               FontFamily="reg"
+                               FontSize="12"
+                               Text="Schedule a service with us"
+                               TextColor="White"
+                               VerticalOptions="End" />
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Row="1"
+                       Grid.Column="1"
+                       Padding="10,15"
+                       templates:Gestures.Tapped="{Binding GotoProductsCmd}"
+                       BackgroundColor="White"
+                       CornerRadius="15"
+                       HasShadow="False">
+                    <Grid RowDefinitions="*,*">
+                        <Label Grid.Row="0"
+                               FontFamily="fas"
+                               FontSize="35"
+                               Text="{x:Static fonts:FontAwesomeIcons.UserDoctor}"
+                               TextColor="#695CD4"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Row="1"
+                               FontFamily="med"
+                               FontSize="15"
+                               Text="Book a doctor"
+                               TextColor="Black"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Row="1"
+                               FontFamily="reg"
+                               FontSize="12"
+                               Text="Make an appointment"
+                               TextColor="DarkGray"
+                               VerticalOptions="End" />
+                    </Grid>
+                </Frame>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Promos-->
+            <CarouselView Grid.Row="1"
+                          IndicatorView="IndicatorView"
+                          IsBounceEnabled="True"
+                          IsScrollAnimated="True"
+                          IsSwipeEnabled="True"
+                          ItemsSource="{Binding Promos}"
+                          Loop="True"
+                          Position="{Binding PromoPosition}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Services">
+                        <Image templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                               templates:Gestures.TappedParameter="{Binding .}"
+                               Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}" />
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <IndicatorView x:Name="IndicatorView"
+                           Grid.Row="1"
+                           HorizontalOptions="Center"
+                           IndicatorColor="Gray"
+                           IndicatorSize="7"
+                           SelectedIndicatorColor="#695CD4"
+                           VerticalOptions="End" />
+
+            <!--#endregion-->
+
+            <!--#region Popular services-->
+            <CollectionView Grid.Row="2"
+                            HeightRequest="580"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding ServicesCollection}">
+                <CollectionView.Header>
+                    <Label FontFamily="med"
+                           FontSize="20"
+                           Text="Popular Services"
+                           TextColor="Black" />
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout HorizontalItemSpacing="10"
+                                     Orientation="Vertical"
+                                     Span="2"
+                                     VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Services">
+                        <Frame templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                               templates:Gestures.TappedParameter="{Binding .}"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               HeightRequest="205"
+                               VerticalOptions="Center">
+                            <Grid RowDefinitions="*,40,60,20">
+                                <Image Grid.Row="0"
+                                       HeightRequest="150"
+                                       HorizontalOptions="Center"
+                                       Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}"
+                                       VerticalOptions="Center"
+                                       WidthRequest="150" />
+
+                                <Label Grid.Row="1"
+                                       FontFamily="bold"
+                                       FontSize="15"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       Text="{Binding ServiceName}"
+                                       TextColor="{StaticResource Black}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Row="2"
+                                       FontFamily="med"
+                                       FontSize="12"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="3"
+                                       Text="{Binding ServiceDescription}"
+                                       TextColor="Gray"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Row="3"
+                                       FontFamily="med"
+                                       FontSize="15"
+                                       HorizontalOptions="Center"
+                                       Text="{Binding ServicePrice, StringFormat='₱ {0:n}'}"
+                                       TextColor="Gray"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--#endregion-->
+        </Grid>
+    </ScrollView>
+</views:BaseTab>

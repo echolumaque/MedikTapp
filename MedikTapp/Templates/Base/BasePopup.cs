@@ -25,7 +25,5 @@ namespace MedikTapp.Templates.Base
         }
 
         protected TViewModel ViewModel { get; }
-
-        protected static TViewModel GetViewModel(TViewModel viewModel) => viewModel;
     }
 }

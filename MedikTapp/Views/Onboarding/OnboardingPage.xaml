@@ -83,7 +83,7 @@
                 FontFamily="med"
                 HeightRequest="50"
                 HorizontalOptions="CenterAndExpand"
-                IsVisible="{Binding IsSkipVisible}"
+                IsVisible="{Binding IsSkipVisible, Converter={xct:InvertedBoolConverter}}"
                 Text="Get started"
                 VerticalOptions="StartAndExpand"
                 WidthRequest="200" />

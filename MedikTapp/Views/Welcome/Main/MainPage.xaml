@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage x:Class="MedikTapp.Views.MainPage.MainPage"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:templateSelector="clr-namespace:MedikTapp.Views.Helpers.DataTemplates"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.MainPage"
+                xmlns:vmBase="clr-namespace:MedikTapp.ViewModels.Base"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:DataType="vm:MainPageViewModel"
+                x:TypeArguments="vm:MainPageViewModel"
+                NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <templateSelector:TabContentTemplateSelector x:Key="TabContentTemplateSelector" />
+        <DataTemplate x:Key="TabViewItemTemplate"
+                      x:DataType="vmBase:TabItemPageViewModelBase">
+            <Grid RowDefinitions="30,*">
+                <xct:BadgeView Grid.Row="0"
+                               BackgroundColor="{StaticResource Purple}"
+                               BadgePosition="TopRight"
+                               FontFamily="med"
+                               FontSize="10"
+                               HorizontalOptions="CenterAndExpand"
+                               IsAnimated="True"
+                               TextColor="White"
+                               VerticalOptions="End">
+                    <xct:BadgeView.Triggers>
+                        <DataTrigger Binding="{Binding CanHaveBadge}"
+                                     TargetType="xct:BadgeView"
+                                     Value="True">
+                            <Setter Property="Text" Value="{Binding BadgeCount, StringFormat=' {0} '}" />
+                        </DataTrigger>
+                    </xct:BadgeView.Triggers>
+                    <Label FontFamily="fas"
+                           FontSize="18"
+                           Text="{Binding Icon}"
+                           TextColor="Gray">
+                        <Label.Triggers>
+                            <DataTrigger Binding="{Binding IsCurrentTab}"
+                                         TargetType="Label"
+                                         Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </xct:BadgeView>
+                <Label Grid.Row="1"
+                       FontFamily="med"
+                       HorizontalOptions="Center"
+                       Text="{Binding Text}"
+                       TextColor="Gray"
+                       VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding IsCurrentTab}"
+                                     TargetType="Label"
+                                     Value="True">
+                            <Setter Property="TextColor" Value="#6B79E4" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Grid>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <xct:TabView BackgroundColor="White"
+                 IsSwipeEnabled="False"
+                 IsTabTransitionEnabled="False"
+                 SelectedIndex="{Binding ActiveTabIndex}"
+                 TabContentDataTemplate="{StaticResource TabContentTemplateSelector}"
+                 TabIndicatorColor="{StaticResource Purple}"
+                 TabItemsSource="{Binding Tabs}"
+                 TabStripBackgroundColor="White"
+                 TabStripHeight="65"
+                 TabStripPlacement="Bottom"
+                 TabViewItemDataTemplate="{StaticResource TabViewItemTemplate}">
+        <xct:TabView.Behaviors>
+            <xct:EventToCommandBehavior Command="{Binding TabSelectionChangedCmd}"
+                                        EventName="SelectionChanged" />
+        </xct:TabView.Behaviors>
+    </xct:TabView>
+</views:BasePage>

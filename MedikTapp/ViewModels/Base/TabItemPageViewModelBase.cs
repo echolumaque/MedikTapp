@@ -9,10 +9,12 @@ namespace MedikTapp.ViewModels.Base
         {
         }
 
-        public virtual string Icon { get; } = "";
         public bool IsCurrentTab { get; set; } = false;
         public DataTemplate Template => new(() => ViewTemplate);
         public abstract View ViewTemplate { get; }
         public abstract string Text { get; }
+        public virtual string Icon { get; } = "";
+        public abstract bool CanHaveBadge { get; }
+        public int BadgeCount { get; set; }
     }
 }

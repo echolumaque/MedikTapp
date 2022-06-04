@@ -4,7 +4,6 @@ using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -28,7 +27,7 @@ namespace MedikTapp.Services.NavigationService
         public Task GoTo<TPage>(NavigationParameters parameters = null) where TPage : Page
         {
             NavUtils.IsSystemBackButtonPressed = false;
-            TPage toPage = ActivatorUtilities.CreateInstance<TPage>(_serviceProvider);
+            var toPage = ActivatorUtilities.CreateInstance<TPage>(_serviceProvider);
             return toPage is PopupPage popup
                 ? NavUtils.DoNavigateAsync(GetCurrentPage(), toPage, parameters,
                     () => _popupNavigation.PushAsync(popup, true))
@@ -40,8 +39,8 @@ namespace MedikTapp.Services.NavigationService
         public Task PopPage(NavigationParameters parameters = null)
         {
             NavUtils.IsSystemBackButtonPressed = false;
-            IReadOnlyList<Page> navStack = Application.Current.MainPage.Navigation.NavigationStack;
-            Page toPage = navStack.Count > 1 ? navStack[^2] : null;
+            var navStack = Application.Current.MainPage.Navigation.NavigationStack;
+            var toPage = navStack.Count > 1 ? navStack[^2] : null;
             return NavUtils.DoNavigateAsync(GetCurrentPage(), toPage, parameters,
                 () => Application.Current.MainPage.Navigation.PopAsync(true));
         }
@@ -49,8 +48,8 @@ namespace MedikTapp.Services.NavigationService
         public Task PopPopup(Page toPage = null, NavigationParameters parameters = null)
         {
             NavUtils.IsSystemBackButtonPressed = false;
-            PopupPage fromPage = _popupNavigation.PopupStack.LastOrDefault();
-            return NavUtils.DoNavigateAsync(fromPage, toPage, parameters, () => _popupNavigation.PopAsync(true));
+            var fromPage = _popupNavigation.PopupStack.LastOrDefault();
+            return NavUtils.DoNavigateAsync(fromPage, GetCurrentPage(), parameters, () => _popupNavigation.PopAsync(true));
         }
 
         public Task PopToRoot(NavigationParameters parameters = null)
