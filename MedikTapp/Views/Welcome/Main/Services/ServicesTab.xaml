@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Services.ServicesTab"
+               xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:converter="clr-namespace:MedikTapp.Converters"
+               xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+               xmlns:gesture="clr-namespace:MedikTapp.Helpers"
+               xmlns:models="clr-namespace:MedikTapp.Models"
+               xmlns:renderers="clr-namespace:MedikTapp.Renderers"
+               xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+               xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Services"
+               xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+               x:Name="this"
+               x:DataType="vm:ServicesTabViewModel"
+               x:TypeArguments="vm:ServicesTabViewModel">
+    <Grid RowDefinitions="60,50,*">
+        <Label Grid.Row="0"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span FontFamily="med"
+                          FontSize="20"
+                          Text="Book an appointment"
+                          TextColor="{StaticResource Black}" />
+                    <Span Text="&#10;" />
+                    <Span FontFamily="reg"
+                          FontSize="15"
+                          Text="Choose a service" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <Frame Grid.Row="1"
+               Padding="20,0"
+               BackgroundColor="White"
+               HasShadow="False"
+               VerticalOptions="StartAndExpand">
+            <Grid ColumnDefinitions="15, *">
+                <Label Grid.Column="0"
+                       FontFamily="fas"
+                       HorizontalOptions="StartAndExpand"
+                       Text="{x:Static fonts:FontAwesomeIcons.MagnifyingGlass}"
+                       VerticalOptions="Center" />
+
+                <renderers:BorderlesMaterialEntry Grid.Column="1"
+                                                  BackgroundColor="White"
+                                                  FontFamily="reg"
+                                                  FontSize="12"
+                                                  Placeholder="Search"
+                                                  PlaceholderColor="Gray"
+                                                  TextColor="{StaticResource Black}"
+                                                  VerticalOptions="End">
+                    <renderers:BorderlesMaterialEntry.Behaviors>
+                        <xct:EventToCommandBehavior Command="{Binding SearchEntryTextChangedCmd}"
+                                                    EventName="TextChanged" />
+                    </renderers:BorderlesMaterialEntry.Behaviors>
+                </renderers:BorderlesMaterialEntry>
+            </Grid>
+        </Frame>
+
+        <CollectionView Grid.Row="2"
+                        Margin="0,20,0,0"
+                        ItemSizingStrategy="MeasureAllItems"
+                        ItemsSource="{Binding AvailableServices}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="15"
+                                   Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Services">
+                    <Grid gesture:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                          gesture:Gestures.TappedParameter="{Binding .}"
+                          ColumnDefinitions="50, *, 10"
+                          RowDefinitions="*,*"
+                          RowSpacing="-1">
+                        <Image Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="0"
+                               HeightRequest="100"
+                               HorizontalOptions="Center"
+                               Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}"
+                               VerticalOptions="Center"
+                               WidthRequest="100" />
+
+                        <Label Grid.Row="0"
+                               Grid.Column="1"
+                               FontFamily="med"
+                               FontSize="15"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding ServiceName}"
+                               TextColor="{StaticResource Black}"
+                               VerticalOptions="End" />
+
+                        <Label Grid.Row="1"
+                               Grid.Column="1"
+                               FontFamily="reg"
+                               FontSize="12"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding ServiceDescription}"
+                               VerticalOptions="Start" />
+
+                        <Label Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="2"
+                               FontFamily="fas"
+                               HorizontalOptions="End"
+                               LineBreakMode="TailTruncation"
+                               Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
+                               TextColor="{StaticResource DarkPurple}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</views:BaseTab>

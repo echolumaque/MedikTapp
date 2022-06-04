@@ -6,7 +6,6 @@
                  xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                  xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                  xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation"
-                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                  x:DataType="vm:ServiceConfirmationPopupViewModel"
                  x:TypeArguments="vm:ServiceConfirmationPopupViewModel">
     <ContentPage.Resources>
@@ -46,6 +45,7 @@
     </ContentPage.Resources>
 
     <Frame Margin="20,0"
+           Padding="20,20,20,-5"
            BackgroundColor="White"
            CornerRadius="20"
            VerticalOptions="CenterAndExpand">

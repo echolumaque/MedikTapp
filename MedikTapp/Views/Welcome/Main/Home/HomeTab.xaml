@@ -14,100 +14,18 @@
 
     <ScrollView HorizontalScrollBarVisibility="Never"
                 VerticalScrollBarVisibility="Never">
-        <Grid RowDefinitions="250,200,*">
+        <Grid RowDefinitions="40,200,*">
             <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
-            <Grid Grid.Row="0"
-                  ColumnDefinitions="*,*"
-                  RowDefinitions="80,*">
-                <Label x:Name="Test"
-                       Grid.Row="0"
-                       Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       FontFamily="med"
-                       FontSize="30"
-                       HorizontalOptions="Start"
-                       TextColor="Black"
-                       VerticalOptions="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Elsie Adkins " />
-                            <Span Text="👋🏼" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   FontFamily="med"
+                   FontSize="25"
+                   HorizontalOptions="Start"
+                   LineBreakMode="TailTruncation"
+                   Text="Good morning, Juan!"
+                   TextColor="Black"
+                   VerticalOptions="Center" />
 
-                <Frame Grid.Row="1"
-                       Grid.Column="0"
-                       Padding="10,15"
-                       templates:Gestures.Tapped="{Binding GotoProductsCmd}"
-                       BackgroundColor="#695CD4"
-                       CornerRadius="15"
-                       HasShadow="False"
-                       VerticalOptions="Fill">
-                    <Grid RowDefinitions="*,*">
-                        <Image Grid.RowSpan="2"
-                               Margin="-40"
-                               HeightRequest="200"
-                               Opacity=".5"
-                               Rotation="-25"
-                               Source="{templates:Image squiggles1}"
-                               WidthRequest="200" />
-
-
-                        <Label Grid.Row="0"
-                               FontFamily="fas"
-                               FontSize="35"
-                               Text="{x:Static fonts:FontAwesomeIcons.FlaskVial}"
-                               TextColor="White"
-                               VerticalOptions="Center" />
-
-                        <Label Grid.Row="1"
-                               FontFamily="med"
-                               FontSize="15"
-                               Text="Book a service"
-                               TextColor="White"
-                               VerticalOptions="Center" />
-
-                        <Label Grid.Row="1"
-                               FontFamily="reg"
-                               FontSize="12"
-                               Text="Schedule a service with us"
-                               TextColor="White"
-                               VerticalOptions="End" />
-                    </Grid>
-                </Frame>
-
-                <Frame Grid.Row="1"
-                       Grid.Column="1"
-                       Padding="10,15"
-                       templates:Gestures.Tapped="{Binding GotoProductsCmd}"
-                       BackgroundColor="White"
-                       CornerRadius="15"
-                       HasShadow="False">
-                    <Grid RowDefinitions="*,*">
-                        <Label Grid.Row="0"
-                               FontFamily="fas"
-                               FontSize="35"
-                               Text="{x:Static fonts:FontAwesomeIcons.UserDoctor}"
-                               TextColor="#695CD4"
-                               VerticalOptions="Center" />
-
-                        <Label Grid.Row="1"
-                               FontFamily="med"
-                               FontSize="15"
-                               Text="Book a doctor"
-                               TextColor="Black"
-                               VerticalOptions="Center" />
-
-                        <Label Grid.Row="1"
-                               FontFamily="reg"
-                               FontSize="12"
-                               Text="Make an appointment"
-                               TextColor="DarkGray"
-                               VerticalOptions="End" />
-                    </Grid>
-                </Frame>
-            </Grid>
             <!--#endregion-->
 
             <!--#region Promos-->
