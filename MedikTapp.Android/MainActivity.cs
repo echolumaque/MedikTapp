@@ -1,13 +1,4 @@
-﻿using Android.App;
-using Android.Content.PM;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using MedikTapp.DI;
-using Microsoft.Extensions.DependencyInjection;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
-using Color = Android.Graphics.Color;
+﻿using Color = Android.Graphics.Color;
 using Platform = Xamarin.Essentials.Platform;
 
 namespace MedikTapp.Droid
@@ -27,11 +18,11 @@ namespace MedikTapp.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Rg.Plugins.Popup.Popup.Init(this);
-            Platform.Init(this, savedInstanceState);
             Forms.Init(this, savedInstanceState);
-            Android.Glide.Forms.Init(this);
-            SetStatusBarColor();
+            FormsMaterial.Init(this, savedInstanceState);
+            Platform.Init(this, savedInstanceState);
+            Popup.Init(this);
+            CachedImageRenderer.Init(true);
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
         }
 

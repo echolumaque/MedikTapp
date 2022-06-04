@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage x:Class="MedikTapp.Views.Onboarding.Account.AccountPage"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+                xmlns:helper="clr-namespace:MedikTapp.Helpers"
+                xmlns:images="clr-namespace:MedikTapp.Resources.SVGs"
+                xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
+                x:DataType="vm:AccountPageViewModel"
+                x:TypeArguments="vm:AccountPageViewModel">
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="Login">
+            <StackLayout Margin="20,0"
+                         Spacing="10">
+                <ffimage:CachedImage HeightRequest="250"
+                                     HorizontalOptions="Center"
+                                     Source="{images:ImageResource login2}"
+                                     VerticalOptions="Center"
+                                     WidthRequest="250" />
+
+                <Label HorizontalTextAlignment="Center"
+                       TextColor="#2F2F32">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="med"
+                                  FontSize="25"
+                                  Text="Hi there! 👋" />
+                            <Span Text="&#10;" />
+                            <Span FontFamily="med"
+                                  Text="Joined MedikTapp before?" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+
+                <Grid ColumnDefinitions="30,*"
+                      RowDefinitions="*,*">
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           FontFamily="fas"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           Text="{x:Static fonts:FontAwesomeIcons.At}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           FontFamily="fas"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           Text="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
+                           VerticalOptions="Center" />
+
+                    <renderer:BorderlesMaterialEntry x:Name="NameEntry"
+                                                     Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     BackgroundColor="#F9F9F9"
+                                                     FontFamily="reg"
+                                                     Placeholder="Enter your email"
+                                                     TextColor="#2F2F32"
+                                                     VerticalOptions="Center" />
+
+                    <renderer:BorderlesMaterialEntry x:Name="PasswordEntry"
+                                                     Grid.Row="1"
+                                                     Grid.Column="1"
+                                                     BackgroundColor="#F9F9F9"
+                                                     FontFamily="reg"
+                                                     IsPassword="True"
+                                                     Placeholder="Enter your password"
+                                                     TextColor="#2F2F32"
+                                                     VerticalOptions="Center" />
+                </Grid>
+
+                <Label FontFamily="reg"
+                       HorizontalOptions="End"
+                       Text="Forgot your password?"
+                       TextColor="#695CD5" />
+
+                <Button Margin="0,20"
+                        Padding="0,5"
+                        BackgroundColor="#695CD5"
+                        CornerRadius="10"
+                        FontFamily="med"
+                        Text="Login"
+                        VerticalOptions="Center" />
+
+                <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       FontFamily="reg"
+                       HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="New to MedikTapp? " />
+                            <Span Text="Register"
+                                  TextColor="#695CD5" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="Register">
+            <StackLayout Margin="20,0"
+                         Spacing="10">
+                <ffimage:CachedImage HeightRequest="200"
+                                     HorizontalOptions="Center"
+                                     Source="{images:ImageResource login2}"
+                                     VerticalOptions="Center"
+                                     WidthRequest="200" />
+
+                <Label HorizontalTextAlignment="Center"
+                       TextColor="#2F2F32">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="med"
+                                  FontSize="25"
+                                  Text="Hi there! 👋" />
+                            <Span Text="&#10;" />
+                            <Span FontFamily="med"
+                                  Text="New to Mediktapp?" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+
+                <Grid ColumnDefinitions="30,*"
+                      RowDefinitions="*,*,*"
+                      RowSpacing="-10">
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           FontFamily="fas"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           Text="{x:Static fonts:FontAwesomeIcons.Signature}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           FontFamily="fas"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           Text="{x:Static fonts:FontAwesomeIcons.At}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           FontFamily="fas"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           Text="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
+                           VerticalOptions="Center" />
+
+                    <renderer:BorderlesMaterialEntry Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     BackgroundColor="#F9F9F9"
+                                                     FontFamily="reg"
+                                                     Placeholder="Full name"
+                                                     TextColor="#2F2F32"
+                                                     VerticalOptions="Center" />
+
+                    <renderer:BorderlesMaterialEntry Grid.Row="1"
+                                                     Grid.Column="1"
+                                                     BackgroundColor="#F9F9F9"
+                                                     FontFamily="reg"
+                                                     Placeholder="Email"
+                                                     TextColor="#2F2F32"
+                                                     VerticalOptions="Center" />
+
+                    <renderer:BorderlesMaterialEntry Grid.Row="2"
+                                                     Grid.Column="1"
+                                                     BackgroundColor="#F9F9F9"
+                                                     FontFamily="reg"
+                                                     IsPassword="True"
+                                                     Placeholder="Password"
+                                                     TextColor="#2F2F32"
+                                                     VerticalOptions="Center" />
+                </Grid>
+
+                <Label FontFamily="reg">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="By signing up, you agree to our " />
+                            <Span Text="terms &#38; conditions"
+                                  TextColor="#695CD5" />
+                            <Span Text=" and " />
+                            <Span Text="privacy policy"
+                                  TextColor="#695CD5" />
+                            <Span Text="." />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Button Margin="0,20"
+                        Padding="0,5"
+                        BackgroundColor="#695CD5"
+                        CornerRadius="10"
+                        FontFamily="med"
+                        Text="Continue"
+                        VerticalOptions="Center" />
+
+                <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       FontFamily="reg"
+                       HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Joined us before? " />
+                            <Span Text="Login"
+                                  TextColor="#695CD5" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+    <ContentView ControlTemplate="{Binding AccountPageTemplate}" />
+</views:BasePage>

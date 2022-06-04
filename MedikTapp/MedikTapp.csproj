@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -12,9 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Data\MockBookings.json" />
-    <None Remove="Resources\Data\MockSchedules.json" />
-    <None Remove="Resources\Data\MockServices.json" />
     <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Light-300.otf" />
     <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Regular-400.otf" />
     <None Remove="Resources\Fonts\Font Awesome 6.1.1 Pro-Solid-900.otf" />
@@ -22,19 +19,22 @@
     <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
     <None Remove="Resources\Fonts\PoppinsMedium.ttf" />
     <None Remove="Resources\Fonts\PoppinsRegular.ttf" />
-    <None Remove="Resources\SVGs\doctor1.png" />
-    <None Remove="Resources\SVGs\doctor2.png" />
-    <None Remove="Resources\SVGs\doctor3.png" />
-    <None Remove="Resources\SVGs\doctor4.png" />
-    <None Remove="Resources\SVGs\promo1.jpg" />
-    <None Remove="Resources\SVGs\promo2.jpg" />
-    <None Remove="Resources\SVGs\squiggles1.png" />
+    <None Remove="Resources\SVGs\docimage.png" />
+    <None Remove="Resources\SVGs\login1.png" />
+    <None Remove="Resources\SVGs\login2.png" />
+    <None Remove="Resources\SVGs\loginImage.png" />
+    <None Remove="Resources\SVGs\loginImage1-removebg.png" />
+    <None Remove="Resources\SVGs\loginImage1.jpg" />
+    <None Remove="Resources\SVGs\Logo.svg" />
+    <None Remove="Resources\SVGs\Logo2.png" />
+    <None Remove="Resources\SVGs\Mediktapp .png" />
+    <None Remove="Resources\SVGs\NewLogo.png" />
+    <None Remove="Resources\SVGs\onboarding1.png" />
+    <None Remove="Resources\SVGs\onboarding2.png" />
+    <None Remove="Resources\SVGs\onboarding3.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Data\MockBookings.json" />
-    <EmbeddedResource Include="Resources\Data\MockSchedules.json" />
-    <EmbeddedResource Include="Resources\Data\MockServices.json" />
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Light-300.otf" />
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Regular-400.otf" />
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 6.1.1 Pro-Solid-900.otf" />
@@ -42,69 +42,55 @@
     <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
-    <EmbeddedResource Include="Resources\SVGs\doctor1.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor2.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor3.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor4.png" />
-    <EmbeddedResource Include="Resources\SVGs\promo1.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\promo2.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\squiggles1.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\SVGs\login2.png" />
+    <EmbeddedResource Include="Resources\SVGs\Logo2.png" />
+    <EmbeddedResource Include="Resources\SVGs\Mediktapp .png" />
+    <EmbeddedResource Include="Resources\SVGs\NewLogo.png" />
+    <EmbeddedResource Include="Resources\SVGs\onboarding1.png" />
+    <EmbeddedResource Include="Resources\SVGs\onboarding2.png" />
+    <EmbeddedResource Include="Resources\SVGs\onboarding3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="Syncfusion.Xamarin.SfCalendar" Version="20.1.0.56" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2401" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Extensions\" />
+    <Folder Include="Constants\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Tables\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Welcome\Main\Bookings\BookingsTab.xaml.cs">
-      <DependentUpon>BookingsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Welcome\Main\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Update="Views\Onboarding\OnboardingPage.xaml.cs">
+      <DependentUpon>OnboardingPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Templates\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Bookings\BookingsTab.xaml">
+    <EmbeddedResource Update="Views\Onboarding\Account\AccountPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Home\HomeTab.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Home\Products\ProductsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Home\ServiceConfirmation\ServiceConfirmationPopup.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\MainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Schedule\Calendar\CalendarPopup.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Schedule\ScheduleTab.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\Settings\SettingsTab.xaml">
+    <EmbeddedResource Update="Views\Onboarding\OnboardingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
