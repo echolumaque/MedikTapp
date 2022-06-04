@@ -263,6 +263,7 @@
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="med"
+                                    FontSize="12"
                                     Text="Cancel"
                                     TextColor="{StaticResource Black}" />
 
@@ -274,6 +275,7 @@
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="med"
+                                    FontSize="12"
                                     Text="Reschedule"
                                     TextColor="White" />
                         </Grid>

@@ -1,4 +1,6 @@
-﻿namespace MedikTapp.Renderers
+﻿using Xamarin.Forms;
+
+namespace MedikTapp.Renderers
 {
     public class CustomFrame : Frame
     {

@@ -1,4 +1,15 @@
-﻿using Color = Android.Graphics.Color;
+﻿using Android.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using FFImageLoading.Forms.Platform;
+using MedikTapp.DI;
+using Microsoft.Extensions.DependencyInjection;
+using Rg.Plugins.Popup;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
+using Color = Android.Graphics.Color;
 using Platform = Xamarin.Essentials.Platform;
 
 namespace MedikTapp.Droid
@@ -23,6 +34,9 @@ namespace MedikTapp.Droid
             Platform.Init(this, savedInstanceState);
             Popup.Init(this);
             CachedImageRenderer.Init(true);
+            CachedImageRenderer.InitImageViewHandler();
+            SetStatusBarColor();
+
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
         }
 

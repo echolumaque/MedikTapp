@@ -22,7 +22,7 @@ namespace MedikTapp.Helpers
                 view.GestureRecognizers.Clear();
                 view.GestureRecognizers.Add(new TapGestureRecognizer
                 {
-                    Command = new Command(() =>
+                    Command = new Xamarin.Forms.Command(() =>
                     {
                         var command = GetTapped(view);
                         if (command != null && command.CanExecute(null))

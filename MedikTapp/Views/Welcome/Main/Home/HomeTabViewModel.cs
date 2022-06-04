@@ -28,8 +28,8 @@ namespace MedikTapp.Views.Welcome.Main.Home
             });
 
             InitPromos();
-            _mockService.OnMockServiceInitialized += (s, e) =>
-                ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(4));
+            //_mockService.OnMockServiceInitialized += (s, e) =>
+            ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(4));
         }
     }
 }

@@ -166,6 +166,7 @@
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="med"
+                                    FontSize="12"
                                     Text="Cancel"
                                     TextColor="Black" />
 
@@ -177,6 +178,7 @@
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="med"
+                                    FontSize="12"
                                     Text="Confirm Booking"
                                     TextColor="White" />
                         </Grid>

@@ -1,4 +1,7 @@
-﻿namespace MedikTapp.Templates.Base
+﻿using MedikTapp.ViewModels.Base;
+using Xamarin.Forms;
+
+namespace MedikTapp.Templates.Base
 {
     public class BasePage<TViewModel> : ContentPage where TViewModel : ViewModelBase
     {

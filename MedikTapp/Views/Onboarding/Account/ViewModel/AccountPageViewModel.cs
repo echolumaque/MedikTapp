@@ -10,6 +10,7 @@ namespace MedikTapp.Views.Onboarding.Account
 
         public AccountPageViewModel(NavigationService navigationService) : base(navigationService)
         {
+            ContinueCmd = new Command(() => NavigationService.SetRootPage<MainPage.MainPage>());
             ChangeTemplateCmd = new Command(ChangeTemplate);
         }
     }

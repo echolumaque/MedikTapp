@@ -1,4 +1,9 @@
-﻿namespace MedikTapp.Resources.SVGs
+﻿using System;
+using System.Reflection;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace MedikTapp.Resources.SVGs
 {
     [ContentProperty(nameof(Source))]
     public class ImageResourceExtension : IMarkupExtension
