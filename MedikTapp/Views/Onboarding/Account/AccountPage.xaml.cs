@@ -8,5 +8,8 @@ namespace MedikTapp.Views.Onboarding.Account
         {
             InitializeComponent();
         }
+
+
+
     }
 }

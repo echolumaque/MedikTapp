@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.Onboarding.Account;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
