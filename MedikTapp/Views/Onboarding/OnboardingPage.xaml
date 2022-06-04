@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage x:Class="MedikTapp.Views.Onboarding.OnboardingPage"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                xmlns:helper="clr-namespace:MedikTapp.Helpers"
+                xmlns:model="clr-namespace:MedikTapp.Views"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:Name="this"
+                x:DataType="vm:OnboardingPageViewModel"
+                x:TypeArguments="vm:OnboardingPageViewModel"
+                BackgroundColor="White"
+                NavigationPage.HasNavigationBar="False">
+    <Grid Margin="20,0"
+          RowDefinitions="520,*,*">
+        <CarouselView Grid.Row="0"
+                      HorizontalScrollBarVisibility="Never"
+                      IndicatorView="IndicatorView"
+                      IsBounceEnabled="True"
+                      IsScrollAnimated="True"
+                      IsSwipeEnabled="True"
+                      ItemsSource="{Binding Onboarding}"
+                      Loop="False"
+                      Position="{Binding Position}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="model:OnboardingModel">
+                    <Grid RowDefinitions="20,300,200">
+                        <Label Grid.Row="0"
+                               helper:Gestures.Tapped="{Binding BindingContext.SkipCmd, Source={x:Reference this}}"
+                               FontFamily="med"
+                               HorizontalOptions="EndAndExpand"
+                               IsVisible="{Binding BindingContext.IsSkipVisible, Source={x:Reference this}}"
+                               Text="Skip"
+                               TextColor="#695CD5"
+                               VerticalOptions="CenterAndExpand" />
+
+                        <ffimage:CachedImage Grid.Row="1"
+                                             HeightRequest="300"
+                                             HorizontalOptions="CenterAndExpand"
+                                             Source="{Binding ImagePath}"
+                                             VerticalOptions="CenterAndExpand"
+                                             WidthRequest="300" />
+
+                        <Label Grid.Row="2"
+                               HorizontalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black"
+                               VerticalOptions="CenterAndExpand">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontFamily="med"
+                                          FontSize="25"
+                                          Text="{Binding Title}" />
+                                    <Span Text="&#10;" />
+                                    <Span Text="&#10;" />
+                                    <Span FontFamily="reg"
+                                          FontSize="15"
+                                          Text="{Binding Subtitle}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView x:Name="IndicatorView"
+                       Grid.Row="1"
+                       Count="3"
+                       HorizontalOptions="CenterAndExpand"
+                       IndicatorColor="DarkGray"
+                       IndicatorSize="8"
+                       Position="{Binding Position}"
+                       SelectedIndicatorColor="#695CD5"
+                       VerticalOptions="CenterAndExpand" />
+
+        <Button Grid.Row="2"
+                BackgroundColor="#695CD5"
+                Command="{Binding ContinueCmd}"
+                CornerRadius="30"
+                FontFamily="med"
+                HeightRequest="50"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding IsSkipVisible}"
+                Text="Get started"
+                VerticalOptions="StartAndExpand"
+                WidthRequest="200" />
+    </Grid>
+</views:BasePage> 
