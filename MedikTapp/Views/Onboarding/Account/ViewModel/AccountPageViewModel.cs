@@ -2,6 +2,7 @@
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
+using Refit;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -24,15 +25,42 @@ namespace MedikTapp.Views.Onboarding.Account
         {
             if (_templateKey == "Register")
             {
-                var test = await _httpService.Register(Name, Email, Password);
+                try
+                {
+                    // successful registration
+                    var patientCredentials = await _httpService.Register(new()
+                    {
+                        { "email", Email },
+                        { "password", Password },
+                        { "name", Name },
+                    });
+                }
+                catch (ApiException)
+                {
+                    await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is already registered on MedikTapp's record", "Ok"));
+                }
+                _templateKey = "Login";
+                ChangeTemplate();
             }
             else
             {
-                var test = await _httpService.Login(new()
+                try
                 {
-                    Email = Email,
-                    Password = Password
-                });
+                    var patientCredentials = await _httpService.Login(new()
+                    {
+                        { "email", Email },
+                        { "password", Password },
+                    });
+
+                    if (patientCredentials != null)
+                        Device.BeginInvokeOnMainThread(() => NavigationService.SetRootPage<MainPage.MainPage>());
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record", "Ok");
+                }
+                catch (ApiException)
+                {
+                    await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record", "Ok"));
+                }
             }
         }
     }

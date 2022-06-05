@@ -15,7 +15,6 @@ namespace MedikTappFunctionApp
         {
             builder.Services
                 .AddDbContext<EntityContext>(options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, Environment.GetEnvironmentVariable("SQLServerConnectionString")))
-
                 .AddSingleton<JsonService>()
                 .AddScoped<SqlService>();
         }

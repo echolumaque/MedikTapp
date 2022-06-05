@@ -9,11 +9,11 @@ namespace MedikTapp.Services.HttpService
     {
         [Headers("x-functions-key : PFNUfmsfwfm5S-TlTuzQuKp1USSHLwBIfKHCeJrBSe8HAzFuPHVrJA==")]
         [Post("/api/Login")]
-        Task<IEnumerable<PatientModel>> Login([Body] Test test);
+        Task<PatientModel> Login([Body(BodySerializationMethod.Serialized)] Dictionary<string, string> data);
 
         [Headers("x-functions-key : chWkam7CzIRFZ2gTGrj6h5v_v_H4meHNu1GBK1RnIthmAzFuIUanpA==")]
         [Post("/api/Register")]
-        Task<string> Register(string name, string email, string password);
+        Task<string> Register([Body(BodySerializationMethod.Serialized)] Dictionary<string, string> data);
     }
 
     public class Test

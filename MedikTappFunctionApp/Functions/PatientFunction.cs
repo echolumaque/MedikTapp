@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -31,9 +32,8 @@ namespace MedikTappFunctionApp.Functions
             }
             catch (Exception ex)
             {
-                var test = JsonConvert.SerializeObject(ex);
-                logger.LogError($"A problem happened in Register function, see the returned response for more information: {ex.InnerException.Message}");
-                return new BadRequestObjectResult(ex.InnerException);
+                logger.LogError($"A problem happened in Register function, see the returned response for more information: ", JsonConvert.SerializeObject(ex));
+                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex));
             }
         }
 
@@ -44,30 +44,21 @@ namespace MedikTappFunctionApp.Functions
             {
                 // Get the email and password sent by client
                 var requestData = JsonService.ReadJsonRequestMessage<PatientModel>(request.Body);
-                var result = await _sqlService.ExecuteStoredProcedure("Login",
-                    ("@email", requestData.Email),
-                    ("@pw", requestData.Password));
+                var patient = await EntityContext.PatientData.AsNoTracking()
+                    .FirstAsync(x => x.Email == requestData.Email && x.Password == requestData.Password);
 
-                int patientId = default;
-                string patientName = default;
-                while (await result.ReadAsync())
-                {
-                    patientId = (int)result["PatientId"];
-                    patientName = result["Name"].ToString();
-                }
-
-                return patientId == 0
-                ? new NotFoundObjectResult("Patient's record not found.")
-                : new OkObjectResult(new
-                {
-                    PatientId = patientId,
-                    Name = patientName
-                });
+                return patient.PatientId == 0
+                    ? new NotFoundObjectResult("Patient is not found on MedikTapp's database")
+                    : new OkObjectResult(new
+                    {
+                        patient.PatientId,
+                        patient.Name
+                    });
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in Login function, see the returned response for more information: {ex.InnerException.Message}");
-                return new BadRequestObjectResult(ex.InnerException);
+                logger.LogError($"A problem happened in Login function, see the returned response for more information: ", JsonConvert.SerializeObject(ex));
+                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex));
             }
         }
     }

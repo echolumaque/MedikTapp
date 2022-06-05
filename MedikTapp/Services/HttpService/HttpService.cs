@@ -2,7 +2,7 @@
 using MedikTapp.Models;
 using Refit;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace MedikTapp.Services.HttpService
 {
@@ -16,10 +16,10 @@ namespace MedikTapp.Services.HttpService
                 new RefitSettings(new SystemTextJsonContentSerializer()));
         }
 
-        public Task<IEnumerable<PatientModel>> Login(Test test) =>
-            _medikTappApi.Login(test);
+        public ConfiguredTaskAwaitable<PatientModel> Login(Dictionary<string, string> data) =>
+            _medikTappApi.Login(data).ConfigureAwait(false);
 
-        public Task<string> Register(string name, string email, string password) =>
-            _medikTappApi.Register(name, email, password);
+        public ConfiguredTaskAwaitable<string> Register(Dictionary<string, string> data) =>
+            _medikTappApi.Register(data).ConfigureAwait(false);
     }
 }

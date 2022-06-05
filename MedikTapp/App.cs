@@ -2,8 +2,10 @@
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
 using MedikTapp.Views.Onboarding;
+using MedikTapp.Views.Onboarding.Account;
 using Syncfusion.Licensing;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XF.Services.InitializeDataService;
@@ -33,7 +35,13 @@ namespace MedikTapp
             SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
 
             DefineResources();
-            navigationService.SetRootPage<OnboardingPage>();
+            VersionTracking.Track();
+
+            if (VersionTracking.IsFirstLaunchEver)
+                navigationService.SetRootPage<OnboardingPage>();
+            else
+                navigationService.SetRootPage<AccountPage>();
+
         }
 
         private void DefineResources()
