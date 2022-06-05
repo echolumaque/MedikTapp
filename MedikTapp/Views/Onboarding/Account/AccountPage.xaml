@@ -59,6 +59,7 @@
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
                                                       Placeholder="Enter your email"
+                                                      Text="{TemplateBinding BindingContext.Email}"
                                                       TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
 
@@ -68,6 +69,7 @@
                                                       FontFamily="reg"
                                                       IsPassword="True"
                                                       Placeholder="Enter your password"
+                                                      Text="{TemplateBinding BindingContext.Password}"
                                                       TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
                 </Grid>
@@ -155,6 +157,7 @@
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
                                                       Placeholder="Full name"
+                                                      Text="{TemplateBinding BindingContext.Name}"
                                                       TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
 
@@ -163,6 +166,7 @@
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
                                                       Placeholder="Email"
+                                                      Text="{TemplateBinding BindingContext.Email}"
                                                       TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
 
@@ -172,6 +176,7 @@
                                                       FontFamily="reg"
                                                       IsPassword="True"
                                                       Placeholder="Password"
+                                                      Text="{TemplateBinding BindingContext.Password}"
                                                       TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
                 </Grid>

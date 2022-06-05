@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Services.DatabaseService;
+using MedikTapp.Services.HttpService;
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.NotificationService;
@@ -28,6 +29,7 @@ namespace MedikTapp.DI
                 .AddSingleton<DatabaseService>()
                 .AddSingleton<InitializeDataService>()
                 .AddSingleton<NotificationService>()
+                .AddSingleton<HttpService>()
 
                 .AddTransient<MainPageViewModel>()
                 .AddTransient<HomeTabViewModel>()
