@@ -14,7 +14,6 @@ namespace MedikTapp.Views.Welcome.Main.Home
         public ObservableCollection<Models.Services> Promos { get; set; }
         public ObservableCollection<Models.Services> ServicesCollection { get; set; }
         public IAsyncCommand<Models.Services> ServiceConfirmationCmd { get; }
-        public IAsyncCommand GotoProductsCmd { get; }
         public int PromoPosition { get; set; }
     }
 }

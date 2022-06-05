@@ -7,7 +7,6 @@ using MedikTapp.Views.Onboarding;
 using MedikTapp.Views.Onboarding.Account;
 using MedikTapp.Views.Welcome.Main.Bookings;
 using MedikTapp.Views.Welcome.Main.Home;
-using MedikTapp.Views.Welcome.Main.Home.Products;
 using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
 using MedikTapp.Views.Welcome.Main.Schedule;
 using MedikTapp.Views.Welcome.Main.Schedule.Calendar;
@@ -36,7 +35,6 @@ namespace MedikTapp.DI
                 .AddTransient<BookingsTabViewModel>()
                 .AddTransient<ScheduleTabViewModel>()
                 .AddTransient<ServiceConfirmationPopupViewModel>()
-                .AddTransient<ProductsPageViewModel>()
                 .AddTransient<CalendarPopupViewModel>()
                 .AddTransient<SettingsTabViewModel>()
                 .AddTransient<OnboardingPageViewModel>()

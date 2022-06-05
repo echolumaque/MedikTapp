@@ -12,7 +12,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     public partial class ScheduleTabViewModel
     {
         public override string Icon => FontAwesomeIcons.Clock;
-        public override string Text => "Schedules";
+        public override string Text => "Schedule";
         public override View ViewTemplate => new ScheduleTab(this);
         public override bool CanHaveBadge => false;
         public ObservableCollection<Schedules> Schedules { get; set; }

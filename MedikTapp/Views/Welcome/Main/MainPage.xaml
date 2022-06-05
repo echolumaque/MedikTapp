@@ -33,8 +33,10 @@
                     </xct:BadgeView.Triggers>
                     <Label FontFamily="fas"
                            FontSize="18"
+                           HorizontalOptions="CenterAndExpand"
                            Text="{Binding Icon}"
-                           TextColor="Gray">
+                           TextColor="Gray"
+                           VerticalOptions="CenterAndExpand">
                         <Label.Triggers>
                             <DataTrigger Binding="{Binding IsCurrentTab}"
                                          TargetType="Label"
@@ -44,12 +46,13 @@
                         </Label.Triggers>
                     </Label>
                 </xct:BadgeView>
+
                 <Label Grid.Row="1"
                        FontFamily="med"
-                       HorizontalOptions="Center"
+                       HorizontalOptions="CenterAndExpand"
                        Text="{Binding Text}"
                        TextColor="Gray"
-                       VerticalOptions="Center">
+                       VerticalOptions="CenterAndExpand">
                     <Label.Triggers>
                         <DataTrigger Binding="{Binding IsCurrentTab}"
                                      TargetType="Label"
@@ -61,6 +64,7 @@
             </Grid>
         </DataTemplate>
     </ContentPage.Resources>
+
     <xct:TabView BackgroundColor="White"
                  IsSwipeEnabled="False"
                  IsTabTransitionEnabled="True"
