@@ -15,21 +15,10 @@
                x:TypeArguments="vm:ServicesTabViewModel">
     <Grid RowDefinitions="60,50,*">
         <Label Grid.Row="0"
-               HorizontalOptions="Center"
-               HorizontalTextAlignment="Center">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span FontFamily="med"
-                          FontSize="20"
-                          Text="Book an appointment"
-                          TextColor="{StaticResource Black}" />
-                    <Span Text="&#10;" />
-                    <Span FontFamily="reg"
-                          FontSize="15"
-                          Text="Choose a service" />
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+               FontFamily="med"
+               FontSize="40"
+               Text="Services"
+               TextColor="#2F2F32" />
 
         <Frame Grid.Row="1"
                Padding="20,0"
@@ -43,19 +32,19 @@
                        Text="{x:Static fonts:FontAwesomeIcons.MagnifyingGlass}"
                        VerticalOptions="Center" />
 
-                <renderers:BorderlesMaterialEntry Grid.Column="1"
-                                                  BackgroundColor="White"
-                                                  FontFamily="reg"
-                                                  FontSize="12"
-                                                  Placeholder="Search"
-                                                  PlaceholderColor="Gray"
-                                                  TextColor="{StaticResource Black}"
-                                                  VerticalOptions="End">
-                    <renderers:BorderlesMaterialEntry.Behaviors>
+                <renderers:BorderlessEntry Grid.Column="1"
+                                           BackgroundColor="White"
+                                           FontFamily="reg"
+                                           FontSize="12"
+                                           Placeholder="Search"
+                                           PlaceholderColor="Gray"
+                                           TextColor="{StaticResource Black}"
+                                           VerticalOptions="End">
+                    <renderers:BorderlessEntry.Behaviors>
                         <xct:EventToCommandBehavior Command="{Binding SearchEntryTextChangedCmd}"
                                                     EventName="TextChanged" />
-                    </renderers:BorderlesMaterialEntry.Behaviors>
-                </renderers:BorderlesMaterialEntry>
+                    </renderers:BorderlessEntry.Behaviors>
+                </renderers:BorderlessEntry>
             </Grid>
         </Frame>
 

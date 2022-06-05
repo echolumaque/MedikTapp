@@ -5,15 +5,13 @@ using Xamarin.Forms;
 using Xamarin.Forms.Material.Android;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(BorderlesMaterialEntry), typeof(BorderlesMaterialEntryAndroid), new[] { typeof(VisualMarker.MaterialVisual) })]
+[assembly: ExportRenderer(typeof(BorderlessMaterialEntry), typeof(BorderlesMaterialEntryAndroid),
+    new[] { typeof(VisualMarker.MaterialVisual) })]
 namespace MedikTapp.Droid.Renderer
 {
     public class BorderlesMaterialEntryAndroid : MaterialEntryRenderer
     {
-        public BorderlesMaterialEntryAndroid(Context context) : base(context)
-        {
-
-        }
+        public BorderlesMaterialEntryAndroid(Context context) : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {

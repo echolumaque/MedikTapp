@@ -6,10 +6,7 @@ using MedikTapp.Views.Welcome.Main.Home;
 using MedikTapp.Views.Welcome.Main.Schedule;
 using MedikTapp.Views.Welcome.Main.Services;
 using MedikTapp.Views.Welcome.Main.Settings;
-using Plugin.LocalNotification;
-using Plugin.LocalNotification.AndroidOption;
 using System;
-using System.Threading.Tasks;
 
 namespace MedikTapp.Views.MainPage
 {
@@ -24,26 +21,6 @@ namespace MedikTapp.Views.MainPage
             AddTab<BookingsTabViewModel>();
             AddTab<ScheduleTabViewModel>();
             AddTab<SettingsTabViewModel>();
-
-            Task.Run(async () =>
-            {
-                await notificationService.Send(69420, "MedikTapp",
-                    DateTime.Now.AddSeconds(5),
-                    "You have an incoming appointment!",
-                    categoryType: NotificationCategoryType.Recommendation,
-                    androidSpecificOptions: new AndroidOptions
-                    {
-                        Group = "MedikTapp",
-                        IsGroupSummary = true,
-                        Priority = AndroidNotificationPriority.Max,
-                        VisibilityType = AndroidVisibilityType.Public,
-                    },
-                    androidScheduleOptions: new AndroidScheduleOptions
-                    {
-                        AlarmType = AndroidAlarmType.RtcWakeup,
-                        AllowedDelay = TimeSpan.FromSeconds(30)
-                    });
-            });
         }
     }
 }
