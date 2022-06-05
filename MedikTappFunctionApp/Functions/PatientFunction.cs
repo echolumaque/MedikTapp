@@ -30,8 +30,8 @@ namespace MedikTappFunctionApp.Functions
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in Register function, see the returned response for more information: {ex.Message}");
-                return new BadRequestObjectResult(ex.Message);
+                logger.LogError($"A problem happened in Register function, see the returned response for more information: {ex.InnerException.Message}");
+                return new BadRequestObjectResult(ex.InnerException);
             }
         }
 
@@ -47,17 +47,25 @@ namespace MedikTappFunctionApp.Functions
                     ("@pw", requestData.Password));
 
                 int patientId = default;
+                string patientName = default;
                 while (await result.ReadAsync())
+                {
                     patientId = (int)result["PatientId"];
+                    patientName = result["Name"].ToString();
+                }
 
                 return patientId == 0
-                    ? new NotFoundObjectResult("Patient's record not found.")
-                    : new OkObjectResult(patientId);
+                ? new NotFoundObjectResult("Patient's record not found.")
+                : new OkObjectResult(new
+                {
+                    PatientId = patientId,
+                    Name = patientName
+                });
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in Login function, see the returned response for more information: {ex.Message}");
-                return new BadRequestObjectResult(ex.Message);
+                logger.LogError($"A problem happened in Login function, see the returned response for more information: {ex.InnerException.Message}");
+                return new BadRequestObjectResult(ex.InnerException);
             }
         }
     }

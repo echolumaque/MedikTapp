@@ -1,11 +1,14 @@
 {
   "dependencies": {
     "appInsights1": {
-      "type": "appInsights"
+      "type": "appInsights",
+      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+      "dynamicId": null
     },
     "storage1": {
       "type": "storage",
-      "connectionId": "AzureWebJobsStorage"
+      "connectionId": "AzureWebJobsStorage",
+      "dynamicId": null
     }
   }
 }
