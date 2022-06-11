@@ -3,7 +3,7 @@ using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
 
-namespace MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation
+namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
 {
     public partial class ServiceConfirmationPopupViewModel : ViewModelBase
     {

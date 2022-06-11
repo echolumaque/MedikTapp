@@ -4,7 +4,8 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:converter="clr-namespace:MedikTapp.Converters"
                xmlns:enums="clr-namespace:MedikTapp.Enums"
-               xmlns:tables="clr-namespace:MedikTapp.Tables"
+               xmlns:models="clr-namespace:MedikTapp.Models"
+               xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Bookings"
@@ -82,7 +83,7 @@
                                    Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="tables:Bookings">
+                <DataTemplate x:DataType="models:Services">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">
@@ -90,46 +91,50 @@
                               RowDefinitions="80,50,50">
 
                             <!--#region  Doc or Service Name, Doc Specialty, and Image-->
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   FontFamily="med"
-                                   FontSize="20"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   MaxLines="1"
-                                   Text="{Binding ProductName}"
-                                   TextColor="{StaticResource Black}"
-                                   WidthRequest="280" />
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  ColumnDefinitions="*,65"
+                                  RowDefinitions="80,80">
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontFamily="med"
+                                       FontSize="20"
+                                       HorizontalOptions="StartAndExpand"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="1"
+                                       Text="{Binding ServiceName}"
+                                       TextColor="{StaticResource Black}"
+                                       WidthRequest="280" />
 
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   Margin="0,20,0,0"
-                                   FontFamily="reg"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   MaxLines="2"
-                                   Text="{Binding ProductDescription}"
-                                   TextColor="Gray"
-                                   VerticalOptions="CenterAndExpand"
-                                   WidthRequest="280" />
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Margin="0,20,0,0"
+                                       FontFamily="reg"
+                                       HorizontalOptions="StartAndExpand"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       Text="{Binding ServiceDescription}"
+                                       TextColor="Gray"
+                                       VerticalOptions="CenterAndExpand"
+                                       WidthRequest="280" />
 
-                            <Image Grid.Row="0"
-                                   Grid.Column="1"
-                                   HeightRequest="65"
-                                   HorizontalOptions="End"
-                                   Source="{Binding ProductImagePath, Converter={converter:MockImageConverter}}"
-                                   VerticalOptions="Start"
-                                   WidthRequest="65" />
+                                <templateImg:CachedImage Grid.Row="0"
+                                                         Grid.Column="1"
+                                                         HeightRequest="65"
+                                                         HorizontalOptions="End"
+                                                         ImageSource="{Binding ServiceImagePath}"
+                                                         VerticalOptions="Start"
+                                                         WidthRequest="65" />
 
-                            <BoxView Grid.Row="0"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2"
-                                     Margin="0,0,0,-7"
-                                     BackgroundColor="#F2F3F6"
-                                     HeightRequest=".7"
-                                     VerticalOptions="End" />
+                                <BoxView Grid.Row="0"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0,0,0,-7"
+                                         BackgroundColor="#F2F3F6"
+                                         HeightRequest=".7"
+                                         VerticalOptions="End" />
+                            </Grid>
 
                             <!--#endregion-->
 
@@ -138,23 +143,10 @@
                                    Grid.Column="0"
                                    Grid.ColumnSpan="2"
                                    FontFamily="bold"
-                                   FontSize="12"
-                                   Text="Earliest appoinment available: "
+                                   FontSize="14"
+                                   Text="{Binding ServicePrice, StringFormat='Price: ₱{0:N2}'}"
                                    TextColor="{StaticResource Black}"
-                                   VerticalOptions="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span FontFamily="reg"
-                                              Text="Earliest time available: " />
-                                        <Span Text="{Binding EarliestAvailableDate.Date, StringFormat='{0:MMMM dd, yyyy - HH:mm}'}" />
-                                        <Span Text="&#10;" />
-                                        <Span FontFamily="reg"
-                                              Text="Price: " />
-                                        <Span Text="{Binding ProductPrice, StringFormat='₱{0:N2}'}" />
-                                        <!--<Span Text="{Binding BookingSchedule.t}" />-->
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
+                                   VerticalOptions="Center" />
 
                             <!--  endregion  -->
 
@@ -162,11 +154,11 @@
                                     Grid.Column="0"
                                     Margin="5,0"
                                     BackgroundColor="#F4F5F9"
+                                    CharacterSpacing="0.9"
                                     Command="{Binding BindingContext.CancelBookingCmd, Source={x:Reference this}}"
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
-                                    FontFamily="med"
-                                    FontSize="12"
+                                    FontFamily="reg"
                                     Text="Cancel"
                                     TextColor="Black" />
 
@@ -174,12 +166,12 @@
                                     Grid.Column="1"
                                     Margin="5,0"
                                     BackgroundColor="{StaticResource DarkPurple}"
-                                    Command="{Binding BindingContext.AddBookingCmd, Source={x:Reference this}}"
+                                    CharacterSpacing="0.2"
+                                    Command="{Binding BindingContext.ScheduleCmd, Source={x:Reference this}}"
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
-                                    FontFamily="med"
-                                    FontSize="12"
-                                    Text="Confirm Booking"
+                                    FontFamily="reg"
+                                    Text="Select schedule"
                                     TextColor="White" />
                         </Grid>
                     </Frame>

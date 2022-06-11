@@ -1,7 +1,7 @@
 ﻿using MedikTapp.Enums;
-using MedikTapp.Models;
 using MedikTapp.Services.NavigationService;
-using MedikTapp.Views.Welcome.Main.Schedule.Calendar;
+using MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo;
+using MedikTapp.Views.Welcome.Main.TimeAvailability;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     {
         public override async void OnNavigatedTo(NavigationParameters parameters)
         {
-            _schedules = await _databaseService.Find<Schedules>();
+            _schedules = await _databaseService.Find<Models.Services>();
             Schedules = new(_schedules);
             InitUpcomingCollections();
 
@@ -21,18 +21,26 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
         }
 
-        private Task CancelSchedule(Schedules schedule)
+        private Task CancelSchedule(Models.Services schedule)
         {
             Schedules.Remove(schedule);
             //remove to remote db
             return _databaseService.Delete(schedule);
         }
 
-        private Task Reschedule(Schedules schedule)
+        private Task Reschedule(Models.Services schedule)
         {
-            return NavigationService.GoTo<CalendarPopup>(new()
+            return NavigationService.GoTo<TimeAvailabilityPopup>(new()
             {
-                { "schedule", schedule }
+                { "booking", schedule }
+            });
+        }
+
+        private Task ServiceTapped(Models.Services service)
+        {
+            return NavigationService.GoTo<ServiceInfoPopup>(new()
+            {
+                { "service", service }
             });
         }
 
@@ -67,26 +75,26 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
                 //confirmed or pendiong
                 (BookingSort.Ascending, BookingStatus.Confirmed or BookingStatus.Pending) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
-                    .OrderBy(x => x.Schedule),
+                    .OrderBy(x => x.AvailableTime),
                 (BookingSort.Descending, BookingStatus.Confirmed or BookingStatus.Pending) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
-                    .OrderByDescending(x => x.Schedule),
+                    .OrderByDescending(x => x.AvailableTime),
 
                 //completed
                 (BookingSort.Ascending, BookingStatus.Completed) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Completed)
-                    .OrderBy(x => x.Schedule),
+                    .OrderBy(x => x.AvailableTime),
                 (BookingSort.Descending, BookingStatus.Completed) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Completed)
-                    .OrderByDescending(x => x.Schedule),
+                    .OrderByDescending(x => x.AvailableTime),
 
                 //cancelled
                 (BookingSort.Ascending, BookingStatus.Cancelled) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled)
-                    .OrderBy(x => x.Schedule),
+                    .OrderBy(x => x.AvailableTime),
                 (BookingSort.Descending, BookingStatus.Cancelled) =>
                     _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled)
-                    .OrderByDescending(x => x.Schedule),
+                    .OrderByDescending(x => x.AvailableTime),
 
                 _ => throw new NotImplementedException(),
             });

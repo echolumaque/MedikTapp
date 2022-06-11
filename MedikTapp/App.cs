@@ -1,8 +1,8 @@
-﻿using MedikTapp.Services.MockService;
+﻿using AsyncAwaitBestPractices;
+using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
-using MedikTapp.Views.Onboarding;
-using MedikTapp.Views.Onboarding.Account;
+using MedikTapp.Views.MainPage;
 using Syncfusion.Licensing;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -37,10 +37,13 @@ namespace MedikTapp
             DefineResources();
             VersionTracking.Track();
 
-            if (VersionTracking.IsFirstLaunchEver)
-                navigationService.SetRootPage<OnboardingPage>();
-            else
-                navigationService.SetRootPage<AccountPage>();
+            //if (VersionTracking.IsFirstLaunchEver)
+            //    navigationService.SetRootPage<OnboardingPage>();
+            //else
+            //    navigationService.SetRootPage<AccountPage>();
+
+            Init().SafeFireAndForget();
+            navigationService.SetRootPage<MainPage>();
 
         }
 
@@ -49,14 +52,13 @@ namespace MedikTapp
             Resources.Add(new LightTheme());
         }
 
-        protected override async void OnStart()
+        private Task Init()
         {
-            base.OnStart();
-            await Task.WhenAll
+            return Task.WhenAll
             (
                 _initializeDataService.Init(),
                 _mockService.Init()
-            ).ConfigureAwait(false);
+            );
         }
     }
 }

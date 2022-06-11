@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation.ServiceConfirmationPopup"
+<views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.ServiceConfirmation.ServiceConfirmationPopup"
                  xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:converter="clr-namespace:MedikTapp.Converters"
                  xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+                 xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                  xmlns:views="clr-namespace:MedikTapp.Templates.Base"
-                 xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation"
+                 xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.ServiceConfirmation"
                  x:DataType="vm:ServiceConfirmationPopupViewModel"
                  x:TypeArguments="vm:ServiceConfirmationPopupViewModel">
     <ContentPage.Resources>
@@ -45,13 +45,12 @@
     </ContentPage.Resources>
 
     <Frame Margin="20,0"
-           Padding="20,20,20,-5"
            BackgroundColor="White"
            CornerRadius="20"
-           VerticalOptions="CenterAndExpand">
+           VerticalOptions="Center">
         <Grid ColumnDefinitions="50,*"
-              ColumnSpacing="10"
-              RowDefinitions="30,Auto,80,Auto,160,55,55">
+              ColumnSpacing="0"
+              RowDefinitions="30,80,80,180,50,55,55">
             <!--#region Header and Service Name-->
             <Label Grid.Row="0"
                    Grid.Column="0"
@@ -74,14 +73,14 @@
                    TextColor="{StaticResource Black}"
                    VerticalOptions="End" />
 
-            <Image Grid.Row="2"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   HeightRequest="{Binding ProductImageSize.Item1}"
-                   HorizontalOptions="Center"
-                   Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}"
-                   VerticalOptions="Center"
-                   WidthRequest="{Binding ProductImageSize.Item2}" />
+            <templateImg:CachedImage Grid.Row="2"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     HeightRequest="{Binding ProductImageSize.Item1}"
+                                     HorizontalOptions="Center"
+                                     ImageSource="{Binding ServiceImagePath}"
+                                     VerticalOptions="Center"
+                                     WidthRequest="{Binding ProductImageSize.Item2}" />
             <!--#endregion-->
 
             <!--#region Description-->
@@ -90,46 +89,27 @@
                    Grid.ColumnSpan="2"
                    FontFamily="med"
                    HorizontalTextAlignment="Center"
+                   LineBreakMode="TailTruncation"
                    LineHeight="1.1"
+                   MaxLines="6"
                    Text="{Binding ServiceDescription}"
                    TextColor="{StaticResource Black}" />
+
+            <Label Grid.Row="4"
+                   Style="{StaticResource FontIcons}"
+                   Text="{x:Static fonts:FontAwesomeIcons.PesoSign}"
+                   VerticalOptions="Center" />
+
+            <Label Grid.Row="4"
+                   Style="{StaticResource Header}"
+                   Text="Price"
+                   VerticalOptions="Start" />
+
+            <Label Grid.Row="4"
+                   Style="{StaticResource Body}"
+                   Text="{Binding ServicePrice, StringFormat='{0:N2}'}"
+                   VerticalOptions="End" />
             <!--#endregion-->
-
-            <Grid Grid.Row="4"
-                  Grid.Column="0"
-                  Grid.ColumnSpan="2"
-                  ColumnDefinitions="30,*"
-                  ColumnSpacing="10"
-                  RowDefinitions="*,*"
-                  RowSpacing="-10">
-                <!--#region Date and Time-->
-                <Label Grid.Row="0"
-                       Style="{StaticResource FontIcons}"
-                       Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
-
-                <Label Grid.Row="0"
-                       Style="{StaticResource Header}"
-                       Text="Earliest available time:" />
-
-                <Label Grid.Row="0"
-                       Style="{StaticResource Body}"
-                       Text="{Binding EarliestAvailableDate, StringFormat='{0:MMMM dd, yyyy - HH:mm tt}'}" />
-                <!--#endregion-->
-
-                <!--#region Price-->
-                <Label Grid.Row="1"
-                       Style="{StaticResource FontIcons}"
-                       Text="{x:Static fonts:FontAwesomeIcons.PesoSign}" />
-
-                <Label Grid.Row="1"
-                       Style="{StaticResource Header}"
-                       Text="Price" />
-
-                <Label Grid.Row="1"
-                       Style="{StaticResource Body}"
-                       Text="{Binding ServicePrice, StringFormat='{0:N2}'}" />
-                <!--#endregion-->
-            </Grid>
 
             <Button Grid.Row="5"
                     BackgroundColor="{StaticResource Purple}"

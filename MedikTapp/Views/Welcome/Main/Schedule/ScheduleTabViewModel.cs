@@ -1,6 +1,5 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Helpers.Command;
-using MedikTapp.Models;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
@@ -14,7 +13,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     {
         private readonly DatabaseService _databaseService;
         private readonly MockService _mockService;
-        private IEnumerable<Models.Schedules> _schedules;
+        private IEnumerable<Models.Services> _schedules;
 
         public ScheduleTabViewModel(NavigationService navigationService,
             MockService mockService,
@@ -28,8 +27,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             FilterCompletedCmd = new Command(InitCompletedCollections);
             FilterUpcomingCmd = new Command(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
-            CancelScheduleCmd = new AsyncSingleCommand<Schedules>(CancelSchedule);
-            RescheduleCmd = new AsyncSingleCommand<Schedules>(schedule => Reschedule(schedule));
+            CancelScheduleCmd = new AsyncSingleCommand<Models.Services>(CancelSchedule);
+            RescheduleCmd = new AsyncSingleCommand<Models.Services>(Reschedule);
+            ServiceTappedCmd = new AsyncSingleCommand<Models.Services>(ServiceTapped);
         }
     }
 }

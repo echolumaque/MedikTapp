@@ -2,7 +2,7 @@
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
+using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
 using System;
 using System.Linq;
 
@@ -26,7 +26,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
             });
 
             InitPromos();
-            ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(4));
+            ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(6));
         }
     }
 }

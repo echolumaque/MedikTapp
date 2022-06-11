@@ -13,14 +13,14 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
         public override string Text => "Bookings";
         public override View ViewTemplate => new BookingsTab(this);
         public override bool CanHaveBadge => true;
-        public ObservableRangeCollection<Tables.Bookings> Bookings { get; set; }
-        public IAsyncCommand<Tables.Bookings> CancelBookingCmd { get; }
+        public ObservableRangeCollection<Models.Services> Bookings { get; set; }
+        public IAsyncCommand<Models.Services> CancelBookingCmd { get; }
         public IEnumerable<BookingSort> BookingSortCollection { get; set; }
         public BookingSort SelectedBookingSort { get; set; }
         public string BookingSortMainBoxText { get; set; }
         public ICommand OpenComboBoxCmd { get; }
         public bool IsFilterExpanded { get; set; }
         public ICommand ChangeFilterCmd { get; }
-        public IAsyncCommand<Tables.Bookings> AddBookingCmd { get; }
+        public IAsyncCommand<Models.Services> ScheduleCmd { get; }
     }
 }

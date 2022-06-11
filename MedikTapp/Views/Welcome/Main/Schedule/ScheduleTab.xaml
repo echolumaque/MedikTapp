@@ -5,7 +5,9 @@
                xmlns:converter="clr-namespace:MedikTapp.Converters"
                xmlns:enums="clr-namespace:MedikTapp.Enums"
                xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+               xmlns:helpers="clr-namespace:MedikTapp.Helpers"
                xmlns:models="clr-namespace:MedikTapp.Models"
+               xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Schedule"
@@ -155,11 +157,13 @@
                                    Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Schedules">
+                <DataTemplate x:DataType="models:Services">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">
-                        <Grid ColumnDefinitions="*,*"
+                        <Grid helpers:Gestures.Tapped="{Binding BindingContext.ServiceTappedCmd, Source={x:Reference this}}"
+                              helpers:Gestures.TappedParameter="{Binding .}"
+                              ColumnDefinitions="*,*"
                               RowDefinitions="80,50,50">
                             <!--#region  Doc or Service Name, Doc Specialty, and Image-->
                             <Label Grid.Row="0"
@@ -169,7 +173,7 @@
                                    FontSize="20"
                                    HorizontalOptions="StartAndExpand"
                                    LineBreakMode="TailTruncation"
-                                   Text="{Binding ProductName}"
+                                   Text="{Binding ServiceName}"
                                    TextColor="{StaticResource Black}"
                                    VerticalOptions="Start"
                                    WidthRequest="280" />
@@ -182,19 +186,19 @@
                                    HorizontalOptions="StartAndExpand"
                                    LineBreakMode="TailTruncation"
                                    MaxLines="2"
-                                   Text="{Binding ProductDescription}"
+                                   Text="{Binding ServiceDescription}"
                                    TextColor="Gray"
                                    VerticalOptions="CenterAndExpand"
                                    WidthRequest="280" />
 
 
-                            <Image Grid.Row="0"
-                                   Grid.Column="1"
-                                   HeightRequest="65"
-                                   HorizontalOptions="End"
-                                   Source="{Binding ProductImagePath, Converter={converter:MockImageConverter}}"
-                                   VerticalOptions="Start"
-                                   WidthRequest="65" />
+                            <templateImg:CachedImage Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     HeightRequest="65"
+                                                     HorizontalOptions="End"
+                                                     ImageSource="{Binding ServiceImagePath}"
+                                                     VerticalOptions="Start"
+                                                     WidthRequest="65" />
 
                             <BoxView Grid.Row="0"
                                      Grid.Column="0"
@@ -217,7 +221,7 @@
                                        Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
                                 <Label Grid.Column="1"
                                        Style="{StaticResource ScheduleFontIconsDesc}"
-                                       Text="{Binding Schedule, StringFormat='{0: M/dd/yyy}'}" />
+                                       Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
                                 <!--#endregion-->
 
                                 <!--#region Time-->
@@ -226,7 +230,7 @@
                                        Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
                                 <Label Grid.Column="3"
                                        Style="{StaticResource ScheduleFontIconsDesc}"
-                                       Text="{Binding Schedule.TimeOfDay}" />
+                                       Text="{Binding AvailableTime.TimeOfDay}" />
                                 <!--#endregion-->
 
                                 <!--#region Booking Status-->

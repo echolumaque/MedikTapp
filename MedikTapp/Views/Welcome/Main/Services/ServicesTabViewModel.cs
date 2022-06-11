@@ -2,7 +2,7 @@
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
+using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Services

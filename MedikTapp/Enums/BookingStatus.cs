@@ -2,6 +2,7 @@
 {
     public enum BookingStatus
     {
+        NotApplicable,
         Confirmed,
         Pending,
         Completed,

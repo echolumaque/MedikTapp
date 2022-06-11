@@ -22,11 +22,15 @@
     <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
     <None Remove="Resources\Fonts\PoppinsMedium.ttf" />
     <None Remove="Resources\Fonts\PoppinsRegular.ttf" />
+    <None Remove="Resources\SVGs\checkup.png" />
+    <None Remove="Resources\SVGs\covid_test.png" />
     <None Remove="Resources\SVGs\docimage.png" />
     <None Remove="Resources\SVGs\doctor1.png" />
     <None Remove="Resources\SVGs\doctor2.png" />
     <None Remove="Resources\SVGs\doctor3.png" />
     <None Remove="Resources\SVGs\doctor4.png" />
+    <None Remove="Resources\SVGs\kidney.png" />
+    <None Remove="Resources\SVGs\liver.png" />
     <None Remove="Resources\SVGs\login1.png" />
     <None Remove="Resources\SVGs\login2.png" />
     <None Remove="Resources\SVGs\loginImage.png" />
@@ -39,9 +43,14 @@
     <None Remove="Resources\SVGs\onboarding1.png" />
     <None Remove="Resources\SVGs\onboarding2.png" />
     <None Remove="Resources\SVGs\onboarding3.png" />
+    <None Remove="Resources\SVGs\pregnant.png" />
     <None Remove="Resources\SVGs\promo1.jpg" />
     <None Remove="Resources\SVGs\promo2.jpg" />
+    <None Remove="Resources\SVGs\pudci.jpg" />
+    <None Remove="Resources\SVGs\pudc_map.png" />
     <None Remove="Resources\SVGs\squiggles1.png" />
+    <None Remove="Resources\SVGs\urine_test.png" />
+    <None Remove="Resources\SVGs\xray.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,10 +64,14 @@
     <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
+    <EmbeddedResource Include="Resources\SVGs\checkup.png" />
+    <EmbeddedResource Include="Resources\SVGs\covid_test.png" />
     <EmbeddedResource Include="Resources\SVGs\doctor1.png" />
     <EmbeddedResource Include="Resources\SVGs\doctor2.png" />
     <EmbeddedResource Include="Resources\SVGs\doctor3.png" />
     <EmbeddedResource Include="Resources\SVGs\doctor4.png" />
+    <EmbeddedResource Include="Resources\SVGs\kidney.png" />
+    <EmbeddedResource Include="Resources\SVGs\liver.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,12 +82,18 @@
     <EmbeddedResource Include="Resources\SVGs\onboarding1.png" />
     <EmbeddedResource Include="Resources\SVGs\onboarding2.png" />
     <EmbeddedResource Include="Resources\SVGs\onboarding3.png" />
+    <EmbeddedResource Include="Resources\SVGs\pregnant.png" />
     <EmbeddedResource Include="Resources\SVGs\promo1.jpg" />
     <EmbeddedResource Include="Resources\SVGs\promo2.jpg" />
+    <EmbeddedResource Include="Resources\SVGs\pudci.jpg" />
+    <EmbeddedResource Include="Resources\SVGs\pudc_map.png" />
     <EmbeddedResource Include="Resources\SVGs\squiggles1.png" />
+    <EmbeddedResource Include="Resources\SVGs\urine_test.png" />
+    <EmbeddedResource Include="Resources\SVGs\xray.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
@@ -100,6 +119,9 @@
     <Compile Update="Views\Onboarding\OnboardingPage.xaml.cs">
       <DependentUpon>OnboardingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Welcome\Main\Schedule\ServiceInfo\ServiceInfoPopup.xaml.cs">
+      <DependentUpon>ServiceInfoPopup.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -110,6 +132,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Welcome\Main\Services\ServicesTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Welcome\Main\TimeAvailability\TimeAvailabilityPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

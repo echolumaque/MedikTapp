@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.TimeAvailability.TimeAvailabilityPopup"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:model="clr-namespace:MedikTapp.Models"
+                 xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
+                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                 xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
+                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                 x:DataType="vm:TimeAvailabilityPopupViewModel"
+                 x:TypeArguments="vm:TimeAvailabilityPopupViewModel">
+    <Frame Margin="20,0"
+           BackgroundColor="White"
+           CornerRadius="20"
+           VerticalOptions="Center">
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="30,300,30,100,*">
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   FontFamily="med"
+                   FontSize="25"
+                   Text="Select date"
+                   TextColor="{StaticResource Black}"
+                   VerticalOptions="Start" />
+
+            <sf:SfCalendar Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="-15,0"
+                           BlackoutDates="{Binding DisabledDates}"
+                           BlackoutDatesViewMode="Stripes"
+                           CustomDayLabels="{Binding CustomDayLabels}"
+                           EnableDatesInPast="False"
+                           InlineViewMode="Inline"
+                           SelectedDate="{Binding SelectedDate}"
+                           ShowLeadingAndTrailingDays="True"
+                           ShowYearView="False"
+                           VerticalOptions="CenterAndExpand">
+                <sf:SfCalendar.MonthViewSettings>
+                    <sf:MonthViewSettings BlackoutColor="Gray"
+                                          DateSelectionColor="#695CD5"
+                                          DayCellFontFamily="reg"
+                                          DayHeaderFontFamily="med"
+                                          HeaderFontFamily="bold"
+                                          TodayBorderColor="Transparent"
+                                          TodaySelectionBackgroundColor="#695CD5" />
+                </sf:SfCalendar.MonthViewSettings>
+            </sf:SfCalendar>
+
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   FontFamily="med"
+                   FontSize="25"
+                   Text="Select time"
+                   TextColor="{StaticResource Black}"
+                   VerticalOptions="Start" />
+
+            <CollectionView Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding TimeCollection}"
+                            SelectedItem="{Binding SelectedTime}"
+                            SelectionMode="Single">
+                <CollectionView.Behaviors>
+                    <xct:EventToCommandBehavior Command="{Binding ChangeSelectedTimeCmd}"
+                                                EventName="SelectionChanged" />
+                </CollectionView.Behaviors>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:TimeAvailability">
+                        <Label FontFamily="med"
+                               FontSize="20"
+                               HeightRequest="40"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Text="{Binding Time, StringFormat='{0:hh:mm tt}'}"
+                               TextColor="{Binding TimeColor}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#695CD5" />
+                                            <Setter Property="TextColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="5,0"
+                    BackgroundColor="#F4F5F9"
+                    CharacterSpacing="0.9"
+                    Command="{Binding PopPopup}"
+                    CornerRadius="10"
+                    FontFamily="reg"
+                    Text="Cancel"
+                    TextColor="Black"
+                    VerticalOptions="End" />
+
+            <Button Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="5,0"
+                    BackgroundColor="{StaticResource DarkPurple}"
+                    CharacterSpacing="0.2"
+                    Command="{Binding SelectScheduleCmd}"
+                    CornerRadius="10"
+                    FontFamily="reg"
+                    Text="Select schedule"
+                    TextColor="White"
+                    VerticalOptions="End" />
+        </Grid>
+    </Frame>
+</views:BasePopup>

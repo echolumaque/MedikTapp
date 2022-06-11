@@ -2,9 +2,8 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Home.HomeTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:converter="clr-namespace:MedikTapp.Converters"
-               xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                xmlns:models="clr-namespace:MedikTapp.Models"
+               xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Home"
@@ -14,22 +13,32 @@
 
     <ScrollView HorizontalScrollBarVisibility="Never"
                 VerticalScrollBarVisibility="Never">
-        <Grid RowDefinitions="40,200,*">
+        <Grid ColumnDefinitions="90,*"
+              RowDefinitions="80,200,450,140">
             <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
-            <Label Grid.Row="0"
-                   Grid.Column="0"
-                   FontFamily="med"
-                   FontSize="25"
-                   HorizontalOptions="Start"
-                   LineBreakMode="TailTruncation"
-                   Text="Good morning, Juan!"
-                   TextColor="Black"
-                   VerticalOptions="Center" />
+            <templateImg:CachedImage Grid.Row="0"
+                                     Grid.Column="0"
+                                     HeightRequest="80"
+                                     HorizontalOptions="Start"
+                                     ImageSource="pudci.jpg"
+                                     VerticalOptions="Center"
+                                     WidthRequest="80" />
 
+            <Label Grid.Row="0"
+                   Grid.Column="1"
+                   FontFamily="bold"
+                   FontSize="18"
+                   HorizontalOptions="Start"
+                   LineHeight="0.85"
+                   Text="Parañaque Ultrasound&#10;Diagnostic Center&#10;Incorporated"
+                   TextColor="{StaticResource Black}"
+                   VerticalOptions="Center" />
             <!--#endregion-->
 
             <!--#region Promos-->
             <CarouselView Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
                           IndicatorView="IndicatorView"
                           IsBounceEnabled="True"
                           IsScrollAnimated="True"
@@ -39,15 +48,17 @@
                           Position="{Binding PromoPosition}">
                 <CarouselView.ItemTemplate>
                     <DataTemplate x:DataType="models:Services">
-                        <Image templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
-                               templates:Gestures.TappedParameter="{Binding .}"
-                               Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}" />
+                        <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                                                 templates:Gestures.TappedParameter="{Binding .}"
+                                                 ImageSource="{Binding ServiceImagePath}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
 
             <IndicatorView x:Name="IndicatorView"
                            Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
                            HorizontalOptions="Center"
                            IndicatorColor="Gray"
                            IndicatorSize="7"
@@ -58,9 +69,11 @@
 
             <!--#region Popular services-->
             <CollectionView Grid.Row="2"
-                            HeightRequest="580"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
                             ItemSizingStrategy="MeasureAllItems"
-                            ItemsSource="{Binding ServicesCollection}">
+                            ItemsSource="{Binding ServicesCollection}"
+                            VerticalOptions="Start">
                 <CollectionView.Header>
                     <Label FontFamily="med"
                            FontSize="20"
@@ -70,24 +83,25 @@
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout HorizontalItemSpacing="10"
                                      Orientation="Vertical"
-                                     Span="2"
+                                     Span="3"
                                      VerticalItemSpacing="10" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Services">
-                        <Frame templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                        <Frame Padding="5,20"
+                               templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
                                templates:Gestures.TappedParameter="{Binding .}"
                                CornerRadius="10"
                                HasShadow="False"
-                               HeightRequest="205"
+                               HeightRequest="160"
                                VerticalOptions="Center">
-                            <Grid RowDefinitions="*,40,60,20">
-                                <Image Grid.Row="0"
-                                       HeightRequest="150"
-                                       HorizontalOptions="Center"
-                                       Source="{Binding ServiceImagePath, Converter={converter:MockImageConverter}}"
-                                       VerticalOptions="Center"
-                                       WidthRequest="150" />
+                            <Grid RowDefinitions="80,Auto,20">
+                                <templateImg:CachedImage Grid.Row="0"
+                                                         HeightRequest="80"
+                                                         HorizontalOptions="Center"
+                                                         ImageSource="{Binding ServiceImagePath}"
+                                                         VerticalOptions="Start"
+                                                         WidthRequest="80" />
 
                                 <Label Grid.Row="1"
                                        FontFamily="bold"
@@ -98,32 +112,49 @@
                                        MaxLines="2"
                                        Text="{Binding ServiceName}"
                                        TextColor="{StaticResource Black}"
-                                       VerticalOptions="Center" />
+                                       VerticalOptions="Start" />
 
                                 <Label Grid.Row="2"
-                                       FontFamily="med"
-                                       FontSize="12"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="3"
-                                       Text="{Binding ServiceDescription}"
-                                       TextColor="Gray"
-                                       VerticalOptions="Center" />
-
-                                <Label Grid.Row="3"
                                        FontFamily="med"
                                        FontSize="15"
                                        HorizontalOptions="Center"
                                        Text="{Binding ServicePrice, StringFormat='₱ {0:n}'}"
                                        TextColor="Gray"
-                                       VerticalOptions="Center" />
+                                       VerticalOptions="End" />
                             </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <!--#endregion-->
+
+            <Frame Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Padding="5,20"
+                   BackgroundColor="#E2C7FB">
+                <StackLayout HorizontalOptions="Center">
+                    <Label FontFamily="bold"
+                           HorizontalTextAlignment="Center"
+                           Text="Parañaque Ultrasound Diagnostic Center"
+                           TextColor="Black" />
+
+                    <Label FontFamily="reg"
+                           HorizontalTextAlignment="Center"
+                           Text="#0459 Quirino Avenue Don Galo, Parañaque City"
+                           TextColor="Black" />
+
+                    <Label FontFamily="reg"
+                           HorizontalTextAlignment="Center"
+                           Text="09494565465 / 939-56-65"
+                           TextColor="Black" />
+
+                    <Label FontFamily="med"
+                           HorizontalTextAlignment="Center"
+                           Text="ALL RIGHTS RESERVED 2022"
+                           TextColor="Black" />
+                </StackLayout>
+            </Frame>
         </Grid>
     </ScrollView>
 </views:BaseTab>

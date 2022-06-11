@@ -8,11 +8,12 @@ using MedikTapp.Views.Onboarding;
 using MedikTapp.Views.Onboarding.Account;
 using MedikTapp.Views.Welcome.Main.Bookings;
 using MedikTapp.Views.Welcome.Main.Home;
-using MedikTapp.Views.Welcome.Main.Home.ServiceConfirmation;
 using MedikTapp.Views.Welcome.Main.Schedule;
-using MedikTapp.Views.Welcome.Main.Schedule.Calendar;
+using MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo;
+using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
 using MedikTapp.Views.Welcome.Main.Services;
 using MedikTapp.Views.Welcome.Main.Settings;
+using MedikTapp.Views.Welcome.Main.TimeAvailability;
 using Microsoft.Extensions.DependencyInjection;
 using XF.Services.InitializeDataService;
 
@@ -31,13 +32,14 @@ namespace MedikTapp.DI
                 .AddSingleton<NotificationService>()
                 .AddSingleton<HttpService>()
 
+                .AddTransient<ServiceInfoPopupViewModel>()
                 .AddTransient<MainPageViewModel>()
+                .AddTransient<TimeAvailabilityPopupViewModel>()
                 .AddTransient<HomeTabViewModel>()
                 .AddTransient<ServicesTabViewModel>()
                 .AddTransient<BookingsTabViewModel>()
                 .AddTransient<ScheduleTabViewModel>()
                 .AddTransient<ServiceConfirmationPopupViewModel>()
-                .AddTransient<CalendarPopupViewModel>()
                 .AddTransient<SettingsTabViewModel>()
                 .AddTransient<OnboardingPageViewModel>()
                 .AddTransient<AccountPageViewModel>();
