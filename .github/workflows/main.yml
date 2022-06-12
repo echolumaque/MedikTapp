@@ -19,7 +19,7 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Install dependencies
-      run: nuget restore MedikTapp.sln
+      run: nuget restore '**/*.sln'
 
     - name: Build
       run: msbuild <csproj_file_path> /t:PackageForAndroid /p:Configuration=Debug
