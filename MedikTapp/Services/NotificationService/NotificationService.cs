@@ -27,7 +27,7 @@ namespace MedikTapp.Services.NotificationService
             NotificationCenter.Current.RegisterCategoryList(categories);
         }
 
-        private Task Send(int notificationId, string title, DateTime notificationTime, string description = null,
+        public Task Send(int notificationId, string title, DateTime notificationTime, string description = null,
             string returningData = "", NotificationCategoryType categoryType = NotificationCategoryType.Reminder,
             NotificationRepeat notificationRepeat = NotificationRepeat.No, TimeSpan? notificationRepeatInterval = null,
             AndroidOptions androidSpecificOptions = null, AndroidScheduleOptions androidScheduleOptions = null)
@@ -75,21 +75,21 @@ namespace MedikTapp.Services.NotificationService
             _actionTapped.FirstOrDefault(s => s.ActionId == e.ActionId)?.Execute(e);
         }
 
-        public Task Send(string description, DateTime trigger)
-        {
-            return Send(69420, "MedikTapp", trigger, description, categoryType: NotificationCategoryType.Recommendation,
-                androidSpecificOptions: new AndroidOptions
-                {
-                    Group = "MedikTapp",
-                    IsGroupSummary = true,
-                    Priority = AndroidNotificationPriority.Max,
-                    VisibilityType = AndroidVisibilityType.Public,
-                },
-                androidScheduleOptions: new AndroidScheduleOptions
-                {
-                    AlarmType = AndroidAlarmType.RtcWakeup,
-                    AllowedDelay = TimeSpan.FromSeconds(30)
-                });
-        }
+        //public Task Send(string description, DateTime trigger)
+        //{
+        //    return Send(69420, "MedikTapp", trigger, description, categoryType: NotificationCategoryType.Recommendation,
+        //        androidSpecificOptions: new AndroidOptions
+        //        {
+        //            Group = "MedikTapp",
+        //            IsGroupSummary = true,
+        //            Priority = AndroidNotificationPriority.Max,
+        //            VisibilityType = AndroidVisibilityType.Public,
+        //        },
+        //        androidScheduleOptions: new AndroidScheduleOptions
+        //        {
+        //            AlarmType = AndroidAlarmType.RtcWakeup,
+        //            AllowedDelay = TimeSpan.FromSeconds(30)
+        //        });
+        //}
     }
 }

@@ -8,9 +8,15 @@
                 xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 x:DataType="vm:AccountPageViewModel"
                 x:TypeArguments="vm:AccountPageViewModel">
     <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle"
+               TargetType="renderer:BorderlessMaterialEntry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+
         <ControlTemplate x:Key="Login">
             <StackLayout Margin="20,0"
                          Spacing="10">
@@ -57,9 +63,9 @@
                                                       Grid.Column="1"
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
+                                                      IsEmail="True"
                                                       Placeholder="Enter your email"
                                                       Text="{TemplateBinding BindingContext.Email}"
-                                                      TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
 
                     <renderer:BorderlessMaterialEntry Grid.Row="1"
@@ -88,6 +94,7 @@
                         VerticalOptions="Center" />
 
                 <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       helper:Gestures.TappedParameter="Register"
                        FontFamily="reg"
                        HorizontalOptions="Center">
                     <Label.FormattedText>
@@ -155,15 +162,16 @@
                                                       Grid.Column="1"
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
+                                                      IsLettersOnly="True"
                                                       Placeholder="Full name"
                                                       Text="{TemplateBinding BindingContext.Name}"
-                                                      TextColor="#2F2F32"
                                                       VerticalOptions="Center" />
 
                     <renderer:BorderlessMaterialEntry Grid.Row="1"
                                                       Grid.Column="1"
                                                       BackgroundColor="#F9F9F9"
                                                       FontFamily="reg"
+                                                      IsEmail="True"
                                                       Placeholder="Email"
                                                       Text="{TemplateBinding BindingContext.Email}"
                                                       TextColor="#2F2F32"
@@ -200,10 +208,11 @@
                         Command="{TemplateBinding BindingContext.ContinueCmd}"
                         CornerRadius="10"
                         FontFamily="med"
-                        Text="Continue"
+                        Text="Register"
                         VerticalOptions="Center" />
 
                 <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                       helper:Gestures.TappedParameter="Login"
                        FontFamily="reg"
                        HorizontalOptions="Center">
                     <Label.FormattedText>

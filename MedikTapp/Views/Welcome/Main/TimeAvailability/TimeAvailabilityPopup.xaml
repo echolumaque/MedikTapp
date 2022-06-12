@@ -33,6 +33,7 @@
                            CustomDayLabels="{Binding CustomDayLabels}"
                            EnableDatesInPast="False"
                            InlineViewMode="Inline"
+                           MaxDate="{Binding MaxDate}"
                            SelectedDate="{Binding SelectedDate}"
                            ShowLeadingAndTrailingDays="True"
                            ShowYearView="False"

@@ -1,4 +1,6 @@
 ﻿using MedikTapp.Services.NavigationService;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +13,8 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
     {
         private Models.Services _passedService;
 
+        private void RaiseSelectScheduleCanExecuteChanged() => SelectScheduleCmd.RaiseCanExecuteChanged();
+
         public override void Initialized(NavigationParameters parameters)
         {
             _passedService = parameters.GetValue<Models.Services>("booking");
@@ -19,11 +23,11 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             SelectedDate = _passedService.AvailableTime;
 
             TimeCollection = new();
-            for (var index = 0; index < 24; index++)
+            for (var index = 7; index < 17; index++)
             {
                 TimeCollection.Add(new()
                 {
-                    IsAvailable = index % 2 == 0,
+                    IsAvailable = true,
                     Time = DateTime.Today.Add(new TimeSpan(index, 0, 0))
                 });
             }
@@ -31,9 +35,10 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
         private async Task SelectSchedule()
         {
+            var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, SelectedTime.Time.Hour, SelectedTime.Time.Minute, SelectedTime.Time.Second);
             await _databaseService.Update(new Models.Services
             {
-                AvailableTime = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, SelectedTime.Time.Hour, SelectedTime.Time.Minute, SelectedTime.Time.Second),
+                AvailableTime = schedule,
                 BookingStatus = Enums.BookingStatus.Confirmed,
                 ServiceDescription = _passedService.ServiceDescription,
                 ServiceId = _passedService.ServiceId,
@@ -41,7 +46,23 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                 ServiceName = _passedService.ServiceName,
                 ServicePrice = _passedService.ServicePrice
             });
-            await NavigationService.PopPopup();
+
+            await Task.WhenAll
+            (
+                _notificationService.Send(_passedService.ServiceId, "MedikTapp", schedule.AddHours(-1),
+                $"You have an incoming appointment!\n{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
+                categoryType: NotificationCategoryType.Reminder,
+                androidSpecificOptions: new()
+                {
+                    ChannelId = _passedService.ServiceId.ToString(),
+                    Group = "MedikTapp",
+                    IsGroupSummary = true,
+                    Priority = AndroidNotificationPriority.Max,
+                    VisibilityType = AndroidVisibilityType.Public
+                }),
+
+                NavigationService.PopPopup()
+            );
         }
 
         private void OnSelectedTimeChanged(SelectionChangedEventArgs args)
@@ -57,10 +78,10 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         private List<DateTime> GetDisabledDates()
         {
             var disabledDates = new List<DateTime>();
-            var startDate = new DateTime(2022, DateTime.Now.Month, DateTime.Now.Day);
-            for (var index = 0; index < 3; index++)
+            for (var date = DateTime.Now; date <= new DateTime(2022, 12, 31); date = date.AddDays(1))
             {
-                disabledDates.Add(startDate.AddDays(index + 1));
+                if (date.DayOfWeek == DayOfWeek.Sunday)
+                    disabledDates.Add(date);
             }
 
             return disabledDates;

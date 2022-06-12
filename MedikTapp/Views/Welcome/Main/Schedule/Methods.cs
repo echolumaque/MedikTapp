@@ -5,12 +5,13 @@ using MedikTapp.Views.Welcome.Main.TimeAvailability;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Schedule
 {
     public partial class ScheduleTabViewModel
     {
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void Initialized(NavigationParameters parameters)
         {
             _schedules = await _databaseService.Find<Models.Services>();
             Schedules = new(_schedules);
@@ -23,9 +24,18 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
 
         private Task CancelSchedule(Models.Services schedule)
         {
-            Schedules.Remove(schedule);
-            //remove to remote db
-            return _databaseService.Delete(schedule);
+            if (DateTime.Now.Date == schedule.AvailableTime.AddDays(-3).Date)
+            {
+                return Application.Current.MainPage.DisplayAlert("Cancellation not available",
+                    "Sorry, you can't cancel your appointment three days before the selected date.",
+                    "OK");
+            }
+            else
+            {
+                Schedules.Remove(schedule);
+                //todo remove to remote db
+                return _databaseService.Delete(schedule);
+            }
         }
 
         private Task Reschedule(Models.Services schedule)

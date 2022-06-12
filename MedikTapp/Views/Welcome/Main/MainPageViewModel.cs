@@ -21,9 +21,6 @@ namespace MedikTapp.Views.MainPage
             AddTab<BookingsTabViewModel>();
             AddTab<ScheduleTabViewModel>();
             AddTab<SettingsTabViewModel>();
-
-            notificationService.Send("You have an incoming appointment!\nChest X-Ray\nJune 12,2022 | 3:00PM",
-                DateTime.Now.AddSeconds(5));
         }
     }
 }
