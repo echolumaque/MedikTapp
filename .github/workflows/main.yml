@@ -9,7 +9,7 @@ jobs:
       uses: actions/checkout@v2.4.2
       
     - name: Setup Android signing 
-      run: (echo ${{ secrets.KEYSTORE }} | base64 — decode) > MedikTapp/MedikTapp.Android/MedikTapp.jks
+      run: (echo ${{ secrets.KEYSTORE }} | base64 — decode) > */MedikTapp.Android/MedikTapp.jks
       
     - name: Set Android version
       uses: damienaicheh/update-android-version-manifest-action@v1.0.0
