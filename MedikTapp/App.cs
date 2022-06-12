@@ -1,7 +1,8 @@
 ﻿using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
-using MedikTapp.Views.MainPage;
+using MedikTapp.Views.Onboarding;
+using MedikTapp.Views.Onboarding.Account;
 using Syncfusion.Licensing;
 using System;
 using System.Threading.Tasks;
@@ -40,12 +41,12 @@ namespace MedikTapp
             AppInit += Init;
             AppInit(null, EventArgs.Empty);
 
-            //if (VersionTracking.IsFirstLaunchEver)
-            //    navigationService.SetRootPage<OnboardingPage>();
-            //else
-            //    navigationService.SetRootPage<AccountPage>();
+            if (VersionTracking.IsFirstLaunchEver)
+                navigationService.SetRootPage<OnboardingPage>();
+            else
+                navigationService.SetRootPage<AccountPage>();
 
-            navigationService.SetRootPage<MainPage>();
+            //navigationService.SetRootPage<MainPage>();
         }
 
         private void DefineResources()

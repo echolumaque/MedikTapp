@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedikTapp", "MedikTapp\Medi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedikTappMock", "MedikTappMock\MedikTappMock.csproj", "{0A787904-0B62-4117-B7B1-03CC5A6FC099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedikTappFunctionApp", "MedikTappFunctionApp\MedikTappFunctionApp.csproj", "{B915F924-B798-4DE4-B1A3-8447A5EEFE79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedikTappFunctionApp", "MedikTappFunctionApp\MedikTappFunctionApp.csproj", "{B915F924-B798-4DE4-B1A3-8447A5EEFE79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
