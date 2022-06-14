@@ -57,6 +57,7 @@ namespace MedikTapp.Services.NotificationService
                 if (!string.IsNullOrWhiteSpace(description))
                     notification.WithDescription(description);
 
+
                 if (!string.IsNullOrWhiteSpace(returningData))
                     notification.WithReturningData(returningData);
 

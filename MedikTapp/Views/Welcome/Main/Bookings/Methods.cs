@@ -19,7 +19,8 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
         {
             return NavigationService.GoTo<TimeAvailabilityPopup>(new()
             {
-                { "booking", booking }
+                { "booking", booking },
+                { "isResched", false }
             });
         }
 

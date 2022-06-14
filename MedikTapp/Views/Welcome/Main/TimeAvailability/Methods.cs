@@ -11,13 +11,12 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
     public partial class TimeAvailabilityPopupViewModel
     {
-        private Models.Services _passedService;
-
         private void RaiseSelectScheduleCanExecuteChanged() => SelectScheduleCmd.RaiseCanExecuteChanged();
 
         public override void Initialized(NavigationParameters parameters)
         {
             _passedService = parameters.GetValue<Models.Services>("booking");
+            _isRescheduled = parameters.GetValue<bool>("isResched");
             CustomDayLabels = DateTimeFormatInfo.CurrentInfo.AbbreviatedDayNames;
             DisabledDates = GetDisabledDates();
             SelectedDate = _passedService.AvailableTime;
@@ -49,20 +48,32 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
             await Task.WhenAll
             (
-                _notificationService.Send(_passedService.ServiceId, "MedikTapp", schedule.AddHours(-1),
-                $"You have an incoming appointment!\n{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
+                _notificationService.Send(_passedService.ServiceId, "You have an incoming appointment!", schedule.AddHours(-1),
+                $"{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
                 categoryType: NotificationCategoryType.Reminder,
                 androidSpecificOptions: new()
                 {
                     ChannelId = _passedService.ServiceId.ToString(),
                     Group = "MedikTapp",
                     IsGroupSummary = true,
+                    IconLargeName = new AndroidIcon
+                    {
+                        ResourceName = "mediktapp_notif_icon",
+                    },
+                    IconSmallName = new AndroidIcon
+                    {
+                        ResourceName = "mediktapp_notif_icon",
+                    },
                     Priority = AndroidNotificationPriority.Max,
-                    VisibilityType = AndroidVisibilityType.Public
+                    VisibilityType = AndroidVisibilityType.Public,
                 }),
 
                 NavigationService.PopPopup()
             );
+
+            _toast.Show(_isRescheduled
+                ? "You have successfully rescheduled your appointment."
+                : "You have successfully booked an appointment.");
         }
 
         private void OnSelectedTimeChanged(SelectionChangedEventArgs args)

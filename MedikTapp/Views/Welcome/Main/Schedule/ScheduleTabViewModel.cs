@@ -1,9 +1,9 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Helpers.Command;
+using MedikTapp.Interfaces;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Schedule
@@ -11,17 +11,19 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     public partial class ScheduleTabViewModel : TabItemPageViewModelBase
     {
         private readonly DatabaseService _databaseService;
-        private IEnumerable<Models.Services> _schedules;
+        private readonly IToast _toast;
 
         public ScheduleTabViewModel(NavigationService navigationService,
-            DatabaseService databaseService) : base(navigationService)
+            DatabaseService databaseService,
+            IToast toast) : base(navigationService)
         {
             _databaseService = databaseService;
+            _toast = toast;
 
-            ChangeFilterCmd = new Command<BookingSort>(filter => ChangeFilter(filter));
-            FilterCancelledCmd = new Command(InitCancelledCollections);
-            FilterCompletedCmd = new Command(InitCompletedCollections);
-            FilterUpcomingCmd = new Command(InitUpcomingCollections);
+            ChangeFilterCmd = new AsyncSingleCommand<BookingSort>(ChangeFilter);
+            FilterCancelledCmd = new AsyncSingleCommand(InitCancelledCollections);
+            FilterCompletedCmd = new AsyncSingleCommand(InitCompletedCollections);
+            FilterUpcomingCmd = new AsyncSingleCommand(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
             CancelScheduleCmd = new AsyncSingleCommand<Models.Services>(CancelSchedule);
             RescheduleCmd = new AsyncSingleCommand<Models.Services>(Reschedule);

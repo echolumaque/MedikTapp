@@ -13,9 +13,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     {
         public override async void Initialized(NavigationParameters parameters)
         {
-            _schedules = await _databaseService.Find<Models.Services>();
-            Schedules = new(_schedules);
-            InitUpcomingCollections();
+            await InitUpcomingCollections();
 
             BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
             SelectedBookingSort = BookingSortCollection.First();
@@ -33,8 +31,18 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             else
             {
                 Schedules.Remove(schedule);
+                _toast.Show("Appointment cancelled.");
                 //todo remove to remote db
-                return _databaseService.Delete(schedule);
+                return _databaseService.Update(new Models.Services
+                {
+                    AvailableTime = schedule.AvailableTime,
+                    BookingStatus = BookingStatus.Cancelled,
+                    ServiceDescription = schedule.ServiceDescription,
+                    ServiceId = schedule.ServiceId,
+                    ServiceImagePath = schedule.ServiceImagePath,
+                    ServiceName = schedule.ServiceName,
+                    ServicePrice = schedule.ServicePrice
+                });
             }
         }
 
@@ -42,7 +50,8 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
         {
             return NavigationService.GoTo<TimeAvailabilityPopup>(new()
             {
-                { "booking", schedule }
+                { "booking", schedule },
+                { "isResched", true }
             });
         }
 
@@ -54,31 +63,38 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             });
         }
 
-        private void InitUpcomingCollections()
+        private async Task InitUpcomingCollections()
         {
             SelectedBookingStatus = BookingStatus.Confirmed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed
+
+            var scheds = await _databaseService.Find<Models.Services>();
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Confirmed
                 || x.BookingStatus == BookingStatus.Pending));
         }
 
-        private void InitCompletedCollections()
+        private async Task InitCompletedCollections()
         {
             SelectedBookingStatus = BookingStatus.Completed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Completed));
+
+            var scheds = await _databaseService.Find<Models.Services>();
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Completed));
         }
 
-        private void InitCancelledCollections()
+        private async Task InitCancelledCollections()
         {
             SelectedBookingStatus = BookingStatus.Cancelled;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled));
+
+            var scheds = await _databaseService.Find<Models.Services>();
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Cancelled));
         }
 
-        private void ChangeFilter(BookingSort selectedBookingSort)
+        private async Task ChangeFilter(BookingSort selectedBookingSort)
         {
             if (SelectedBookingSort == selectedBookingSort) return;
             IsFilterExpanded = false;
             SelectedBookingSort = selectedBookingSort;
             BookingSortMainBoxText = selectedBookingSort.ToShortDescription();
+            var _schedules = await _databaseService.Find<Models.Services>();
 
             Schedules = new((selectedBookingSort, SelectedBookingStatus) switch
             {

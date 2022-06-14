@@ -5,6 +5,8 @@ using Android.Runtime;
 using Android.Views;
 using FFImageLoading.Forms.Platform;
 using MedikTapp.DI;
+using MedikTapp.Droid.Implementations;
+using MedikTapp.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Rg.Plugins.Popup;
 using Xamarin.Forms;
@@ -48,6 +50,7 @@ namespace MedikTapp.Droid
 
         private static void AddPlatformSpecificServices(IServiceCollection services)
         {
+            services.AddSingleton<IToast, ToastDroid>();
         }
 
         private void SetStatusBarColor()
