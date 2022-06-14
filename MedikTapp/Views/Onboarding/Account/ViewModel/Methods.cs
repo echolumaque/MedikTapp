@@ -55,11 +55,11 @@ namespace MedikTapp.Views.Onboarding.Account
                         if (patientCredentials != null)
                             Device.BeginInvokeOnMainThread(() => NavigationService.SetRootPage<MainPage.MainPage>());
                         else
-                            await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok");
                     }
                     catch (ApiException)
                     {
-                        await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record", "Ok"));
+                        await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok"));
                     }
                 }
             }
