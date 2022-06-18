@@ -3,6 +3,7 @@
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:converter="clr-namespace:MedikTapp.Converters"
+               xmlns:dtSelector="clr-namespace:MedikTapp.Helpers.DataTemplateSelector"
                xmlns:enums="clr-namespace:MedikTapp.Enums"
                xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                xmlns:helpers="clr-namespace:MedikTapp.Helpers"
@@ -59,6 +60,273 @@
             <Setter Property="HorizontalOptions" Value="Start" />
             <Setter Property="TextColor" Value="#2F2F32" />
         </Style>
+        <dtSelector:ScheduleDataTemplateSelector x:Key="ScheduleTemplateSelector">
+            <dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
+                <DataTemplate x:DataType="models:Services">
+                    <Frame Padding="10"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        <Grid helpers:Gestures.Tapped="{Binding ServiceTappedCmd, Source={x:Reference this}}"
+                              helpers:Gestures.TappedParameter="{Binding .}"
+                              ColumnDefinitions="*,100"
+                              RowDefinitions="80,65">
+                            <!--#region  Doc or Service Name, Doc Specialty, and Image-->
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   FontFamily="med"
+                                   FontSize="20"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceName}"
+                                   TextColor="{StaticResource Black}"
+                                   VerticalOptions="Start"
+                                   WidthRequest="280" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Margin="0,20,0,0"
+                                   FontFamily="reg"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="2"
+                                   Text="{Binding ServiceDescription}"
+                                   TextColor="Gray"
+                                   VerticalOptions="CenterAndExpand"
+                                   WidthRequest="280" />
+
+
+                            <templateImg:CachedImage Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     HeightRequest="60"
+                                                     HorizontalOptions="End"
+                                                     ImageSource="{Binding ServiceImagePath}"
+                                                     VerticalOptions="Start"
+                                                     WidthRequest="60" />
+
+                            <BoxView Grid.Row="0"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Margin="0,0,0,-7"
+                                     BackgroundColor="#F2F3F6"
+                                     HeightRequest=".7"
+                                     VerticalOptions="End" />
+                            <!--#endregion-->
+
+                            <!--#region Date, Time, Booking Status-->
+                            <Grid Grid.Row="1"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  Margin="0,10,0,10"
+                                  ColumnDefinitions="*,*,*">
+
+                                <!--#region Date-->
+                                <StackLayout Grid.Column="0"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Label Margin="0,0,0,5"
+                                           Style="{StaticResource ScheduleFontIcons}"
+                                           Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
+                                </StackLayout>
+                                <!--#endregion-->
+
+                                <!--#region Time-->
+                                <StackLayout Grid.Column="1"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Label Margin="0,0,0,2"
+                                           Style="{StaticResource ScheduleFontIcons}"
+                                           Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding AvailableTime.TimeOfDay}" />
+                                </StackLayout>
+                                <!--#endregion-->
+
+                                <!--#region Booking Status-->
+                                <StackLayout Grid.Column="2"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Ellipse Fill="#00DC54"
+                                             HeightRequest="10"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="Center"
+                                             WidthRequest="10">
+                                        <Ellipse.Triggers>
+                                            <DataTrigger Binding="{Binding BookingStatus}"
+                                                         TargetType="Ellipse"
+                                                         Value="{x:Static enums:BookingStatus.Pending}">
+                                                <Setter Property="Fill" Value="#FF8E00" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding BookingStatus}"
+                                                         TargetType="Ellipse"
+                                                         Value="{x:Static enums:BookingStatus.Cancelled}">
+                                                <Setter Property="Fill" Value="#E63C3C" />
+                                            </DataTrigger>
+                                        </Ellipse.Triggers>
+                                    </Ellipse>
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding BookingStatus}" />
+                                </StackLayout>
+                                <!--#endregion-->
+                            </Grid>
+                            <!--#endregion-->
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
+            <dtSelector:ScheduleDataTemplateSelector.NotCancelledTemplate>
+                <DataTemplate x:DataType="models:Services">
+                    <Frame Padding="10"
+                           BackgroundColor="White"
+                           HasShadow="True">
+                        <Grid helpers:Gestures.Tapped="{Binding ServiceTappedCmd, Source={x:Reference this}}"
+                              helpers:Gestures.TappedParameter="{Binding .}"
+                              ColumnDefinitions="*,65"
+                              RowDefinitions="80,50,50">
+                            <!--#region  Doc or Service Name, Doc Specialty, and Image-->
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   FontFamily="med"
+                                   FontSize="20"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceName}"
+                                   TextColor="{StaticResource Black}"
+                                   VerticalOptions="Start"
+                                   WidthRequest="280" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Margin="0,20,0,0"
+                                   FontFamily="reg"
+                                   HorizontalOptions="StartAndExpand"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="2"
+                                   Text="{Binding ServiceDescription}"
+                                   TextColor="Gray"
+                                   VerticalOptions="CenterAndExpand"
+                                   WidthRequest="280" />
+
+
+                            <templateImg:CachedImage Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     HeightRequest="60"
+                                                     HorizontalOptions="End"
+                                                     ImageSource="{Binding ServiceImagePath}"
+                                                     VerticalOptions="Start"
+                                                     WidthRequest="60" />
+
+                            <BoxView Grid.Row="0"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Margin="0,0,0,-7"
+                                     BackgroundColor="#F2F3F6"
+                                     HeightRequest=".7"
+                                     VerticalOptions="End" />
+                            <!--#endregion-->
+
+                            <!--#region Date, Time, Booking Status-->
+                            <Grid Grid.Row="1"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  Margin="0,10,0,10"
+                                  ColumnDefinitions="*,*,*">
+
+                                <!--#region Date-->
+                                <StackLayout Grid.Column="0"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Label Margin="0,0,0,5"
+                                           Style="{StaticResource ScheduleFontIcons}"
+                                           Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
+                                </StackLayout>
+                                <!--#endregion-->
+
+                                <!--#region Time-->
+                                <StackLayout Grid.Column="1"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Label Margin="0,0,0,2"
+                                           Style="{StaticResource ScheduleFontIcons}"
+                                           Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding AvailableTime.TimeOfDay}" />
+                                </StackLayout>
+                                <!--#endregion-->
+
+                                <!--#region Booking Status-->
+                                <StackLayout Grid.Column="2"
+                                             HorizontalOptions="Center"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="Center">
+                                    <Ellipse Fill="#00DC54"
+                                             HeightRequest="10"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="Center"
+                                             WidthRequest="10">
+                                        <Ellipse.Triggers>
+                                            <DataTrigger Binding="{Binding BookingStatus}"
+                                                         TargetType="Ellipse"
+                                                         Value="{x:Static enums:BookingStatus.Pending}">
+                                                <Setter Property="Fill" Value="#FF8E00" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding BookingStatus}"
+                                                         TargetType="Ellipse"
+                                                         Value="{x:Static enums:BookingStatus.Cancelled}">
+                                                <Setter Property="Fill" Value="#E63C3C" />
+                                            </DataTrigger>
+                                        </Ellipse.Triggers>
+                                    </Ellipse>
+                                    <Label Style="{StaticResource ScheduleFontIconsDesc}"
+                                           Text="{Binding BookingStatus}" />
+                                </StackLayout>
+                                <!--#endregion-->
+                            </Grid>
+
+                            <Grid Grid.Row="2"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  ColumnDefinitions="*,*">
+                                <Button Grid.Column="0"
+                                        Margin="5,0"
+                                        BackgroundColor="#F4F5F9"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleTabViewModel}}, Path=CancelScheduleCmd}"
+                                        CommandParameter="{Binding .}"
+                                        CornerRadius="10"
+                                        FontFamily="med"
+                                        FontSize="12"
+                                        Text="Cancel"
+                                        TextColor="{StaticResource Black}" />
+
+                                <Button Grid.Column="1"
+                                        Margin="5,0"
+                                        BackgroundColor="{StaticResource DarkPurple}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleTabViewModel}}, Path=RescheduleCmd}"
+                                        CommandParameter="{Binding .}"
+                                        CornerRadius="10"
+                                        FontFamily="med"
+                                        FontSize="12"
+                                        Text="Reschedule"
+                                        TextColor="White" />
+                            </Grid>
+                            <!--#endregion-->
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </dtSelector:ScheduleDataTemplateSelector.NotCancelledTemplate>
+        </dtSelector:ScheduleDataTemplateSelector>
     </ContentView.Resources>
 
     <Grid ColumnDefinitions="*,*,*"
@@ -142,6 +410,7 @@
                         Grid.ColumnSpan="3"
                         Margin="0,60,0,0"
                         ItemSizingStrategy="MeasureAllItems"
+                        ItemTemplate="{StaticResource ScheduleTemplateSelector}"
                         ItemsSource="{Binding Schedules}">
             <CollectionView.EmptyView>
                 <Frame BackgroundColor="#FBFBFB">
@@ -156,136 +425,6 @@
                 <LinearItemsLayout ItemSpacing="15"
                                    Orientation="Vertical" />
             </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Services">
-                    <Frame Padding="10"
-                           BackgroundColor="White"
-                           HasShadow="True">
-                        <Grid helpers:Gestures.Tapped="{Binding BindingContext.ServiceTappedCmd, Source={x:Reference this}}"
-                              helpers:Gestures.TappedParameter="{Binding .}"
-                              ColumnDefinitions="*,*"
-                              RowDefinitions="80,50,50">
-                            <!--#region  Doc or Service Name, Doc Specialty, and Image-->
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   FontFamily="med"
-                                   FontSize="20"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   Text="{Binding ServiceName}"
-                                   TextColor="{StaticResource Black}"
-                                   VerticalOptions="Start"
-                                   WidthRequest="280" />
-
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   Margin="0,20,0,0"
-                                   FontFamily="reg"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   MaxLines="2"
-                                   Text="{Binding ServiceDescription}"
-                                   TextColor="Gray"
-                                   VerticalOptions="CenterAndExpand"
-                                   WidthRequest="280" />
-
-
-                            <templateImg:CachedImage Grid.Row="0"
-                                                     Grid.Column="1"
-                                                     HeightRequest="65"
-                                                     HorizontalOptions="End"
-                                                     ImageSource="{Binding ServiceImagePath}"
-                                                     VerticalOptions="Start"
-                                                     WidthRequest="65" />
-
-                            <BoxView Grid.Row="0"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2"
-                                     Margin="0,0,0,-7"
-                                     BackgroundColor="#F2F3F6"
-                                     HeightRequest=".7"
-                                     VerticalOptions="End" />
-                            <!--#endregion-->
-
-                            <!--#region Date, Time, Booking Status-->
-                            <Grid Grid.Row="1"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="2"
-                                  Margin="0,10,0,10"
-                                  ColumnDefinitions="20,*,20,*,20,*">
-                                <!--#region Date-->
-                                <Label Grid.Column="0"
-                                       Style="{StaticResource ScheduleFontIcons}"
-                                       Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
-                                <Label Grid.Column="1"
-                                       Style="{StaticResource ScheduleFontIconsDesc}"
-                                       Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
-                                <!--#endregion-->
-
-                                <!--#region Time-->
-                                <Label Grid.Column="2"
-                                       Style="{StaticResource ScheduleFontIcons}"
-                                       Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
-                                <Label Grid.Column="3"
-                                       Style="{StaticResource ScheduleFontIconsDesc}"
-                                       Text="{Binding AvailableTime.TimeOfDay}" />
-                                <!--#endregion-->
-
-                                <!--#region Booking Status-->
-                                <Ellipse Grid.Column="4"
-                                         Fill="#00DC54"
-                                         HeightRequest="10"
-                                         HorizontalOptions="Start"
-                                         VerticalOptions="Center"
-                                         WidthRequest="10">
-                                    <Ellipse.Triggers>
-                                        <DataTrigger Binding="{Binding BookingStatus}"
-                                                     TargetType="Ellipse"
-                                                     Value="{x:Static enums:BookingStatus.Pending}">
-                                            <Setter Property="Fill" Value="#FF8E00" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding BookingStatus}"
-                                                     TargetType="Ellipse"
-                                                     Value="{x:Static enums:BookingStatus.Cancelled}">
-                                            <Setter Property="Fill" Value="#E63C3C" />
-                                        </DataTrigger>
-                                    </Ellipse.Triggers>
-                                </Ellipse>
-                                <Label Grid.Column="5"
-                                       Style="{StaticResource ScheduleFontIconsDesc}"
-                                       Text="{Binding BookingStatus}" />
-                                <!--#endregion-->
-                            </Grid>
-                            <!--#endregion-->
-                            <Button Grid.Row="2"
-                                    Grid.Column="0"
-                                    Margin="5,0"
-                                    BackgroundColor="#F4F5F9"
-                                    Command="{Binding BindingContext.CancelScheduleCmd, Source={x:Reference this}}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="10"
-                                    FontFamily="med"
-                                    FontSize="12"
-                                    Text="Cancel"
-                                    TextColor="{StaticResource Black}" />
-
-                            <Button Grid.Row="2"
-                                    Grid.Column="1"
-                                    Margin="5,0"
-                                    BackgroundColor="{StaticResource DarkPurple}"
-                                    Command="{Binding BindingContext.RescheduleCmd, Source={x:Reference this}}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="10"
-                                    FontFamily="med"
-                                    FontSize="12"
-                                    Text="Reschedule"
-                                    TextColor="White" />
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
         </CollectionView>
 
         <templates:ComboBox Grid.Row="2"

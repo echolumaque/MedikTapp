@@ -4,6 +4,7 @@ using Plugin.LocalNotification.AndroidOption;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -11,6 +12,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
     public partial class TimeAvailabilityPopupViewModel
     {
+        private const int ClinicMaxHourCount = 17;
         private void RaiseSelectScheduleCanExecuteChanged() => SelectScheduleCmd.RaiseCanExecuteChanged();
 
         public override void Initialized(NavigationParameters parameters)
@@ -21,14 +23,19 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             DisabledDates = GetDisabledDates();
             SelectedDate = _passedService.AvailableTime;
 
-            TimeCollection = new();
-            for (var index = 7; index < 17; index++)
+            if (DateTime.Now.Hour < 15)
             {
-                TimeCollection.Add(new()
+                var startAllowedTime = DateTime.Now.Hour + 2;
+                var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
+                TimeCollection = new();
+                foreach (var time in allowedTimes)
                 {
-                    IsAvailable = true,
-                    Time = DateTime.Today.Add(new TimeSpan(index, 0, 0))
-                });
+                    TimeCollection.Add(new()
+                    {
+                        IsAvailable = true, //todo: check on backend first
+                        Time = DateTime.Today.Add(new TimeSpan(time, 0, 0))
+                    });
+                }
             }
         }
 
@@ -89,7 +96,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         private List<DateTime> GetDisabledDates()
         {
             var disabledDates = new List<DateTime>();
-            for (var date = DateTime.Now; date <= new DateTime(2022, 12, 31); date = date.AddDays(1))
+            for (var date = DateTime.Now; date <= new DateTime(DateTime.Now.Year, 12, 31); date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Sunday)
                     disabledDates.Add(date);

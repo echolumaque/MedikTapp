@@ -69,6 +69,17 @@
                     <xct:EventToCommandBehavior Command="{Binding ChangeSelectedTimeCmd}"
                                                 EventName="SelectionChanged" />
                 </CollectionView.Behaviors>
+                <CollectionView.EmptyView>
+                    <Frame Padding="0"
+                           HasShadow="False"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                        <Label FontFamily="med"
+                               HorizontalOptions="Center"
+                               Text="No available time"
+                               VerticalOptions="Center" />
+                    </Frame>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:TimeAvailability">
                         <Label FontFamily="med"

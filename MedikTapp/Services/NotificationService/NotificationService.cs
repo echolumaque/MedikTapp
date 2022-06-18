@@ -11,20 +11,21 @@ namespace MedikTapp.Services.NotificationService
     public class NotificationService
     {
         private readonly IEnumerable<INotificationActionTapped> _actionTapped;
-
-        public NotificationService(IEnumerable<INotificationActionTapped> actionTapped)
+        private readonly INotificationService _notificationService;
+        public NotificationService(IEnumerable<INotificationActionTapped> actionTapped, INotificationService notificationService)
         {
             _actionTapped = actionTapped;
+            _notificationService = notificationService;
         }
 
         public void CancelByNotificationIds(params int[] notificationIdList)
-            => NotificationCenter.Current.Cancel(notificationIdList);
+            => _notificationService.Cancel(notificationIdList);
 
-        public void CancelAll() => NotificationCenter.Current.CancelAll();
+        public void CancelAll() => _notificationService.CancelAll();
 
-        public static void RegisterCategory(HashSet<NotificationCategory> categories)
+        public void RegisterCategory(HashSet<NotificationCategory> categories)
         {
-            NotificationCenter.Current.RegisterCategoryList(categories);
+            _notificationService.RegisterCategoryList(categories);
         }
 
         public Task Send(int notificationId, string title, DateTime notificationTime, string description = null,
@@ -39,7 +40,7 @@ namespace MedikTapp.Services.NotificationService
                 notificationRepeatInterval :
                 null;
 
-            return NotificationCenter.Current.Show((notification) =>
+            return _notificationService.Show((notification) =>
             {
                 notification.WithNotificationId(notificationId)
                 .WithTitle(title)
@@ -75,22 +76,5 @@ namespace MedikTapp.Services.NotificationService
 
             _actionTapped.FirstOrDefault(s => s.ActionId == e.ActionId)?.Execute(e);
         }
-
-        //public Task Send(string description, DateTime trigger)
-        //{
-        //    return Send(69420, "MedikTapp", trigger, description, categoryType: NotificationCategoryType.Recommendation,
-        //        androidSpecificOptions: new AndroidOptions
-        //        {
-        //            Group = "MedikTapp",
-        //            IsGroupSummary = true,
-        //            Priority = AndroidNotificationPriority.Max,
-        //            VisibilityType = AndroidVisibilityType.Public,
-        //        },
-        //        androidScheduleOptions: new AndroidScheduleOptions
-        //        {
-        //            AlarmType = AndroidAlarmType.RtcWakeup,
-        //            AllowedDelay = TimeSpan.FromSeconds(30)
-        //        });
-        //}
     }
 }

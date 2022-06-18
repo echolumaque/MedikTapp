@@ -20,39 +20,54 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
         }
 
-        private Task CancelSchedule(Models.Services schedule)
+        private async Task CancelSchedule(Models.Services schedule)
         {
-            if (DateTime.Now.Date == schedule.AvailableTime.AddDays(-3).Date)
+            if ((int)schedule.AvailableTime.Date.Subtract(DateTime.Now).TotalDays <= 3)
             {
-                return Application.Current.MainPage.DisplayAlert("Cancellation not available",
-                    "Sorry, you can't cancel your appointment three days before the selected date.",
+                await Application.Current.MainPage.DisplayAlert("Cancellation not available",
+                    "Sorry, you can't cancel your appointment three days before the appointment date.",
                     "OK");
             }
             else
             {
-                Schedules.Remove(schedule);
-                _toast.Show("Appointment cancelled.");
-                //todo remove to remote db
-                return _databaseService.Update(new Models.Services
+                var isCancelled = await Application.Current.MainPage.DisplayAlert("Appointment cancellation",
+                    "Are you sure you want to cancel your appointment", "Yes", "No");
+                if (isCancelled)
                 {
-                    AvailableTime = schedule.AvailableTime,
-                    BookingStatus = BookingStatus.Cancelled,
-                    ServiceDescription = schedule.ServiceDescription,
-                    ServiceId = schedule.ServiceId,
-                    ServiceImagePath = schedule.ServiceImagePath,
-                    ServiceName = schedule.ServiceName,
-                    ServicePrice = schedule.ServicePrice
-                });
+                    Schedules.Remove(schedule);
+                    _toast.Show("Appointment cancelled.");
+                    _notificationService.CancelByNotificationIds(schedule.ServiceId);
+                    //todo remove to remote db
+                    await _databaseService.Update(new Models.Services
+                    {
+                        AvailableTime = schedule.AvailableTime,
+                        BookingStatus = BookingStatus.Cancelled,
+                        ServiceDescription = schedule.ServiceDescription,
+                        ServiceId = schedule.ServiceId,
+                        ServiceImagePath = schedule.ServiceImagePath,
+                        ServiceName = schedule.ServiceName,
+                        ServicePrice = schedule.ServicePrice
+                    });
+                }
             }
         }
 
         private Task Reschedule(Models.Services schedule)
         {
-            return NavigationService.GoTo<TimeAvailabilityPopup>(new()
+            if ((int)schedule.AvailableTime.Date.Subtract(DateTime.Now).TotalDays <= 3)
             {
-                { "booking", schedule },
-                { "isResched", true }
-            });
+                return Application.Current.MainPage.DisplayAlert("Reschedule not available",
+                    "Sorry, you can't reschedule your appointment three days before the appointment date.",
+                    "OK");
+            }
+            else
+            {
+                return NavigationService.GoTo<TimeAvailabilityPopup>(new()
+                {
+                    { "booking", schedule },
+                    { "isResched", true }
+                });
+            }
         }
 
         private Task ServiceTapped(Models.Services service)
@@ -68,8 +83,8 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             SelectedBookingStatus = BookingStatus.Confirmed;
 
             var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Confirmed
-                || x.BookingStatus == BookingStatus.Pending));
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
+                .OrderBy(x => x.AvailableTime));
         }
 
         private async Task InitCompletedCollections()
@@ -77,7 +92,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             SelectedBookingStatus = BookingStatus.Completed;
 
             var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Completed));
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Completed).OrderBy(x => x.AvailableTime));
         }
 
         private async Task InitCancelledCollections()
@@ -85,7 +100,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             SelectedBookingStatus = BookingStatus.Cancelled;
 
             var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Cancelled));
+            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Cancelled).OrderBy(x => x.AvailableTime));
         }
 
         private async Task ChangeFilter(BookingSort selectedBookingSort)
