@@ -8,6 +8,8 @@ using MedikTapp.DI;
 using MedikTapp.Droid.Implementations;
 using MedikTapp.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.Platform.Droid;
 using Rg.Plugins.Popup;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -50,7 +52,8 @@ namespace MedikTapp.Droid
 
         private static void AddPlatformSpecificServices(IServiceCollection services)
         {
-            services.AddSingleton<IToast, ToastDroid>();
+            services.AddSingleton<IToast, ToastDroid>()
+                .AddSingleton<INotificationService, NotificationServiceImpl>();
         }
 
         private void SetStatusBarColor()
