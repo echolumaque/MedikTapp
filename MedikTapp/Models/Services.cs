@@ -10,7 +10,7 @@ namespace MedikTapp.Models
         [PrimaryKey, AutoIncrement, Indexed, NotNull]
         public int ServiceId { get; set; }
 
-        public string ServiceImagePath { get; set; }
+        public string ServiceImage { get; set; }
         public string ServiceName { get; set; }
         public string ServiceDescription { get; set; }
         public double ServicePrice { get; set; }

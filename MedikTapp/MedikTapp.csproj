@@ -22,35 +22,32 @@
     <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
     <None Remove="Resources\Fonts\PoppinsMedium.ttf" />
     <None Remove="Resources\Fonts\PoppinsRegular.ttf" />
-    <None Remove="Resources\SVGs\checkup.png" />
-    <None Remove="Resources\SVGs\covid_test.png" />
-    <None Remove="Resources\SVGs\docimage.png" />
-    <None Remove="Resources\SVGs\doctor1.png" />
-    <None Remove="Resources\SVGs\doctor2.png" />
-    <None Remove="Resources\SVGs\doctor3.png" />
-    <None Remove="Resources\SVGs\doctor4.png" />
-    <None Remove="Resources\SVGs\kidney.png" />
-    <None Remove="Resources\SVGs\liver.png" />
-    <None Remove="Resources\SVGs\login1.png" />
-    <None Remove="Resources\SVGs\login2.png" />
-    <None Remove="Resources\SVGs\loginImage.png" />
-    <None Remove="Resources\SVGs\loginImage1-removebg.png" />
-    <None Remove="Resources\SVGs\loginImage1.jpg" />
-    <None Remove="Resources\SVGs\Logo.svg" />
-    <None Remove="Resources\SVGs\Logo2.png" />
-    <None Remove="Resources\SVGs\Mediktapp .png" />
-    <None Remove="Resources\SVGs\NewLogo.png" />
-    <None Remove="Resources\SVGs\onboarding1.png" />
-    <None Remove="Resources\SVGs\onboarding2.png" />
-    <None Remove="Resources\SVGs\onboarding3.png" />
-    <None Remove="Resources\SVGs\pregnant.png" />
-    <None Remove="Resources\SVGs\promo1.jpg" />
-    <None Remove="Resources\SVGs\promo2.jpg" />
-    <None Remove="Resources\SVGs\pudci.jpg" />
-    <None Remove="Resources\SVGs\pudc_map.png" />
-    <None Remove="Resources\SVGs\squiggles1.png" />
-    <None Remove="Resources\SVGs\urine_test.png" />
-    <None Remove="Resources\SVGs\xray.png" />
+    <None Remove="Resources\Images\checkup.png" />
+    <None Remove="Resources\Images\covid_test.png" />
+    <None Remove="Resources\Images\docimage.png" />
+    <None Remove="Resources\Images\doctor1.png" />
+    <None Remove="Resources\Images\doctor2.png" />
+    <None Remove="Resources\Images\doctor3.png" />
+    <None Remove="Resources\Images\doctor4.png" />
+    <None Remove="Resources\Images\kidney.png" />
+    <None Remove="Resources\Images\liver.png" />
+    <None Remove="Resources\Images\login1.png" />
+    <None Remove="Resources\Images\login2.png" />
+    <None Remove="Resources\Images\loginImage.png" />
+    <None Remove="Resources\Images\loginImage1-removebg.png" />
+    <None Remove="Resources\Images\loginImage1.jpg" />
+    <None Remove="Resources\Images\Logo.svg" />
+    <None Remove="Resources\Images\onboarding1.png" />
+    <None Remove="Resources\Images\onboarding2.png" />
+    <None Remove="Resources\Images\onboarding3.png" />
+    <None Remove="Resources\Images\pregnant.png" />
+    <None Remove="Resources\Images\promo1.jpg" />
+    <None Remove="Resources\Images\promo2.jpg" />
+    <None Remove="Resources\Images\pudci.jpg" />
+    <None Remove="Resources\Images\pudc_map.png" />
+    <None Remove="Resources\Images\squiggles1.png" />
+    <None Remove="Resources\Images\urine_test.png" />
+    <None Remove="Resources\Images\xray.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,37 +61,35 @@
     <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
-    <EmbeddedResource Include="Resources\SVGs\checkup.png" />
-    <EmbeddedResource Include="Resources\SVGs\covid_test.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor1.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor2.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor3.png" />
-    <EmbeddedResource Include="Resources\SVGs\doctor4.png" />
-    <EmbeddedResource Include="Resources\SVGs\kidney.png" />
-    <EmbeddedResource Include="Resources\SVGs\liver.png" />
+    <EmbeddedResource Include="Resources\Images\checkup.png" />
+    <EmbeddedResource Include="Resources\Images\covid_test.png" />
+    <EmbeddedResource Include="Resources\Images\doctor1.png" />
+    <EmbeddedResource Include="Resources\Images\doctor2.png" />
+    <EmbeddedResource Include="Resources\Images\doctor3.png" />
+    <EmbeddedResource Include="Resources\Images\doctor4.png" />
+    <EmbeddedResource Include="Resources\Images\kidney.png" />
+    <EmbeddedResource Include="Resources\Images\liver.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SVGs\login2.png" />
-    <EmbeddedResource Include="Resources\SVGs\Logo2.png" />
-    <EmbeddedResource Include="Resources\SVGs\Mediktapp .png" />
-    <EmbeddedResource Include="Resources\SVGs\NewLogo.png" />
-    <EmbeddedResource Include="Resources\SVGs\onboarding1.png" />
-    <EmbeddedResource Include="Resources\SVGs\onboarding2.png" />
-    <EmbeddedResource Include="Resources\SVGs\onboarding3.png" />
-    <EmbeddedResource Include="Resources\SVGs\pregnant.png" />
-    <EmbeddedResource Include="Resources\SVGs\promo1.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\promo2.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\pudci.jpg" />
-    <EmbeddedResource Include="Resources\SVGs\pudc_map.png" />
-    <EmbeddedResource Include="Resources\SVGs\squiggles1.png" />
-    <EmbeddedResource Include="Resources\SVGs\urine_test.png" />
-    <EmbeddedResource Include="Resources\SVGs\xray.png" />
+    <EmbeddedResource Include="Resources\Images\login2.png" />
+    <EmbeddedResource Include="Resources\Images\onboarding1.png" />
+    <EmbeddedResource Include="Resources\Images\onboarding2.png" />
+    <EmbeddedResource Include="Resources\Images\onboarding3.png" />
+    <EmbeddedResource Include="Resources\Images\pregnant.png" />
+    <EmbeddedResource Include="Resources\Images\promo1.jpg" />
+    <EmbeddedResource Include="Resources\Images\promo2.jpg" />
+    <EmbeddedResource Include="Resources\Images\pudci.jpg" />
+    <EmbeddedResource Include="Resources\Images\pudc_map.png" />
+    <EmbeddedResource Include="Resources\Images\squiggles1.png" />
+    <EmbeddedResource Include="Resources\Images\urine_test.png" />
+    <EmbeddedResource Include="Resources\Images\xray.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
     <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
     <PackageReference Include="Refit" Version="6.3.2" />
@@ -102,6 +97,7 @@
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Syncfusion.Xamarin.SfCalendar" Version="20.1.0.56" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.3.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
@@ -111,7 +107,6 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Converters\" />
     <Folder Include="Tables\" />
   </ItemGroup>
 
@@ -125,6 +120,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Templates\SettingsOption.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Onboarding\Account\AccountPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

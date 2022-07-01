@@ -5,7 +5,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
 {
     public partial class ServiceConfirmationPopupViewModel
     {
-        public string ServiceImagePath { get; set; }
+        public string ServiceImage { get; set; }
         public string ServiceName { get; set; }
         public double ServicePrice { get; set; }
         public string ServiceDescription { get; set; }

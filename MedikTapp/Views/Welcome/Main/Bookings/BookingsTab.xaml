@@ -123,7 +123,7 @@
                                                          Grid.Column="1"
                                                          HeightRequest="65"
                                                          HorizontalOptions="End"
-                                                         ImageSource="{Binding ServiceImagePath}"
+                                                         ImageSource="{Binding ServiceImage}"
                                                          VerticalOptions="Start"
                                                          WidthRequest="65" />
 

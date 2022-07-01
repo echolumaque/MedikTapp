@@ -101,7 +101,7 @@
                                                      Grid.Column="1"
                                                      HeightRequest="60"
                                                      HorizontalOptions="End"
-                                                     ImageSource="{Binding ServiceImagePath}"
+                                                     ImageSource="{Binding ServiceImage}"
                                                      VerticalOptions="Start"
                                                      WidthRequest="60" />
 
@@ -220,7 +220,7 @@
                                                      Grid.Column="1"
                                                      HeightRequest="60"
                                                      HorizontalOptions="End"
-                                                     ImageSource="{Binding ServiceImagePath}"
+                                                     ImageSource="{Binding ServiceImage}"
                                                      VerticalOptions="Start"
                                                      WidthRequest="60" />
 

@@ -81,7 +81,7 @@
                                          Grid.ColumnSpan="2"
                                          HeightRequest="{Binding ProductImageSize.Item1}"
                                          HorizontalOptions="Center"
-                                         ImageSource="{Binding ServiceImagePath}"
+                                         ImageSource="{Binding ServiceImage}"
                                          VerticalOptions="Center"
                                          WidthRequest="{Binding ProductImageSize.Item2}" />
                 <!--#endregion-->

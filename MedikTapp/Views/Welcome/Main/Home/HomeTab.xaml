@@ -2,11 +2,13 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Home.HomeTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:converter="clr-namespace:MedikTapp.Converters"
                xmlns:models="clr-namespace:MedikTapp.Models"
                xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Home"
+               xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                x:Name="this"
                x:DataType="vm:HomeTabViewModel"
                x:TypeArguments="vm:HomeTabViewModel">
@@ -50,7 +52,7 @@
                     <DataTemplate x:DataType="models:Services">
                         <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
                                                  templates:Gestures.TappedParameter="{Binding .}"
-                                                 ImageSource="{Binding ServiceImagePath}" />
+                                                 ImageSource="{Binding ServiceImage}" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>
@@ -71,6 +73,7 @@
             <CollectionView Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
+                            IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
                             ItemSizingStrategy="MeasureAllItems"
                             ItemsSource="{Binding ServicesCollection}"
                             VerticalOptions="Start">
@@ -99,7 +102,7 @@
                                 <templateImg:CachedImage Grid.Row="0"
                                                          HeightRequest="80"
                                                          HorizontalOptions="Center"
-                                                         ImageSource="{Binding ServiceImagePath}"
+                                                         Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                                          VerticalOptions="Start"
                                                          WidthRequest="80" />
 
@@ -126,6 +129,22 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <StackLayout Grid.Row="2"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="2"
+                         HorizontalOptions="CenterAndExpand"
+                         IsEnabled="{Binding IsLoadingData}"
+                         IsVisible="{Binding IsLoadingData}"
+                         VerticalOptions="CenterAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsLoadingData}"
+                                   VerticalOptions="Center"
+                                   Color="#695CD5" />
+
+                <Label FontFamily="med"
+                       Text="Loading data..."
+                       TextColor="#695CD5" />
+            </StackLayout>
             <!--#endregion-->
 
             <Frame Grid.Row="3"

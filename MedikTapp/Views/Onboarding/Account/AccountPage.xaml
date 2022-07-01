@@ -8,7 +8,6 @@
                 xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
-                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                 x:DataType="vm:AccountPageViewModel"
                 x:TypeArguments="vm:AccountPageViewModel">
     <ContentPage.Resources>
@@ -84,14 +83,27 @@
                        Text="Forgot your password?"
                        TextColor="#695CD5" />
 
-                <Button Margin="0,20"
-                        Padding="0,5"
-                        BackgroundColor="#695CD5"
-                        Command="{TemplateBinding BindingContext.ContinueCmd}"
-                        CornerRadius="10"
-                        FontFamily="med"
-                        Text="Login"
-                        VerticalOptions="Center" />
+                <Grid Margin="0,20"
+                      ColumnDefinitions="*,50">
+                    <Button Grid.Column="0"
+                            Padding="0,5"
+                            BackgroundColor="#695CD5"
+                            Command="{TemplateBinding BindingContext.ContinueCmd}"
+                            CornerRadius="10"
+                            FontFamily="med"
+                            Text="Login"
+                            VerticalOptions="Center" />
+
+                    <Button Grid.Column="1"
+                            Padding="0"
+                            BackgroundColor="#695CD5"
+                            Command="{TemplateBinding BindingContext.BiometricsCmd}"
+                            CornerRadius="10"
+                            FontFamily="fas"
+                            FontSize="20"
+                            HorizontalOptions="Center"
+                            Text="{x:Static fonts:FontAwesomeIcons.Fingerprint}" />
+                </Grid>
 
                 <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
                        helper:Gestures.TappedParameter="Register"

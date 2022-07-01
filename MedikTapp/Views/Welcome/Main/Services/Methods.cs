@@ -1,10 +1,17 @@
-﻿using System.Linq;
+﻿using MedikTapp.Services.NavigationService;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Services
 {
     public partial class ServicesTabViewModel
     {
+        public override async void Initialized(NavigationParameters parameters)
+        {
+            AvailableServices = new(await _httpService.GetServices());
+            IsLoadingData = false;
+        }
+
         private void FilterServices(TextChangedEventArgs args)
         {
             var searchTerm = args.NewTextValue.ToLowerInvariant();

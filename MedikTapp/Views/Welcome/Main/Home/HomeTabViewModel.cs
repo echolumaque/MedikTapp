@@ -1,21 +1,20 @@
 ﻿using MedikTapp.Helpers.Command;
-using MedikTapp.Services.MockService;
+using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
 using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
-using System;
-using System.Linq;
 
 namespace MedikTapp.Views.Welcome.Main.Home
 {
     public partial class HomeTabViewModel : TabItemPageViewModelBase
     {
         private bool _isAlreadyTimed;
-        private readonly MockService _mockService;
+        private readonly HttpService _httpService;
 
-        public HomeTabViewModel(NavigationService navigationService, MockService mockService) : base(navigationService)
+        public HomeTabViewModel(NavigationService navigationService,
+            HttpService httpService) : base(navigationService)
         {
-            _mockService = mockService;
+            _httpService = httpService;
 
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(service =>
             {
@@ -24,9 +23,6 @@ namespace MedikTapp.Views.Welcome.Main.Home
                     { "service", service }
                 });
             });
-
-            InitPromos();
-            ServicesCollection = new(_mockService.MockServices.OrderBy(x => Guid.NewGuid()).Take(6));
         }
     }
 }

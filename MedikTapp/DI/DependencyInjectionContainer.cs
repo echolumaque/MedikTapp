@@ -1,4 +1,6 @@
-﻿using MedikTapp.Services.DatabaseService;
+﻿using FFImageLoading;
+using MedikTapp.Services.DatabaseService;
+using MedikTapp.Services.GraphicsService;
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
@@ -15,6 +17,8 @@ using MedikTapp.Views.Welcome.Main.Services;
 using MedikTapp.Views.Welcome.Main.Settings;
 using MedikTapp.Views.Welcome.Main.TimeAvailability;
 using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Essentials.Implementation;
+using Xamarin.Essentials.Interfaces;
 using XF.Services.InitializeDataService;
 
 namespace MedikTapp.DI
@@ -31,7 +35,11 @@ namespace MedikTapp.DI
                 .AddSingleton<InitializeDataService>()
                 .AddSingleton<NotificationService>()
                 .AddSingleton<HttpService>()
+                .AddSingleton<GraphicsService>()
+                .AddSingleton<IImageService, ImageService>()
 
+                .AddSingleton<IMainThread, MainThreadImplementation>()
+                .AddSingleton<IPreferences, PreferencesImplementation>()
                 .AddTransient<ServiceInfoPopupViewModel>()
                 .AddTransient<MainPageViewModel>()
                 .AddTransient<TimeAvailabilityPopupViewModel>()

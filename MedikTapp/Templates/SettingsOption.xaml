@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="MedikTapp.Templates.SettingsOption"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:attached="clr-namespace:MedikTapp.Helpers"
+             xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:xs="clr-namespace:MedikTapp.Templates"
+             x:DataType="xs:SettingsOption">
+
+    <xct:Expander AnimationEasing="CubicInOut"
+                  AnimationLength="500"
+                  ContentTemplate="{Binding ContentTemplate}"
+                  IsExpanded="{Binding IsExpanded}">
+        <xct:Expander.Header>
+            <Grid attached:Gestures.Tapped="{Binding TapCommand}"
+                  ColumnDefinitions="30,*,30"
+                  RowDefinitions="30">
+
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       FontFamily="far"
+                       FontSize="20"
+                       HorizontalOptions="Start"
+                       Text="{Binding Icon}"
+                       TextColor="#2F2F32"
+                       VerticalOptions="Center" />
+
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       FontFamily="med"
+                       FontSize="15"
+                       HorizontalOptions="Start"
+                       Text="{Binding MainText}"
+                       TextColor="Black"
+                       VerticalOptions="Center" />
+
+                <Label Grid.Row="0"
+                       Grid.Column="2"
+                       FontFamily="fas"
+                       FontSize="15"
+                       HorizontalOptions="End"
+                       Text="{x:Static fonts:FontAwesomeIcons.ChevronDown}"
+                       TextColor="#2F2F32"
+                       VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded}"
+                                     TargetType="Label"
+                                     Value="True">
+                            <Setter Property="Text" Value="{x:Static fonts:FontAwesomeIcons.ChevronUp}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <BoxView Grid.Row="0"
+                         Grid.Column="0"
+                         Grid.ColumnSpan="3"
+                         Margin="0,0,0,-5"
+                         BackgroundColor="Gray"
+                         HeightRequest="0.5"
+                         Opacity="0.4"
+                         VerticalOptions="End" />
+            </Grid>
+        </xct:Expander.Header>
+    </xct:Expander>
+</ContentView>

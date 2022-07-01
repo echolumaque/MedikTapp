@@ -12,8 +12,17 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
     public partial class TimeAvailabilityPopupViewModel
     {
-        private const int ClinicMaxHourCount = 17;
-        private void RaiseSelectScheduleCanExecuteChanged() => SelectScheduleCmd.RaiseCanExecuteChanged();
+        private List<DateTime> GetDisabledDates()
+        {
+            var disabledDates = new List<DateTime>();
+
+            for (var date = DateTime.Now; date <= new DateTime(DateTime.Now.Year, 12, 31); date = date.AddDays(1))
+            {
+                if (date.DayOfWeek == DayOfWeek.Sunday)
+                    disabledDates.Add(date);
+            }
+            return disabledDates;
+        }
 
         public override void Initialized(NavigationParameters parameters)
         {
@@ -21,22 +30,52 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             _isRescheduled = parameters.GetValue<bool>("isResched");
             CustomDayLabels = DateTimeFormatInfo.CurrentInfo.AbbreviatedDayNames;
             DisabledDates = GetDisabledDates();
-            SelectedDate = _passedService.AvailableTime;
+            SelectedDate = _passedService.AvailableTime == default ? DateTime.Now : _passedService.AvailableTime;
+        }
 
-            if (DateTime.Now.Hour < 15)
+        private void OnSelectedTimeChanged(SelectionChangedEventArgs args)
+        {
+            if (args.CurrentSelection.Count < 1)
+                return;
+
+            var selectedtime = (Models.TimeAvailability)args.CurrentSelection[0];
+            if (!selectedtime.IsAvailable)
+                SelectedTime = null;
+        }
+
+        private void PopulateTime(bool isTodayDate)
+        {
+            var startAllowedTime = isTodayDate ? DateTime.Now.Hour + 2 : 7;
+            var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
+            TimeCollection = new();
+            foreach (var time in allowedTimes)
             {
-                var startAllowedTime = DateTime.Now.Hour + 2;
-                var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
-                TimeCollection = new();
-                foreach (var time in allowedTimes)
+                TimeCollection.Add(new()
                 {
-                    TimeCollection.Add(new()
-                    {
-                        IsAvailable = true, //todo: check on backend first
-                        Time = DateTime.Today.Add(new TimeSpan(time, 0, 0))
-                    });
-                }
+                    IsAvailable = true, //todo: check on backend first
+                    Time = DateTime.Today.Add(new TimeSpan(time, 0, 0))
+                });
             }
+        }
+
+        private void RaiseSelectScheduleCanExecuteChanged()
+        {
+
+            if (SelectedDate.Date == DateTime.Now.Date)
+            {
+                if (DateTime.Now.Hour < 15)
+                    // If current time is less than 3pm, populate the time collection
+                    PopulateTime(true);
+                else
+                    // If current time is more than 3pm, clear the time collection to prevent time selection by creating new empty instance
+                    TimeCollection = new();
+            }
+            else
+                // If the selected date is in the future, populate the time collection from 7am to 4pm
+                PopulateTime(false);
+
+
+            SelectScheduleCmd.RaiseCanExecuteChanged();
         }
 
         private async Task SelectSchedule()
@@ -48,7 +87,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                 BookingStatus = Enums.BookingStatus.Confirmed,
                 ServiceDescription = _passedService.ServiceDescription,
                 ServiceId = _passedService.ServiceId,
-                ServiceImagePath = _passedService.ServiceImagePath,
+                ServiceImage = _passedService.ServiceImage,
                 ServiceName = _passedService.ServiceName,
                 ServicePrice = _passedService.ServicePrice
             });
@@ -81,28 +120,6 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             _toast.Show(_isRescheduled
                 ? "You have successfully rescheduled your appointment."
                 : "You have successfully booked an appointment.");
-        }
-
-        private void OnSelectedTimeChanged(SelectionChangedEventArgs args)
-        {
-            if (args.CurrentSelection.Count < 1)
-                return;
-
-            var selectedtime = (Models.TimeAvailability)args.CurrentSelection[0];
-            if (!selectedtime.IsAvailable)
-                SelectedTime = null;
-        }
-
-        private List<DateTime> GetDisabledDates()
-        {
-            var disabledDates = new List<DateTime>();
-            for (var date = DateTime.Now; date <= new DateTime(DateTime.Now.Year, 12, 31); date = date.AddDays(1))
-            {
-                if (date.DayOfWeek == DayOfWeek.Sunday)
-                    disabledDates.Add(date);
-            }
-
-            return disabledDates;
         }
     }
 }

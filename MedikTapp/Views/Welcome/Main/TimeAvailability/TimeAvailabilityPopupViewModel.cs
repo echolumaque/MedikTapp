@@ -10,6 +10,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
     public partial class TimeAvailabilityPopupViewModel : ViewModelBase
     {
+        private const int ClinicMaxHourCount = 17;
         private readonly DatabaseService _databaseService;
         private bool _isRescheduled;
         private readonly NotificationService _notificationService;

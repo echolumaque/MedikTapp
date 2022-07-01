@@ -15,5 +15,6 @@ namespace MedikTapp.Views.Welcome.Main.Services
         public ObservableCollection<Models.Services> AvailableServices { get; set; }
         public ICommand SearchEntryTextChangedCmd { get; }
         public AsyncSingleCommand<Models.Services> ServiceConfirmationCmd { get; }
+        public bool IsLoadingData { get; set; } = true;
     }
 }
