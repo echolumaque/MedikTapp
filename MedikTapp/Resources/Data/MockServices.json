@@ -1,6 +1,6 @@
 [
   {
-    "ServiceImagePath": "kidney.png",
+    "ServiceImage": "kidney.png",
     "ServiceName": "Laboratory (ECG and Creatinine included)",
     "ServiceDescription": "An electrocardiogram (ECG) is one of the simplest and fastest tests used to evaluate the heart. Electrodes (small, plastic patches that stick to the skin) are placed at certain spots on the chest, arms, and legs. The electrodes are connected to an ECG machine by lead wires.",
     "ServicePrice": 750.0,
@@ -8,7 +8,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "liver.png",
+    "ServiceImage": "liver.png",
     "ServiceName": "HbA1c",
     "ServiceDescription": "HbA1c is your average blood glucose (sugar) levels for the last two to three months. If you have diabetes, an ideal HbA1c level is 48mmol/mol (6.5%) or below. If you're at risk of developing type 2 diabetes, your target HbA1c level should be below 42mmol/mol (6%)",
     "ServicePrice": 900.0,
@@ -16,7 +16,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "urine_test.png",
+    "ServiceImage": "urine_test.png",
     "ServiceName": "Urinalysis",
     "ServiceDescription": "A urinalysis is a test of your urine. It's used to detect and manage a wide range of disorders, such as urinary tract infections, kidney disease and diabetes. A urinalysis involves checking the appearance, concentration and content of urine.",
     "ServicePrice": 110.0,
@@ -24,7 +24,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "checkup.png",
+    "ServiceImage": "checkup.png",
     "ServiceName": "2D Echo w/ Doppler",
     "ServiceDescription": "A 2-D (or two-dimensional) echocardiogram is capable of displaying a cross-sectional “slice” of the beating heart, including the chambers, valves and the major blood vessels that exit from the left and right ventricle. A Doppler echocardiogram measures the speed and direction of the blood flow within the heart.",
     "ServicePrice": 2200.0,
@@ -32,7 +32,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "xray.png",
+    "ServiceImage": "xray.png",
     "ServiceName": "Chest X-Ray",
     "ServiceDescription": "A chest X-ray is an imaging test that uses X-rays to look at the structures and organs in your chest. It can help your healthcare provider see how well your lungs and heart are working. Certain heart problems can cause changes in your lungs. Certain diseases can cause changes in the structure of the heart or lungs.",
     "ServicePrice": 250.0,
@@ -40,7 +40,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "covid_test.png",
+    "ServiceImage": "covid_test.png",
     "ServiceName": "COVID-19 RT-PCR Swab Test",
     "ServiceDescription": "The polymerase chain reaction (PCR) test for COVID-19 is a molecular test that analyzes your upper respiratory specimen, looking for genetic material (ribonucleic acid or RNA) of SARS-CoV-2, the virus that causes COVID-19.",
     "ServicePrice": 4000.0,
@@ -48,7 +48,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "covid_test.png",
+    "ServiceImage": "covid_test.png",
     "ServiceName": "COVID-19 Rapid AntiGEN Test",
     "ServiceDescription": "Antigen tests are immunoassays that detect the presence of a specific viral antigen, which indicates current viral infection. Antigen tests are currently authorized to be performed on nasopharyngeal, nasal swab, or saliva specimens placed directly into the assay's extraction buffer or reagent.",
     "ServicePrice": 1300.0,
@@ -56,7 +56,7 @@
     "IsPromo": false
   },
   {
-    "ServiceImagePath": "covid_test.png",
+    "ServiceImage": "covid_test.png",
     "ServiceName": "COVID-19 Rapid Antibody Test",
     "ServiceDescription": "Antibody testing determines if you had COVID-19 (coronavirus) infection in the past. It differs from testing to diagnose if you currently have COVID-19.",
     "ServicePrice": 800.0,

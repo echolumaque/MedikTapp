@@ -21,5 +21,8 @@ namespace MedikTapp.Services.HttpService
 
         public ConfiguredTaskAwaitable<string> Register(Dictionary<string, string> data) =>
             _medikTappApi.Register(data).ConfigureAwait(false);
+
+        public ConfiguredTaskAwaitable<IEnumerable<Models.Services>> GetServices() =>
+            _medikTappApi.GetService().ConfigureAwait(false);
     }
 }

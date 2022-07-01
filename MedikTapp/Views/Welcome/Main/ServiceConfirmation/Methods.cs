@@ -10,7 +10,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
         {
             var passedService = parameters.GetValue<Models.Services>("service");
             EarliestAvailableDate = passedService.AvailableTime;
-            ServiceImagePath = passedService.ServiceImagePath;
+            ServiceImage = passedService.ServiceImage;
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;
@@ -25,7 +25,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
             {
                 AvailableTime = EarliestAvailableDate,
                 ServiceDescription = ServiceDescription,
-                ServiceImagePath = ServiceImagePath,
+                ServiceImage = ServiceImage,
                 ServiceName = ServiceName,
                 ServicePrice = ServicePrice
             });

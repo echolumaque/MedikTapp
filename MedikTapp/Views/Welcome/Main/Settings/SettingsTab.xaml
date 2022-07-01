@@ -2,7 +2,190 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Settings.SettingsTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+               xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Settings"
+               xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+               x:Name="this"
                x:DataType="vm:SettingsTabViewModel"
-               x:TypeArguments="vm:SettingsTabViewModel" />
+               x:TypeArguments="vm:SettingsTabViewModel">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <StackLayout Spacing="20">
+
+            <Label FontFamily="med"
+                   FontSize="40"
+                   Text="Settings"
+                   TextColor="#2F2F32" />
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Bell}"
+                                      IsExpanded="{Binding IsNotificationExpanded}"
+                                      MainText="Notification"
+                                      TapCommand="{Binding NotificationTappedCmd}">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="40,*,60"
+                              HeightRequest="70"
+                              VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   FontFamily="fas"
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   Text="{x:Static fonts:FontAwesomeIcons.Bullhorn}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Column="1"
+                                   FontFamily="reg"
+                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Text="Enable promo notifications"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+
+                            <Switch Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    IsToggled="{Binding BindingContext.IsPromoNotificaitonEnabled, Source={x:Reference this}}"
+                                    OnColor="#ABABAB"
+                                    ThumbColor="#695CD5"
+                                    VerticalOptions="Center">
+                                <Switch.Behaviors>
+                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsPromoNotificationToggledCmd, Source={x:Reference this}}"
+                                                                EventName="Toggled" />
+                                </Switch.Behaviors>
+                            </Switch>
+                        </Grid>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Eye}"
+                                      IsExpanded="{Binding IsAppearanceExpanded}"
+                                      MainText="Appearance"
+                                      TapCommand="{Binding AppearanceTappedCmd}">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="40,*,60"
+                              HeightRequest="80"
+                              VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   FontFamily="fas"
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   Text="{x:Static fonts:FontAwesomeIcons.CircleHalfStroke}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Column="1"
+                                   FontFamily="reg"
+                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Text="Dark mode"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+
+                            <Switch Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    IsToggled="{Binding BindingContext.IsDarkModeEnabled, Source={x:Reference this}}"
+                                    OnColor="#ABABAB"
+                                    ThumbColor="#695CD5"
+                                    VerticalOptions="Center">
+                                <Switch.Behaviors>
+                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsDarkModeToggledCmd, Source={x:Reference this}}"
+                                                                EventName="Toggled" />
+                                </Switch.Behaviors>
+                            </Switch>
+                        </Grid>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Lock}"
+                                      IsExpanded="{Binding IsPrivacyExpanded}"
+                                      MainText="Privacy &amp; Security"
+                                      TapCommand="{Binding PrivacyTappedCmd}">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="40,*,60"
+                              HeightRequest="80"
+                              VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   FontFamily="fas"
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   Text="{x:Static fonts:FontAwesomeIcons.Fingerprint}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Column="1"
+                                   FontFamily="reg"
+                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Text="Enable biometric login"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+
+                            <Switch Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    IsToggled="{Binding BindingContext.IsBiometricLoginEnabled, Source={x:Reference this}}"
+                                    OnColor="#ABABAB"
+                                    ThumbColor="#695CD5"
+                                    VerticalOptions="Center">
+                                <Switch.Behaviors>
+                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsBiometricLoginToggledCmd, Source={x:Reference this}}"
+                                                                EventName="Toggled" />
+                                </Switch.Behaviors>
+                            </Switch>
+                        </Grid>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Headset}"
+                                      IsExpanded="{Binding IsHelpExpanded}"
+                                      MainText="Help and Support"
+                                      TapCommand="{Binding HelpTappedCmd}">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="0,20,0,0"
+                                     HeightRequest="90"
+                                     VerticalOptions="StartAndExpand">
+                            <Label FontFamily="med"
+                                   FontSize="18"
+                                   Text="You can reach MedikTapp's admin at:"
+                                   TextColor="Black" />
+
+                            <Label FontFamily="reg"
+                                   FontSize="14"
+                                   Text="mediktappadmin@gmail.com"
+                                   TextColor="#2F2F32" />
+                        </StackLayout>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.CircleQuestion}"
+                                      IsExpanded="{Binding IsAboutExpanded}"
+                                      MainText="About"
+                                      TapCommand="{Binding AboutTappedCmd}">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="0,20,0,0"
+                                     HeightRequest="600"
+                                     VerticalOptions="StartAndExpand">
+                            <Label FontFamily="med"
+                                   FontSize="20"
+                                   Text="Secure an Appoinment with MedikTapp"
+                                   TextColor="Black" />
+
+                            <Label FontFamily="reg"
+                                   FontSize="14"
+                                   Text="Displeased by the long queuing and waiting time in Parañaque Ultrasound Diagnostic Center (PUDC) in availing medical services, a group of students came up with this digital solution.&#10;&#10;&#10;MedikTapp has been developed for the patients of PUDC to book an appointment at the touch of a button. Just by selecting a service to avail, patients or the users of the app may simply select their most preferred date and time - depends on schedule availability. They may also reschedule an appointment or cancel it if it is really needed. Check the confirmed appointments in schedule tab and be able to get notification before the appointment.&#10;&#10;&#10;MedikTapp has become a strategic partner for the PUDC to help them reduce the waiting time of their patients at the same time be able to manage their upcoming appointments. MedikTapp assists the business and their patients based on their needs in the present and to the future."
+                                   TextColor="#2F2F32" />
+                        </StackLayout>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
+        </StackLayout>
+    </ScrollView>
+</views:BaseTab>

@@ -44,7 +44,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
                         BookingStatus = BookingStatus.Cancelled,
                         ServiceDescription = schedule.ServiceDescription,
                         ServiceId = schedule.ServiceId,
-                        ServiceImagePath = schedule.ServiceImagePath,
+                        ServiceImage = schedule.ServiceImage,
                         ServiceName = schedule.ServiceName,
                         ServicePrice = schedule.ServicePrice
                     });

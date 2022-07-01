@@ -7,5 +7,6 @@ namespace MedikTappFunctionApp.Models
         public EntityContext(DbContextOptions<EntityContext> dbContextOptions) : base(dbContextOptions) { }
 
         public DbSet<PatientModel> PatientData { get; set; }
+        public DbSet<ServiceModel> ServiceData { get; set; }
     }
 }

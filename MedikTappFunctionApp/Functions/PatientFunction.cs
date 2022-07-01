@@ -14,10 +14,8 @@ namespace MedikTappFunctionApp.Functions
 {
     public class PatientFunction : BaseFunction
     {
-        private readonly SqlService _sqlService;
-
-        public PatientFunction(EntityContext entityContext, JsonService jsonService, SqlService sqlService)
-            : base(entityContext, jsonService) => _sqlService = sqlService;
+        public PatientFunction(EntityContext entityContext, JsonService jsonService)
+            : base(entityContext, jsonService) { }
 
         [FunctionName("Register")]
         public async Task<IActionResult> Register([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request, ILogger logger)

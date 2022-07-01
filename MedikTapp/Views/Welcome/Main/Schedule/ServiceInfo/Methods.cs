@@ -11,7 +11,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo
         {
             var passedService = parameters.GetValue<Models.Services>("service");
             EarliestAvailableDate = passedService.AvailableTime;
-            ServiceImagePath = passedService.ServiceImagePath;
+            ServiceImage = passedService.ServiceImage;
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;

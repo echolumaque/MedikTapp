@@ -1,4 +1,5 @@
 ﻿using FFImageLoading.Forms;
+using System;
 using Xamarin.Forms;
 
 namespace MedikTapp.Templates.Images
@@ -8,7 +9,7 @@ namespace MedikTapp.Templates.Images
         public CachedImage()
         {
             BitmapOptimizations = true;
-            DownsampleToViewSize = true;
+            CacheDuration = TimeSpan.FromDays(365);
         }
 
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
@@ -27,9 +28,7 @@ namespace MedikTapp.Templates.Images
             if (bindable is not CachedImage image)
                 return;
 
-            //image.Source = Xamarin.Forms.ImageSource.FromResource($"MedikTapp.Resources.SVGs.{newValue}",
-            //    typeof(CachedImage).GetTypeInfo().Assembly);
-            image.Source = new EmbeddedResourceImageSource(new($"resource://MedikTapp.Resources.SVGs.{newValue}"));
+            image.Source = new EmbeddedResourceImageSource(new($"resource://MedikTapp.Resources.Images.{newValue}"));
         }
     }
 }

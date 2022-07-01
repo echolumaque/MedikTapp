@@ -1,9 +1,9 @@
-﻿using MedikTapp.Services.MockService;
+﻿using MedikTapp.Services.GraphicsService;
+using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
-using MedikTapp.Views.MainPage;
+using MedikTapp.Views.Onboarding.Account;
 using Syncfusion.Licensing;
-using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -23,29 +23,29 @@ namespace MedikTapp
 {
     public partial class App : Application
     {
+        private readonly GraphicsService _graphicsService;
         private readonly InitializeDataService _initializeDataService;
         private readonly MockService _mockService;
-        private event EventHandler AppInit;
 
         public App(NavigationService navigationService,
+            GraphicsService graphicsService,
             InitializeDataService initializeDataService,
             MockService mockService)
         {
+            _graphicsService = graphicsService;
             _initializeDataService = initializeDataService;
             _mockService = mockService;
-            SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
 
+            SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
             DefineResources();
             VersionTracking.Track();
-            AppInit += Init;
-            AppInit(null, EventArgs.Empty);
 
             //if (VersionTracking.IsFirstLaunchEver)
             //    navigationService.SetRootPage<OnboardingPage>();
             //else
             //    navigationService.SetRootPage<AccountPage>();
 
-            navigationService.SetRootPage<MainPage>();
+            navigationService.SetRootPage<AccountPage>();
         }
 
         private void DefineResources()
@@ -53,21 +53,14 @@ namespace MedikTapp
             Resources.Add(new LightTheme());
         }
 
-        private async void Init()
+        protected override async void OnStart()
         {
+            base.OnStart();
             await Task.WhenAll
             (
-                _initializeDataService.Init(),
-                _mockService.Init()
-            ).ConfigureAwait(false);
-        }
-
-        private async void Init(object sender, EventArgs e)
-        {
-            await Task.WhenAll
-            (
-                _initializeDataService.Init(),
-                _mockService.Init()
+               _graphicsService.PreloadImages(),
+               _initializeDataService.Init(),
+               _mockService.Init()
             ).ConfigureAwait(false);
         }
     }
