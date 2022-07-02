@@ -101,7 +101,7 @@
                                                      Grid.Column="1"
                                                      HeightRequest="60"
                                                      HorizontalOptions="End"
-                                                     ImageSource="{Binding ServiceImage}"
+                                                     Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                                      VerticalOptions="Start"
                                                      WidthRequest="60" />
 
@@ -192,19 +192,16 @@
                             <!--#region  Doc or Service Name, Doc Specialty, and Image-->
                             <Label Grid.Row="0"
                                    Grid.Column="0"
-                                   Grid.ColumnSpan="2"
                                    FontFamily="med"
                                    FontSize="20"
                                    HorizontalOptions="StartAndExpand"
                                    LineBreakMode="TailTruncation"
                                    Text="{Binding ServiceName}"
                                    TextColor="{StaticResource Black}"
-                                   VerticalOptions="Start"
-                                   WidthRequest="280" />
+                                   VerticalOptions="Start" />
 
                             <Label Grid.Row="0"
                                    Grid.Column="0"
-                                   Grid.ColumnSpan="2"
                                    Margin="0,20,0,0"
                                    FontFamily="reg"
                                    HorizontalOptions="StartAndExpand"
@@ -220,7 +217,7 @@
                                                      Grid.Column="1"
                                                      HeightRequest="60"
                                                      HorizontalOptions="End"
-                                                     ImageSource="{Binding ServiceImage}"
+                                                     Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                                      VerticalOptions="Start"
                                                      WidthRequest="60" />
 

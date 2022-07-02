@@ -123,7 +123,7 @@
                                                          Grid.Column="1"
                                                          HeightRequest="65"
                                                          HorizontalOptions="End"
-                                                         ImageSource="{Binding ServiceImage}"
+                                                         Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                                          VerticalOptions="Start"
                                                          WidthRequest="65" />
 
@@ -171,7 +171,7 @@
                                     CommandParameter="{Binding .}"
                                     CornerRadius="10"
                                     FontFamily="reg"
-                                    Text="Select schedule"
+                                    Text="Set schedule"
                                     TextColor="White" />
                         </Grid>
                     </Frame>

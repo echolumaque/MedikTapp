@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.TimeAvailability.TimeAvailabilityPopup"
-                 xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:model="clr-namespace:MedikTapp.Models"
-                 xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
-                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
-                 xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
-                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                 x:DataType="vm:TimeAvailabilityPopupViewModel"
-                 x:TypeArguments="vm:TimeAvailabilityPopupViewModel">
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:model="clr-namespace:MedikTapp.Models"
+                xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:DataType="vm:TimeAvailabilityPopupViewModel"
+                x:TypeArguments="vm:TimeAvailabilityPopupViewModel">
     <Frame Margin="20,0"
            BackgroundColor="White"
            CornerRadius="20"

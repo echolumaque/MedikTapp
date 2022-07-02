@@ -2,6 +2,7 @@
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.GraphicsService;
 using MedikTapp.Services.HttpService;
+using MedikTapp.Services.MedikTappService;
 using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.NotificationService;
@@ -34,6 +35,7 @@ namespace MedikTapp.DI
                 .AddSingleton<DatabaseService>()
                 .AddSingleton<InitializeDataService>()
                 .AddSingleton<NotificationService>()
+                .AddSingleton<MedikTappService>()
                 .AddSingleton<HttpService>()
                 .AddSingleton<GraphicsService>()
                 .AddSingleton<IImageService, ImageService>()

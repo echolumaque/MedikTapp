@@ -60,7 +60,6 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
         private void RaiseSelectScheduleCanExecuteChanged()
         {
-
             if (SelectedDate.Date == DateTime.Now.Date)
             {
                 if (DateTime.Now.Hour < 15)

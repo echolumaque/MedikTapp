@@ -2,6 +2,7 @@
 <views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.ServiceConfirmation.ServiceConfirmationPopup"
                  xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:converter="clr-namespace:MedikTapp.Converters"
                  xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                  xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                  xmlns:views="clr-namespace:MedikTapp.Templates.Base"
@@ -50,7 +51,7 @@
            VerticalOptions="Center">
         <Grid ColumnDefinitions="50,*"
               ColumnSpacing="0"
-              RowDefinitions="30,80,80,180,50,55,55">
+              RowDefinitions="30,80,80,Auto,50,55,55">
             <!--#region Header and Service Name-->
             <Label Grid.Row="0"
                    Grid.Column="0"
@@ -71,17 +72,16 @@
                    HorizontalTextAlignment="Center"
                    Text="{Binding ServiceName}"
                    TextColor="{StaticResource Black}"
-                   VerticalOptions="End" />
+                   VerticalOptions="CenterAndExpand" />
 
             <templateImg:CachedImage Grid.Row="2"
                                      Grid.Column="0"
                                      Grid.ColumnSpan="2"
                                      HeightRequest="{Binding ProductImageSize.Item1}"
                                      HorizontalOptions="Center"
-                                     ImageSource="{Binding ServiceImage}"
+                                     Source="{Binding ServiceImage}"
                                      VerticalOptions="Center"
                                      WidthRequest="{Binding ProductImageSize.Item2}" />
-            <!--#endregion-->
 
             <!--#region Description-->
             <Label Grid.Row="3"
@@ -91,7 +91,7 @@
                    HorizontalTextAlignment="Center"
                    LineBreakMode="TailTruncation"
                    LineHeight="1.1"
-                   MaxLines="6"
+                   MaxLines="8"
                    Text="{Binding ServiceDescription}"
                    TextColor="{StaticResource Black}" />
 

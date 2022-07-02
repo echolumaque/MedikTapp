@@ -1,6 +1,8 @@
 ﻿using MedikTapp.Services.NavigationService;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
 {
@@ -9,8 +11,9 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
         public override void Initialized(NavigationParameters parameters)
         {
             var passedService = parameters.GetValue<Models.Services>("service");
+            _base64String = passedService.ServiceImage;
             EarliestAvailableDate = passedService.AvailableTime;
-            ServiceImage = passedService.ServiceImage;
+            ServiceImage = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(_base64String)));
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;
@@ -25,7 +28,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
             {
                 AvailableTime = EarliestAvailableDate,
                 ServiceDescription = ServiceDescription,
-                ServiceImage = ServiceImage,
+                ServiceImage = _base64String,
                 ServiceName = ServiceName,
                 ServicePrice = ServicePrice
             });

@@ -11,8 +11,6 @@ namespace MedikTapp.Views.Welcome.Main.Home
         public override async void Initialized(NavigationParameters parameters)
         {
             InitPromos();
-            ServicesCollection = new((await _httpService.GetServices()).Take(6));
-
             if (!_isAlreadyTimed)
             {
                 await Task.Delay(2000);
@@ -26,6 +24,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
                 _isAlreadyTimed = true;
             }
 
+            ServicesCollection = new(_medikTappService.MedikTappServices.Take(6));
             IsLoadingData = false;
         }
 

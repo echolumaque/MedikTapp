@@ -16,6 +16,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         private readonly NotificationService _notificationService;
         private Models.Services _passedService;
         private readonly IToast _toast;
+        private readonly bool _isFirstLaunched;
 
         public TimeAvailabilityPopupViewModel(NavigationService navigationService,
             DatabaseService databaseService,
@@ -28,7 +29,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             _toast = toast;
 
             ChangeSelectedTimeCmd = new Command<SelectionChangedEventArgs>(args => OnSelectedTimeChanged(args));
-            SelectScheduleCmd = new AsyncSingleCommand(SelectSchedule, () => SelectedDate.Year != 1 && SelectedTime != null);
+            SelectScheduleCmd = new AsyncSingleCommand(SelectSchedule, () => SelectedDate != null && SelectedTime != null);
         }
     }
 }

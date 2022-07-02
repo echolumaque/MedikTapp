@@ -1,6 +1,5 @@
 ﻿using MedikTapp.Helpers.Command;
-using MedikTapp.Services.HttpService;
-using MedikTapp.Services.MockService;
+using MedikTapp.Services.MedikTappService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
 using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
@@ -10,15 +9,12 @@ namespace MedikTapp.Views.Welcome.Main.Services
 {
     public partial class ServicesTabViewModel : TabItemPageViewModelBase
     {
-        private readonly MockService _mockService;
-        private readonly HttpService _httpService;
+        private readonly MedikTappService _medikTappService;
 
         public ServicesTabViewModel(NavigationService navigationService,
-            HttpService httpService,
-            MockService mockService) : base(navigationService)
+            MedikTappService medikTappService) : base(navigationService)
         {
-            _mockService = mockService;
-            _httpService = httpService;
+            _medikTappService = medikTappService;
 
             SearchEntryTextChangedCmd = new Command<TextChangedEventArgs>(args => FilterServices(args));
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(service =>

@@ -6,9 +6,9 @@ namespace MedikTapp.Views.Welcome.Main.Services
 {
     public partial class ServicesTabViewModel
     {
-        public override async void Initialized(NavigationParameters parameters)
+        public override void Initialized(NavigationParameters parameters)
         {
-            AvailableServices = new(await _httpService.GetServices());
+            AvailableServices = new(_medikTappService.MedikTappServices);
             IsLoadingData = false;
         }
 
@@ -17,8 +17,8 @@ namespace MedikTapp.Views.Welcome.Main.Services
             var searchTerm = args.NewTextValue.ToLowerInvariant();
             if (string.IsNullOrWhiteSpace(searchTerm)) searchTerm = string.Empty;
 
-            var filteredItems = _mockService.MockServices.Where(x => x.ServiceName.ToLowerInvariant().Contains(searchTerm)).ToList();
-            foreach (var value in _mockService.MockServices)
+            var filteredItems = _medikTappService.MedikTappServices.Where(x => x.ServiceName.ToLowerInvariant().Contains(searchTerm)).ToList();
+            foreach (var value in _medikTappService.MedikTappServices)
             {
                 if (!filteredItems.Contains(value))
                     AvailableServices.Remove(value);

@@ -10,8 +10,7 @@ namespace MedikTapp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var base64String = (string)value;
-            var base64ByteArray = System.Convert.FromBase64String(base64String);
+            var base64ByteArray = System.Convert.FromBase64String(value.ToString());
             return ImageSource.FromStream(() => new MemoryStream(base64ByteArray));
         }
 
