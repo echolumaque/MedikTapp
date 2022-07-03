@@ -13,20 +13,20 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
         public override string Icon => FontAwesomeIcons.Clock;
         public override string Text => "Schedule";
         public override View ViewTemplate => new ScheduleTab(this);
-        public override bool CanHaveBadge => false;
-        public ObservableCollection<Models.Services> Schedules { get; set; }
+        public override bool CanHaveBadge => true;
+        public ObservableCollection<Models.ScheduleModel> Schedules { get; set; }
         public BookingStatus SelectedBookingStatus { get; set; }
-        public IAsyncCommand FilterUpcomingCmd { get; }
-        public IAsyncCommand FilterCompletedCmd { get; }
-        public IAsyncCommand FilterCancelledCmd { get; }
+        public ICommand FilterUpcomingCmd { get; }
+        public ICommand FilterCompletedCmd { get; }
+        public ICommand FilterCancelledCmd { get; }
         public IEnumerable<BookingSort> BookingSortCollection { get; set; }
         public BookingSort SelectedBookingSort { get; set; }
         public string BookingSortMainBoxText { get; set; }
         public ICommand OpenComboBoxCmd { get; }
         public bool IsFilterExpanded { get; set; }
-        public IAsyncCommand<BookingSort> ChangeFilterCmd { get; }
-        public IAsyncCommand<Models.Services> CancelScheduleCmd { get; }
-        public IAsyncCommand<Models.Services> RescheduleCmd { get; }
-        public IAsyncCommand<Models.Services> ServiceTappedCmd { get; }
+        public ICommand ChangeFilterCmd { get; }
+        public IAsyncCommand<Models.ScheduleModel> CancelScheduleCmd { get; }
+        public IAsyncCommand<Models.ScheduleModel> RescheduleCmd { get; }
+        public IAsyncCommand<Models.ScheduleModel> ServiceTappedCmd { get; }
     }
 }

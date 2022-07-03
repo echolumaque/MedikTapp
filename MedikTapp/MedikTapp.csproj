@@ -61,14 +61,6 @@
     <EmbeddedResource Include="Resources\Fonts\Poppins-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsMedium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\PoppinsRegular.ttf" />
-    <EmbeddedResource Include="Resources\Images\checkup.png" />
-    <EmbeddedResource Include="Resources\Images\covid_test.png" />
-    <EmbeddedResource Include="Resources\Images\doctor1.png" />
-    <EmbeddedResource Include="Resources\Images\doctor2.png" />
-    <EmbeddedResource Include="Resources\Images\doctor3.png" />
-    <EmbeddedResource Include="Resources\Images\doctor4.png" />
-    <EmbeddedResource Include="Resources\Images\kidney.png" />
-    <EmbeddedResource Include="Resources\Images\liver.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,14 +68,10 @@
     <EmbeddedResource Include="Resources\Images\onboarding1.png" />
     <EmbeddedResource Include="Resources\Images\onboarding2.png" />
     <EmbeddedResource Include="Resources\Images\onboarding3.png" />
-    <EmbeddedResource Include="Resources\Images\pregnant.png" />
     <EmbeddedResource Include="Resources\Images\promo1.jpg" />
     <EmbeddedResource Include="Resources\Images\promo2.jpg" />
     <EmbeddedResource Include="Resources\Images\pudci.jpg" />
     <EmbeddedResource Include="Resources\Images\pudc_map.png" />
-    <EmbeddedResource Include="Resources\Images\squiggles1.png" />
-    <EmbeddedResource Include="Resources\Images\urine_test.png" />
-    <EmbeddedResource Include="Resources\Images\xray.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,7 +95,6 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Tables\" />
   </ItemGroup>
 
   <ItemGroup>

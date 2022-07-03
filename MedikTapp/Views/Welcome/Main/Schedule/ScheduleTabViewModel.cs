@@ -1,37 +1,45 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
-using MedikTapp.Services.DatabaseService;
+using MedikTapp.Services.AppConfigService;
+using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.NotificationService;
 using MedikTapp.ViewModels.Base;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Schedule
 {
     public partial class ScheduleTabViewModel : TabItemPageViewModelBase
     {
-        private readonly DatabaseService _databaseService;
         private readonly NotificationService _notificationService;
+        private readonly AppConfigService _appConfigService;
+        private readonly HttpService _httpService;
         private readonly IToast _toast;
+        private IEnumerable<Models.ScheduleModel> _schedules;
 
         public ScheduleTabViewModel(NavigationService navigationService,
-            DatabaseService databaseService,
+            AppConfigService appConfigService,
+            HttpService httpService,
             NotificationService notificationService,
             IToast toast) : base(navigationService)
         {
-            _databaseService = databaseService;
             _notificationService = notificationService;
             _toast = toast;
+            _httpService = httpService;
+            _appConfigService = appConfigService;
 
-            ChangeFilterCmd = new AsyncSingleCommand<BookingSort>(ChangeFilter);
-            FilterCancelledCmd = new AsyncSingleCommand(InitCancelledCollections);
-            FilterCompletedCmd = new AsyncSingleCommand(InitCompletedCollections);
-            FilterUpcomingCmd = new AsyncSingleCommand(InitUpcomingCollections);
+            ChangeFilterCmd = new Command<BookingSort>(ChangeFilter);
+            FilterCancelledCmd = new Command(InitCancelledCollections);
+            FilterCompletedCmd = new Command(InitCompletedCollections);
+            FilterUpcomingCmd = new Command(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
-            CancelScheduleCmd = new AsyncSingleCommand<Models.Services>(CancelSchedule);
-            RescheduleCmd = new AsyncSingleCommand<Models.Services>(Reschedule);
-            ServiceTappedCmd = new AsyncSingleCommand<Models.Services>(ServiceTapped);
+            CancelScheduleCmd = new AsyncSingleCommand<Models.ScheduleModel>(CancelSchedule);
+            RescheduleCmd = new AsyncSingleCommand<Models.ScheduleModel>(Reschedule);
+            ServiceTappedCmd = new AsyncSingleCommand<Models.ScheduleModel>(ServiceTapped);
+
+            GetBadgeCount().ConfigureAwait(false);
         }
     }
 }

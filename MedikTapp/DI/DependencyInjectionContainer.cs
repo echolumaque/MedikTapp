@@ -1,4 +1,5 @@
 ﻿using FFImageLoading;
+using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.GraphicsService;
 using MedikTapp.Services.HttpService;
@@ -36,6 +37,7 @@ namespace MedikTapp.DI
                 .AddSingleton<InitializeDataService>()
                 .AddSingleton<NotificationService>()
                 .AddSingleton<MedikTappService>()
+                .AddSingleton<AppConfigService>()
                 .AddSingleton<HttpService>()
                 .AddSingleton<GraphicsService>()
                 .AddSingleton<IImageService, ImageService>()

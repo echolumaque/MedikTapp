@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MedikTappFunctionApp.Functions
@@ -26,12 +27,13 @@ namespace MedikTappFunctionApp.Functions
                 await EntityContext.SaveChangesAsync();
                 logger.LogInformation("Registered new patient for MedikTapp");
 
-                return new OkObjectResult("Succesfully registered a new patient");
+                return new OkObjectResult(await EntityContext.PatientData.AsNoTracking()
+                    .OrderByDescending(x => x.PatientId).FirstOrDefaultAsync());
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in Register function, see the returned response for more information: ", JsonConvert.SerializeObject(ex));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex));
+                logger.LogError($"A problem happened in Register function, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
             }
         }
 
@@ -47,16 +49,12 @@ namespace MedikTappFunctionApp.Functions
 
                 return patient.PatientId == 0
                     ? new NotFoundObjectResult("Patient is not found on MedikTapp's database")
-                    : new OkObjectResult(new
-                    {
-                        patient.PatientId,
-                        patient.Name
-                    });
+                    : new OkObjectResult(patient);
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in Login function, see the returned response for more information: ", JsonConvert.SerializeObject(ex));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex));
+                logger.LogError($"A problem happened in Login function, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
             }
         }
     }

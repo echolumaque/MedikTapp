@@ -13,16 +13,23 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
     {
         public override async void Initialized(NavigationParameters parameters)
         {
-            await InitUpcomingCollections();
+            _schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
+            InitUpcomingCollections();
 
             BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
             SelectedBookingSort = BookingSortCollection.First();
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
         }
 
-        private async Task CancelSchedule(Models.Services schedule)
+        private async Task GetBadgeCount()
         {
-            if ((int)schedule.AvailableTime.Date.Subtract(DateTime.Now).TotalDays <= 3)
+            var schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
+            BadgeCount = schedules.Count();
+        }
+
+        private async Task CancelSchedule(Models.ScheduleModel schedule)
+        {
+            if ((int)schedule.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
             {
                 await Application.Current.MainPage.DisplayAlert("Cancellation not available",
                     "Sorry, you can't cancel your appointment three days before the appointment date.",
@@ -34,27 +41,27 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
                     "Are you sure you want to cancel your appointment", "Yes", "No");
                 if (isCancelled)
                 {
-                    Schedules.Remove(schedule);
+                    //Schedules.Remove(schedule);
                     _toast.Show("Appointment cancelled.");
                     _notificationService.CancelByNotificationIds(schedule.ServiceId);
                     //todo remove to remote db
-                    await _databaseService.Update(new Models.Services
-                    {
-                        AvailableTime = schedule.AvailableTime,
-                        BookingStatus = BookingStatus.Cancelled,
-                        ServiceDescription = schedule.ServiceDescription,
-                        ServiceId = schedule.ServiceId,
-                        ServiceImage = schedule.ServiceImage,
-                        ServiceName = schedule.ServiceName,
-                        ServicePrice = schedule.ServicePrice
-                    });
+                    //await _databaseService.Update(new Models.Services
+                    //{
+                    //    AvailableTime = schedule.AvailableTime,
+                    //    BookingStatus = BookingStatus.Cancelled,
+                    //    ServiceDescription = schedule.ServiceDescription,
+                    //    ServiceId = schedule.ServiceId,
+                    //    ServiceImage = schedule.ServiceImage,
+                    //    ServiceName = schedule.ServiceName,
+                    //    ServicePrice = schedule.ServicePrice
+                    //});
                 }
             }
         }
 
-        private Task Reschedule(Models.Services schedule)
+        private Task Reschedule(Models.ScheduleModel schedule)
         {
-            if ((int)schedule.AvailableTime.Date.Subtract(DateTime.Now).TotalDays <= 3)
+            if ((int)schedule.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
             {
                 return Application.Current.MainPage.DisplayAlert("Reschedule not available",
                     "Sorry, you can't reschedule your appointment three days before the appointment date.",
@@ -70,7 +77,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             }
         }
 
-        private Task ServiceTapped(Models.Services service)
+        private Task ServiceTapped(Models.ScheduleModel service)
         {
             return NavigationService.GoTo<ServiceInfoPopup>(new()
             {
@@ -78,64 +85,62 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             });
         }
 
-        private async Task InitUpcomingCollections()
+        private void InitUpcomingCollections()
         {
             SelectedBookingStatus = BookingStatus.Confirmed;
-
-            var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
-                .OrderBy(x => x.AvailableTime));
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
+                || x.BookingStatus == BookingStatus.Pending.ToString()).OrderBy(x => x.AppointmentDate));
+            BadgeCount = Schedules.Count;
         }
 
-        private async Task InitCompletedCollections()
+        private void InitCompletedCollections()
         {
             SelectedBookingStatus = BookingStatus.Completed;
-
-            var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Completed).OrderBy(x => x.AvailableTime));
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                .OrderBy(x => x.AppointmentDate));
         }
 
-        private async Task InitCancelledCollections()
+        private void InitCancelledCollections()
         {
             SelectedBookingStatus = BookingStatus.Cancelled;
-
-            var scheds = await _databaseService.Find<Models.Services>();
-            Schedules = new(scheds.Where(x => x.BookingStatus == BookingStatus.Cancelled).OrderBy(x => x.AvailableTime));
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                .OrderBy(x => x.AppointmentDate));
         }
 
-        private async Task ChangeFilter(BookingSort selectedBookingSort)
+        private void ChangeFilter(BookingSort selectedBookingSort)
         {
             if (SelectedBookingSort == selectedBookingSort) return;
             IsFilterExpanded = false;
             SelectedBookingSort = selectedBookingSort;
             BookingSortMainBoxText = selectedBookingSort.ToShortDescription();
-            var _schedules = await _databaseService.Find<Models.Services>();
 
             Schedules = new((selectedBookingSort, SelectedBookingStatus) switch
             {
                 //confirmed or pendiong
                 (BookingSort.Ascending, BookingStatus.Confirmed or BookingStatus.Pending) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
-                    .OrderBy(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
+                        || x.BookingStatus == BookingStatus.Pending.ToString())
+                        .OrderBy(x => x.AppointmentDate),
                 (BookingSort.Descending, BookingStatus.Confirmed or BookingStatus.Pending) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed || x.BookingStatus == BookingStatus.Pending)
-                    .OrderByDescending(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
+                        || x.BookingStatus == BookingStatus.Pending.ToString())
+                    .OrderByDescending(x => x.AppointmentDate),
 
                 //completed
                 (BookingSort.Ascending, BookingStatus.Completed) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed)
-                    .OrderBy(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                    .OrderBy(x => x.AppointmentDate),
                 (BookingSort.Descending, BookingStatus.Completed) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed)
-                    .OrderByDescending(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                    .OrderByDescending(x => x.AppointmentDate),
 
                 //cancelled
                 (BookingSort.Ascending, BookingStatus.Cancelled) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled)
-                    .OrderBy(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                    .OrderBy(x => x.AppointmentDate),
                 (BookingSort.Descending, BookingStatus.Cancelled) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled)
-                    .OrderByDescending(x => x.AvailableTime),
+                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                    .OrderByDescending(x => x.AppointmentDate),
 
                 _ => throw new NotImplementedException(),
             });

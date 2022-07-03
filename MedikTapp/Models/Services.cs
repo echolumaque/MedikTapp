@@ -7,9 +7,10 @@ namespace MedikTapp.Models
 {
     public class Services : DatabaseTable
     {
-        [PrimaryKey, AutoIncrement, Indexed, NotNull]
-        public int ServiceId { get; set; }
+        [PrimaryKey, Indexed, NotNull, AutoIncrement]
+        public int LocalServiceId { get; set; }
 
+        public int ServiceId { get; set; }
         public string ServiceImage { get; set; }
         public string ServiceName { get; set; }
         public string ServiceDescription { get; set; }

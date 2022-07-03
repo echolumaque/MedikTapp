@@ -16,6 +16,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
         {
             _medikTappService = medikTappService;
 
+
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(service =>
             {
                 return NavigationService.GoTo<ServiceConfirmationPopup>(new()

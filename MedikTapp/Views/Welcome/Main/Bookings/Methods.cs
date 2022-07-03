@@ -9,6 +9,11 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
 {
     public partial class BookingsTabViewModel
     {
+        private async Task GetBadgeCount()
+        {
+            BadgeCount = await _databaseService.FindCount<Models.Services>();
+        }
+
         private Task CancelBooking(Models.Services booking)
         {
             Bookings.Remove(booking);
@@ -47,7 +52,7 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
         private async Task InitCollections()
         {
             Bookings = new((await _databaseService.Find<Models.Services>()).Where(x => x.BookingStatus == BookingStatus.NotApplicable));
-
+            BadgeCount = Bookings.Count;
             BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
             SelectedBookingSort = BookingSortCollection.First();
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();

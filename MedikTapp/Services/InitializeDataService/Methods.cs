@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using MedikTapp.Tables;
+using System.Threading.Tasks;
 
 namespace XF.Services.InitializeDataService
 {
@@ -11,15 +12,11 @@ namespace XF.Services.InitializeDataService
 
         private async Task CreateDB2Tables()
         {
-            if (_databaseService.IsNewDatabase)
-            {
-                await Task.WhenAll
-                (
-                    _databaseService.CreateTable<MedikTapp.Models.Services>()
-                //,
-                // _databaseService.CreateTable<Schedules>()
-                ).ConfigureAwait(false);
-            }
+            await Task.WhenAll
+            (
+                _databaseService.CreateTable<AppConfig>(),
+                _databaseService.CreateTable<MedikTapp.Models.Services>()
+            ).ConfigureAwait(false);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Enums;
+using MedikTapp.Services.NavigationService;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.AndroidOption;
 using System;
@@ -6,7 +7,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
@@ -15,12 +15,10 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         private List<DateTime> GetDisabledDates()
         {
             var disabledDates = new List<DateTime>();
-
             for (var date = DateTime.Now; date <= new DateTime(DateTime.Now.Year, 12, 31); date = date.AddDays(1))
-            {
                 if (date.DayOfWeek == DayOfWeek.Sunday)
                     disabledDates.Add(date);
-            }
+
             return disabledDates;
         }
 
@@ -33,66 +31,62 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
             SelectedDate = _passedService.AvailableTime == default ? DateTime.Now : _passedService.AvailableTime;
         }
 
-        private void OnSelectedTimeChanged(SelectionChangedEventArgs args)
+        private async Task PopulateTime(bool isTodayDate)
         {
-            if (args.CurrentSelection.Count < 1)
-                return;
+            if (SelectedDate.DayOfWeek != DayOfWeek.Sunday)
+            {
+                if (isTodayDate)
+                {
+                    var availableTimeFromAzure = await GetAvailableTime();
 
-            var selectedtime = (Models.TimeAvailability)args.CurrentSelection[0];
-            if (!selectedtime.IsAvailable)
-                SelectedTime = null;
+                    var startAllowedTime = DateTime.Now.Hour + 2;
+                    var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
+                    var allowedTimeOffset = new List<DateTime>();
+                    foreach (var time in allowedTimes)
+                        allowedTimeOffset.Add(DateTime.Today.Add(new TimeSpan(time, 0, 0)));
+
+                    TimeCollection = new(availableTimeFromAzure.Intersect(allowedTimeOffset));
+                }
+                else
+                    TimeCollection = new(await GetAvailableTime());
+            }
         }
 
-        private void PopulateTime(bool isTodayDate)
+        private async Task<IEnumerable<DateTime>> GetAvailableTime()
         {
-            var startAllowedTime = isTodayDate ? DateTime.Now.Hour + 2 : 7;
-            var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
-            TimeCollection = new();
+            var allowedTimes = await _httpService
+                .GetAppointmentAvailableTime(_passedService.ServiceId, SelectedDate.Year, SelectedDate.Month, SelectedDate.Day);
+            var availableTimes = new List<DateTime>();
             foreach (var time in allowedTimes)
             {
-                TimeCollection.Add(new()
-                {
-                    IsAvailable = true, //todo: check on backend first
-                    Time = DateTime.Today.Add(new TimeSpan(time, 0, 0))
-                });
+                availableTimes.Add(time);
             }
+
+            return availableTimes;
         }
 
-        private void RaiseSelectScheduleCanExecuteChanged()
+
+        private async void RaiseSelectScheduleCanExecuteChanged()
         {
-            if (SelectedDate.Date == DateTime.Now.Date)
-            {
-                if (DateTime.Now.Hour < 15)
-                    // If current time is less than 3pm, populate the time collection
-                    PopulateTime(true);
-                else
-                    // If current time is more than 3pm, clear the time collection to prevent time selection by creating new empty instance
-                    TimeCollection = new();
-            }
-            else
-                // If the selected date is in the future, populate the time collection from 7am to 4pm
-                PopulateTime(false);
-
-
+            await PopulateTime(SelectedDate.Date == DateTime.Now.Date);
             SelectScheduleCmd.RaiseCanExecuteChanged();
         }
 
         private async Task SelectSchedule()
         {
-            var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day, SelectedTime.Time.Hour, SelectedTime.Time.Minute, SelectedTime.Time.Second);
-            await _databaseService.Update(new Models.Services
+            var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day,
+                SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
+            await _httpService.AddAppointment(new()
             {
-                AvailableTime = schedule,
-                BookingStatus = Enums.BookingStatus.Confirmed,
-                ServiceDescription = _passedService.ServiceDescription,
-                ServiceId = _passedService.ServiceId,
-                ServiceImage = _passedService.ServiceImage,
-                ServiceName = _passedService.ServiceName,
-                ServicePrice = _passedService.ServicePrice
+                AppointmentDate = schedule,
+                BookingStatus = BookingStatus.Confirmed.ToString(),
+                PatientId = _appConfigService.PatientId,
+                ServiceId = _passedService.ServiceId
             });
 
             await Task.WhenAll
             (
+                _databaseService.Delete<Models.Services>(_passedService.LocalServiceId),
                 _notificationService.Send(_passedService.ServiceId, "You have an incoming appointment!", schedule.AddHours(-1),
                 $"{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
                 categoryType: NotificationCategoryType.Reminder,
@@ -116,9 +110,9 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                 NavigationService.PopPopup()
             );
 
-            _toast.Show(_isRescheduled
+            _mainThread.BeginInvokeOnMainThread(() => _toast.Show(_isRescheduled
                 ? "You have successfully rescheduled your appointment."
-                : "You have successfully booked an appointment.");
+                : "You have successfully booked an appointment."));
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MedikTapp.Helpers.DataTemplateSelector
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return ((Models.Services)item).BookingStatus == BookingStatus.Cancelled
+            return ((Models.ScheduleModel)item).BookingStatus == BookingStatus.Cancelled.ToString()
                 ? CancelledTemplate
                 : NotCancelledTemplate;
         }

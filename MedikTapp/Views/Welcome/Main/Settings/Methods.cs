@@ -1,32 +1,26 @@
-﻿using MedikTapp.Constants;
-using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Services.NavigationService;
+using MedikTapp.Tables;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Settings
 {
     public partial class SettingsTabViewModel
     {
+        private Task BiometricLoginToggled(ToggledEventArgs toggled) =>
+            _appConfigService.UpdateConfig(nameof(AppConfig.IsBiometricLoginEnabled), toggled.Value);
 
-        private void BiometricLoginToggled(ToggledEventArgs toggled)
-        {
-            _preferences.Set(PreferencesKeys.IsBiometricLoginEnabled, toggled.Value);
-        }
+        private Task DarkModeToggled(ToggledEventArgs toggled) =>
+            _appConfigService.UpdateConfig(nameof(AppConfig.IsDarkModeEnabled), toggled.Value);
 
-        private void DarkModeToggled(ToggledEventArgs toggled)
-        {
-            _preferences.Set(PreferencesKeys.IsDarkModeEnabled, toggled.Value);
-        }
-
-        private void PromoNotificationToggled(ToggledEventArgs toggled)
-        {
-            _preferences.Set(PreferencesKeys.IsPromoNotifEnabled, toggled.Value);
-        }
+        private Task PromoNotificationToggled(ToggledEventArgs toggled) =>
+            _appConfigService.UpdateConfig(nameof(AppConfig.IsPromoNotifEnabled), toggled.Value);
 
         public override void OnNavigatedTo(NavigationParameters parameters)
         {
-            IsBiometricLoginEnabled = _preferences.Get(PreferencesKeys.IsBiometricLoginEnabled, false);
-            IsDarkModeEnabled = _preferences.Get(PreferencesKeys.IsDarkModeEnabled, false);
-            IsPromoNotificaitonEnabled = _preferences.Get(PreferencesKeys.IsPromoNotifEnabled, false);
+            IsBiometricLoginEnabled = _appConfigService.IsBiometricLoginEnabled;
+            IsDarkModeEnabled = _appConfigService.IsDarkModeEnabled;
+            IsPromoNotificaitonEnabled = _appConfigService.IsPromoNotifEnabled;
         }
     }
 }

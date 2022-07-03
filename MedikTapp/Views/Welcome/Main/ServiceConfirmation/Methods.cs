@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Services.NavigationService;
+using MedikTapp.ViewModels.Base;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
         public override void Initialized(NavigationParameters parameters)
         {
             var passedService = parameters.GetValue<Models.Services>("service");
+            _serviceId = passedService.ServiceId;
             _base64String = passedService.ServiceImage;
             EarliestAvailableDate = passedService.AvailableTime;
             ServiceImage = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(_base64String)));
@@ -30,8 +32,13 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
                 ServiceDescription = ServiceDescription,
                 ServiceImage = _base64String,
                 ServiceName = ServiceName,
-                ServicePrice = ServicePrice
+                ServicePrice = ServicePrice,
+                ServiceId = _serviceId
             });
+
+            var mainPageBindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
+            mainPageBindingContext.Tabs[2].BadgeCount = await _databaseService.FindCount<Models.Services>().ConfigureAwait(false);
+
             await NavigationService.PopPopup();
         }
     }

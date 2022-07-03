@@ -48,56 +48,17 @@
                                     OnColor="#ABABAB"
                                     ThumbColor="#695CD5"
                                     VerticalOptions="Center">
-                                <Switch.Behaviors>
+                                <!--<Switch.Behaviors>
                                     <xct:EventToCommandBehavior Command="{Binding BindingContext.IsPromoNotificationToggledCmd, Source={x:Reference this}}"
                                                                 EventName="Toggled" />
-                                </Switch.Behaviors>
+                                </Switch.Behaviors>-->
                             </Switch>
                         </Grid>
                     </DataTemplate>
                 </templates:SettingsOption.ContentTemplate>
             </templates:SettingsOption>
 
-            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Eye}"
-                                      IsExpanded="{Binding IsAppearanceExpanded}"
-                                      MainText="Appearance"
-                                      TapCommand="{Binding AppearanceTappedCmd}">
-                <templates:SettingsOption.ContentTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="40,*,60"
-                              HeightRequest="80"
-                              VerticalOptions="Center">
-                            <Label Grid.Column="0"
-                                   FontFamily="fas"
-                                   FontSize="20"
-                                   HorizontalOptions="Center"
-                                   Text="{x:Static fonts:FontAwesomeIcons.CircleHalfStroke}"
-                                   TextColor="#2F2F32"
-                                   VerticalOptions="Center" />
 
-                            <Label Grid.Column="1"
-                                   FontFamily="reg"
-                                   FontSize="15"
-                                   HorizontalOptions="Start"
-                                   Text="Dark mode"
-                                   TextColor="Black"
-                                   VerticalOptions="Center" />
-
-                            <Switch Grid.Column="2"
-                                    HorizontalOptions="End"
-                                    IsToggled="{Binding BindingContext.IsDarkModeEnabled, Source={x:Reference this}}"
-                                    OnColor="#ABABAB"
-                                    ThumbColor="#695CD5"
-                                    VerticalOptions="Center">
-                                <Switch.Behaviors>
-                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsDarkModeToggledCmd, Source={x:Reference this}}"
-                                                                EventName="Toggled" />
-                                </Switch.Behaviors>
-                            </Switch>
-                        </Grid>
-                    </DataTemplate>
-                </templates:SettingsOption.ContentTemplate>
-            </templates:SettingsOption>
 
             <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Lock}"
                                       IsExpanded="{Binding IsPrivacyExpanded}"

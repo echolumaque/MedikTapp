@@ -62,7 +62,7 @@
         </Style>
         <dtSelector:ScheduleDataTemplateSelector x:Key="ScheduleTemplateSelector">
             <dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
-                <DataTemplate x:DataType="models:Services">
+                <DataTemplate x:DataType="models:ScheduleModel">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">
@@ -130,7 +130,7 @@
                                            Style="{StaticResource ScheduleFontIcons}"
                                            Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
                                     <Label Style="{StaticResource ScheduleFontIconsDesc}"
-                                           Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
+                                           Text="{Binding AppointmentDate, StringFormat='{0: M/dd/yyy}'}" />
                                 </StackLayout>
                                 <!--#endregion-->
 
@@ -143,7 +143,7 @@
                                            Style="{StaticResource ScheduleFontIcons}"
                                            Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
                                     <Label Style="{StaticResource ScheduleFontIconsDesc}"
-                                           Text="{Binding AvailableTime.TimeOfDay}" />
+                                           Text="{Binding AppointmentDate.TimeOfDay}" />
                                 </StackLayout>
                                 <!--#endregion-->
 
@@ -160,12 +160,12 @@
                                         <Ellipse.Triggers>
                                             <DataTrigger Binding="{Binding BookingStatus}"
                                                          TargetType="Ellipse"
-                                                         Value="{x:Static enums:BookingStatus.Pending}">
+                                                         Value="Pending">
                                                 <Setter Property="Fill" Value="#FF8E00" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding BookingStatus}"
                                                          TargetType="Ellipse"
-                                                         Value="{x:Static enums:BookingStatus.Cancelled}">
+                                                         Value="Cancelled">
                                                 <Setter Property="Fill" Value="#E63C3C" />
                                             </DataTrigger>
                                         </Ellipse.Triggers>
@@ -181,7 +181,7 @@
                 </DataTemplate>
             </dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
             <dtSelector:ScheduleDataTemplateSelector.NotCancelledTemplate>
-                <DataTemplate x:DataType="models:Services">
+                <DataTemplate x:DataType="models:ScheduleModel">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">
@@ -246,7 +246,7 @@
                                            Style="{StaticResource ScheduleFontIcons}"
                                            Text="{x:Static fonts:FontAwesomeIcons.CalendarDays}" />
                                     <Label Style="{StaticResource ScheduleFontIconsDesc}"
-                                           Text="{Binding AvailableTime, StringFormat='{0: M/dd/yyy}'}" />
+                                           Text="{Binding AppointmentDate, StringFormat='{0: M/dd/yyy}'}" />
                                 </StackLayout>
                                 <!--#endregion-->
 
@@ -259,7 +259,7 @@
                                            Style="{StaticResource ScheduleFontIcons}"
                                            Text="{x:Static fonts:FontAwesomeIcons.Clock}" />
                                     <Label Style="{StaticResource ScheduleFontIconsDesc}"
-                                           Text="{Binding AvailableTime.TimeOfDay}" />
+                                           Text="{Binding AppointmentDate.TimeOfDay}" />
                                 </StackLayout>
                                 <!--#endregion-->
 
@@ -276,12 +276,12 @@
                                         <Ellipse.Triggers>
                                             <DataTrigger Binding="{Binding BookingStatus}"
                                                          TargetType="Ellipse"
-                                                         Value="{x:Static enums:BookingStatus.Pending}">
+                                                         Value="Pending">
                                                 <Setter Property="Fill" Value="#FF8E00" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding BookingStatus}"
                                                          TargetType="Ellipse"
-                                                         Value="{x:Static enums:BookingStatus.Cancelled}">
+                                                         Value="Cancelled">
                                                 <Setter Property="Fill" Value="#E63C3C" />
                                             </DataTrigger>
                                         </Ellipse.Triggers>

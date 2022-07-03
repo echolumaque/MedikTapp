@@ -1,7 +1,8 @@
-﻿using MedikTapp.Constants;
-using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Services.NavigationService;
+using MedikTapp.Tables;
 using Plugin.Fingerprint.Abstractions;
 using Refit;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,11 +17,15 @@ namespace MedikTapp.Views.Onboarding.Account
             if (isFingerPrintAuthAvailable)
             {
                 var result = await _fingerprint.AuthenticateAsync(new("Fingerprint authentication",
-                    "Login without entering your email and password!"));
+                    "Login without entering your email and password!")
+                {
+                    AllowAlternativeAuthentication = true
+                });
+
                 if (result.Status == FingerprintAuthenticationResultStatus.Succeeded)
                 {
                     // login to mediktapp
-                    await NavigationService.GoTo<MainPage.MainPage>();
+                    await Continue(true);
                 }
                 else if (result.Status == FingerprintAuthenticationResultStatus.TooManyAttempts)
                 {
@@ -32,6 +37,17 @@ namespace MedikTapp.Views.Onboarding.Account
             else
                 // No fingerprint available
                 ChangeBiometricsCanExecute(false);
+        }
+
+        private void OnCredentialsChanged()
+        {
+            if (_templateKey == "Register")
+                CanContinue = !string.IsNullOrWhiteSpace(Name)
+                        && !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
+            else
+                CanContinue = !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password);
+
+            ContinueCmd.RaiseCanExecuteChanged();
         }
 
         private void ChangeBiometricsCanExecute(bool isBiometricsAvailable)
@@ -46,7 +62,7 @@ namespace MedikTapp.Views.Onboarding.Account
             AccountPageTemplate = (ControlTemplate)NavigationService.GetCurrentPage().Resources[_templateKey];
         }
 
-        private async Task Continue()
+        private async Task Continue(bool isFromFingerprint)
         {
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
@@ -61,9 +77,27 @@ namespace MedikTapp.Views.Onboarding.Account
                             { "password", Password },
                             { "name", Name },
                         });
+
+                        await Task.WhenAll
+                        (
+                            _appConfigService.UpdateConfig(nameof(AppConfig.PatientName), Name),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.PatientId), patientCredentials.PatientId),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.Email), Email),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.Password), Password)
+                        ).ConfigureAwait(false);
+
+                        ChangeBiometricsCanExecute(false);
                     }
                     catch (ApiException)
                     {
+                        await Task.WhenAll
+                        (
+                            _appConfigService.UpdateConfig(nameof(AppConfig.PatientName), string.Empty),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.PatientId), -1),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.Email), string.Empty),
+                            _appConfigService.UpdateConfig(nameof(AppConfig.Password), string.Empty)
+                        ).ConfigureAwait(false);
+
                         await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is already registered on MedikTapp's record", "Ok"));
                     }
                     ChangeTemplate("Login");
@@ -74,18 +108,44 @@ namespace MedikTapp.Views.Onboarding.Account
                     {
                         var patientCredentials = await _httpService.Login(new()
                         {
-                            { "email", Email },
-                            { "password", Password },
+                            { "email", isFromFingerprint ? _appConfigService.Email : Email },
+                            { "password", isFromFingerprint ? _appConfigService.Password : Password },
                         });
 
                         if (patientCredentials != null)
-                            Device.BeginInvokeOnMainThread(() => NavigationService.SetRootPage<MainPage.MainPage>());
+                        {
+                            if (!isFromFingerprint)
+                            {
+                                await Task.WhenAll
+                                (
+                                    _appConfigService.UpdateConfig(nameof(AppConfig.PatientId), patientCredentials.PatientId),
+                                    _appConfigService.UpdateConfig(nameof(AppConfig.Email), Email),
+                                    _appConfigService.UpdateConfig(nameof(AppConfig.Password), Password)
+                                ).ConfigureAwait(false);
+                            }
+                            else
+                                await _appConfigService.UpdateConfig(nameof(AppConfig.PatientId), patientCredentials.PatientId).ConfigureAwait(false);
+
+                            _mainThread.BeginInvokeOnMainThread(() => NavigationService.SetRootPage<MainPage.MainPage>());
+                        }
                         else
-                            await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok");
+                        {
+                            await Task.WhenAll
+                            (
+                                _appConfigService.UpdateConfig(nameof(AppConfig.PatientId), -1),
+                                _appConfigService.UpdateConfig(nameof(AppConfig.Email), string.Empty),
+                                _appConfigService.UpdateConfig(nameof(AppConfig.Password), string.Empty)
+                            ).ConfigureAwait(false);
+
+                            await Application.Current.MainPage.DisplayAlert("Error",
+                                "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok");
+                        }
                     }
                     catch (ApiException)
                     {
-                        await Device.InvokeOnMainThreadAsync(async () => await Application.Current.MainPage.DisplayAlert("Error", "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok"));
+                        await _mainThread.InvokeOnMainThreadAsync(async () =>
+                            await Application.Current.MainPage.DisplayAlert("Error",
+                            "Patient is not yet registered on MedikTapp's record or invalid login credentials.", "Ok"));
                     }
                 }
             }
@@ -97,12 +157,15 @@ namespace MedikTapp.Views.Onboarding.Account
             }
         }
 
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override void OnNavigatedTo(NavigationParameters parameters)
         {
             _templateKey = "Register";
             AccountPageTemplate = (ControlTemplate)NavigationService.GetCurrentPage().Resources[_templateKey];
+        }
 
-            ChangeBiometricsCanExecute(_preferences.Get(PreferencesKeys.IsBiometricLoginEnabled, false)
+        private async void AppConfigInitialized(object sender, EventArgs e)
+        {
+            ChangeBiometricsCanExecute(_appConfigService.IsBiometricLoginEnabled
                 && await _fingerprint.IsAvailableAsync().ConfigureAwait(false));
         }
     }

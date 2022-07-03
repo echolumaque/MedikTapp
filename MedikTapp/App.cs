@@ -1,8 +1,9 @@
-﻿using MedikTapp.Services.GraphicsService;
+﻿using MedikTapp.Services.AppConfigService;
+using MedikTapp.Services.GraphicsService;
 using MedikTapp.Services.MedikTappService;
-using MedikTapp.Services.MockService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.ResourceService;
+using MedikTapp.Views.Onboarding;
 using MedikTapp.Views.Onboarding.Account;
 using Syncfusion.Licensing;
 using System.Threading.Tasks;
@@ -25,31 +26,29 @@ namespace MedikTapp
     public partial class App : Application
     {
         private readonly GraphicsService _graphicsService;
-        private readonly InitializeDataService _initializeDataService;
-        private readonly MockService _mockService;
+        private readonly AppConfigService _appConfigService;
         private readonly MedikTappService _medikTappService;
+        private readonly InitializeDataService _initializeDataService;
 
         public App(NavigationService navigationService,
             GraphicsService graphicsService,
             InitializeDataService initializeDataService,
-            MedikTappService medikTappService,
-            MockService mockService)
+            AppConfigService appConfigService,
+            MedikTappService medikTappService)
         {
+            _appConfigService = appConfigService;
             _graphicsService = graphicsService;
-            _initializeDataService = initializeDataService;
-            _mockService = mockService;
             _medikTappService = medikTappService;
+            _initializeDataService = initializeDataService;
 
             SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
             DefineResources();
             VersionTracking.Track();
 
-            //if (VersionTracking.IsFirstLaunchEver)
-            //    navigationService.SetRootPage<OnboardingPage>();
-            //else
-            //    navigationService.SetRootPage<AccountPage>();
-
-            navigationService.SetRootPage<AccountPage>();
+            if (VersionTracking.IsFirstLaunchEver)
+                navigationService.SetRootPage<OnboardingPage>();
+            else
+                navigationService.SetRootPage<AccountPage>();
         }
 
         private void DefineResources()
@@ -59,13 +58,12 @@ namespace MedikTapp
 
         protected override async void OnStart()
         {
-            base.OnStart();
+            await _initializeDataService.Init().ConfigureAwait(false);
             await Task.WhenAll
             (
                _graphicsService.PreloadImages(),
-               _initializeDataService.Init(),
-               _mockService.Init(),
-               _medikTappService.Init()
+               _medikTappService.Init(),
+               _appConfigService.Init()
             ).ConfigureAwait(false);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
+using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
@@ -15,21 +16,25 @@ namespace MedikTapp.Views.Onboarding.Account
         private readonly HttpService _httpService;
         private string _templateKey;
         private readonly IToast _toast;
-        private readonly IPreferences _preferences;
+        private readonly AppConfigService _appConfigService;
+        private readonly IMainThread _mainThread;
 
         public AccountPageViewModel(NavigationService navigationService,
+            IMainThread mainThread,
             IFingerprint fingerprint,
             HttpService httpService,
-            IPreferences preferences,
+            AppConfigService appConfigService,
             IToast toast) : base(navigationService)
         {
+            _appConfigService = appConfigService;
             _fingerprint = fingerprint;
             _httpService = httpService;
             _toast = toast;
-            _preferences = preferences;
+            _mainThread = mainThread;
 
+            _appConfigService.AppConfigInitialized += AppConfigInitialized;
             BiometricsCmd = new AsyncSingleCommand(BiometricsLogin, () => IsBiometricsAvailable);
-            ContinueCmd = new AsyncSingleCommand(Continue);
+            ContinueCmd = new AsyncSingleCommand(() => Continue(false), () => CanContinue);
             ChangeTemplateCmd = new Command<string>(ChangeTemplate);
         }
     }

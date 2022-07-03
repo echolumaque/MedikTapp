@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.TimeAvailability.TimeAvailabilityPopup"
-                xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:model="clr-namespace:MedikTapp.Models"
-                xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
-                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
-                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
-                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                x:DataType="vm:TimeAvailabilityPopupViewModel"
-                x:TypeArguments="vm:TimeAvailabilityPopupViewModel">
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:model="clr-namespace:MedikTapp.Models"
+                 xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
+                 xmlns:system="clr-namespace:System;assembly=mscorlib"
+                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                 xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
+                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                 x:DataType="vm:TimeAvailabilityPopupViewModel"
+                 x:TypeArguments="vm:TimeAvailabilityPopupViewModel">
     <Frame Margin="20,0"
            BackgroundColor="White"
            CornerRadius="20"
@@ -65,10 +66,6 @@
                             ItemsSource="{Binding TimeCollection}"
                             SelectedItem="{Binding SelectedTime}"
                             SelectionMode="Single">
-                <CollectionView.Behaviors>
-                    <xct:EventToCommandBehavior Command="{Binding ChangeSelectedTimeCmd}"
-                                                EventName="SelectionChanged" />
-                </CollectionView.Behaviors>
                 <CollectionView.EmptyView>
                     <Frame Padding="0"
                            HasShadow="False"
@@ -81,14 +78,14 @@
                     </Frame>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:TimeAvailability">
+                    <DataTemplate x:DataType="system:DateTime">
                         <Label FontFamily="med"
                                FontSize="20"
                                HeightRequest="40"
                                HorizontalOptions="Center"
                                HorizontalTextAlignment="Center"
-                               Text="{Binding Time, StringFormat='{0:hh:mm tt}'}"
-                               TextColor="{Binding TimeColor}"
+                               Text="{Binding ., StringFormat='{0:hh:mm tt}'}"
+                               TextColor="#695CD5"
                                VerticalOptions="Center"
                                VerticalTextAlignment="Center">
                             <VisualStateManager.VisualStateGroups>
