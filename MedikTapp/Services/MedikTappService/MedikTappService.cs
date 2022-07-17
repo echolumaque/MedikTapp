@@ -13,11 +13,11 @@ namespace MedikTapp.Services.MedikTappService
         }
 
         public IEnumerable<Models.Services> MedikTappServices { get; set; }
-        public IEnumerable<Models.PromoModel> MedikTappPromos { get; set; }
-        public IEnumerable<Models.PromoModel> MedikTappPromoNotifications { get; set; }
+        //public IEnumerable<Models.PromoModel> MedikTappPromos { get; set; }
 
         public async Task Init()
         {
+            //todo here
             MedikTappServices = await _httpService.GetServices();
             //MedikTappPromos = await _httpService.GetPromos();
             //MedikTappPromoNotifications = await _httpService.GetPromoNotifications();

@@ -61,11 +61,13 @@ namespace MedikTappFunctionApp.Functions
         {
             try
             {
-                await EntityContext.AppointmentData.AddAsync(JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body));
+                var appointmentTable = EntityContext.AppointmentData;
+                await appointmentTable.AddAsync(JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body));
                 await EntityContext.SaveChangesAsync();
                 logger.LogInformation("Inserted new service in the database");
 
-                return new OkObjectResult("Succesfully inserted new appointment in the database");
+                var lastAppointmentId = await appointmentTable.AsNoTracking().OrderBy(_ => _.AppointmentId).LastAsync();
+                return new OkObjectResult(lastAppointmentId.AppointmentId);
             }
             catch (Exception ex)
             {
@@ -133,9 +135,11 @@ namespace MedikTappFunctionApp.Functions
                     service => service.ServiceId,
                     (appointment, service) => new
                     {
+                        service.ServiceId,
                         service.ServiceName,
                         service.ServiceDescription,
                         service.ServiceImage,
+                        appointment.AppointmentId,
                         appointment.AppointmentDate,
                         appointment.BookingStatus,
                         appointment.ProspectFirstName,

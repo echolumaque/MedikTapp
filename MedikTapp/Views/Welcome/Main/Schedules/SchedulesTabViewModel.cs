@@ -10,9 +10,9 @@ using MedikTapp.ViewModels.Base;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace MedikTapp.Views.Welcome.Main.Schedule
+namespace MedikTapp.Views.Welcome.Main.Schedules
 {
-    public partial class ScheduleTabViewModel : TabItemPageViewModelBase
+    public partial class SchedulesTabViewModel : TabItemPageViewModelBase
     {
         private readonly NotificationService _notificationService;
         private readonly AppConfigService _appConfigService;
@@ -20,7 +20,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
         private readonly IToast _toast;
         private IEnumerable<AppointmentModel> _schedules;
 
-        public ScheduleTabViewModel(NavigationService navigationService,
+        public SchedulesTabViewModel(NavigationService navigationService,
             AppConfigService appConfigService,
             HttpService httpService,
             NotificationService notificationService,

@@ -1,4 +1,5 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Models;
+using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.Welcome.Main.TimeAvailability;
 using System.Threading.Tasks;
 
@@ -10,15 +11,24 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
         {
             return NavigationService.GoTo<TimeAvailabilityPage>(new()
             {
-                { "booking", booking },
-                { "isResched", false }
+                {
+                    "appointment",
+                    new AppointmentModel
+                    {
+                        ServiceId = booking.ServiceId,
+                        ServiceName = booking.ServiceName,
+                    }
+                },
+                { "isResched", false },
+                { "serviceId", booking.LocalServiceId }
             });
         }
 
-        private Task CancelBooking(Models.Services booking)
+        private async Task CancelBooking(Models.Services booking)
         {
             Bookings.Remove(booking);
-            return _databaseService.Delete(booking);
+            await _databaseService.Delete(booking);
+            GetBadgeCount();
         }
 
         private async Task InitCollections()
@@ -28,13 +38,16 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
 
         public override async void GetBadgeCount()
         {
-            BadgeCount = await _databaseService.FindCount<Models.Services>();
+            var localBookingsCount = await _databaseService.FindCount<Models.Services>();
+            CanHaveBadge = localBookingsCount > 0;
+            if (!CanHaveBadge)
+                return;
+            BadgeCount = localBookingsCount;
         }
 
         public override async void OnNavigatedTo(NavigationParameters parameters)
         {
             await InitCollections();
-            GetBadgeCount();
         }
     }
 }

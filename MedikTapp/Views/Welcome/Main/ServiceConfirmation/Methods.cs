@@ -36,6 +36,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
             });
 
             var mainPageBindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
+            mainPageBindingContext.Tabs[2].CanHaveBadge = true;
             mainPageBindingContext.Tabs[2].BadgeCount = await _databaseService.FindCount<Models.Services>().ConfigureAwait(false);
             await NavigationService.PopPopup();
         }

@@ -1,6 +1,7 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Models;
 using MedikTapp.Services.NavigationService;
+using MedikTapp.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
     {
         private async void AppointmentFieldsChanged()
         {
-            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedService.ServiceId,
+            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedAppointment.ServiceId,
                 SelectedDate.Year, SelectedDate.Month, SelectedDate.Day));
             SelectScheduleCmd.RaiseCanExecuteChanged();
         }
@@ -25,6 +26,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
             return disabledDates;
         }
+
         private void IsOnBehalfChanged()
         {
             if (!IsOnBehalf)
@@ -66,7 +68,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         {
             var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day,
                 SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
-            await _httpService.AddAppointment(new AddAppointmentModel
+            var newAppointment = await _httpService.AddAppointment(new AddAppointmentModel
             {
                 AppointmentDate = schedule,
                 BookingStatus = BookingStatus.Confirmed.ToString(),
@@ -76,19 +78,20 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                 ProspectLastName = ProspectLastName,
                 ProspectAge = Convert.ToInt32(ProspectAge),
                 ProspectFirstName = ProspectFirstName,
-                ServiceId = _passedService.ServiceId
+                ServiceId = _passedAppointment.ServiceId
             });
 
             await Task.WhenAll
             (
-                _databaseService.Delete<Models.Services>(_passedService.LocalServiceId),
-                _notificationService.SendLocalNotification(_passedService.ServiceId, _passedService.ServiceId,
-                "You have an incoming appointment!",
-                $"{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
+                _databaseService.Delete<Models.Services>(_passedLocalServiceId),
+                _notificationService.SendLocalNotification(newAppointment,
+                "You have an incoming appointment!", $"{_passedAppointment.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
                 schedule.AddHours(-1)),
                 _mainThread.InvokeOnMainThreadAsync(() => NavigationService.PopPage())
             );
 
+            var bindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
+            bindingContext.Tabs[2].GetBadgeCount();
             _mainThread.BeginInvokeOnMainThread(() => _toast.Show(_isRescheduled
                 ? "You have successfully rescheduled your appointment."
                 : "You have successfully booked an appointment."));
@@ -96,13 +99,13 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
         public override async void Initialized(NavigationParameters parameters)
         {
-            //todo here
-            _passedService = parameters.GetValue<Models.Services>("booking");
-            _isRescheduled = parameters.GetValue<bool>("isResched"); //todo, include passed time based on sched here
+            _passedAppointment = parameters.GetValue<AppointmentModel>("appointment");
+            _isRescheduled = parameters.GetValue<bool>("isResched");
+            _passedLocalServiceId = parameters.GetValue<int>("serviceId");
 
             DisabledDates = GetDisabledDates();
-            SelectedDate = DateTime.Now; //todo, include passed time based on sched here
-            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedService.ServiceId,
+            SelectedDate = _isRescheduled ? _passedAppointment.AppointmentDate : DateTime.Now;
+            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedAppointment.ServiceId,
                 SelectedDate.Year, SelectedDate.Month, SelectedDate.Day));
         }
     }

@@ -27,7 +27,7 @@ namespace MedikTapp.Services.HttpService
         #region Appointments
         [Headers("x-functions-key : 6tB18tYTeZSEKMRqmCSTJdBGBlldwkczivQ4rycK4scWAzFu9ysfkQ==")]
         [Post("/api/AddAppointment")]
-        Task AddAppointment([Body(BodySerializationMethod.Serialized)] AddAppointmentModel appointment);
+        Task<int> AddAppointment([Body(BodySerializationMethod.Serialized)] AddAppointmentModel appointment);
 
         [Headers("x-functions-key : jfCSyl4pRv8dU7lxYjLjroFYDoYX1IuEhzrMF4vVhK6hAzFuw0d-TQ==")]
         [Get("/api/GetServiceAppointmentAvailableTimes?serviceId={serviceId}&year={year}&month={month}&day={day}")]
@@ -39,9 +39,10 @@ namespace MedikTapp.Services.HttpService
         #endregion
 
         #region Promos
-        [Headers("x-functions-key : n8UzakNdDPgEFSjkFZv9ZQl9qsc0jTanPakzEVz4hCb9AzFuRZ4y8A==")]
-        [Get("/api/GetPromo")]
-        Task<IEnumerable<PromoModel>> GetPromos();
+        //todo here
+        //[Headers("x-functions-key : n8UzakNdDPgEFSjkFZv9ZQl9qsc0jTanPakzEVz4hCb9AzFuRZ4y8A==")]
+        //[Get("/api/GetPromo")]
+        //Task<IEnumerable<PromoModel>> GetPromos();
         #endregion
     }
 }

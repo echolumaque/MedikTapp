@@ -8,40 +8,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace MedikTapp.Views.Welcome.Main.Schedule
+namespace MedikTapp.Views.Welcome.Main.Schedules
 {
-    public partial class ScheduleTabViewModel
+    public partial class SchedulesTabViewModel
     {
         private async Task CancelSchedule(AppointmentModel appointment)
         {
-            if ((int)appointment.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
+            // Selected appointment's time to cancel is today
+            if (appointment.AppointmentDate.Date == DateTime.Now.Date
+                && appointment.AppointmentDate.Hour > DateTime.Now.AddHours(-2).Hour)
             {
                 await Application.Current.MainPage.DisplayAlert("Cancellation not available",
-                    "Sorry, you can't cancel your appointment three days before the appointment date.",
-                    "OK");
+                        "Sorry, you can't cancel your appointment two hours before the appointment time.",
+                        "OK");
+                return;
             }
-            else
+
+            var isCancelled = await Application.Current.MainPage.DisplayAlert("Appointment cancellation",
+                "Are you sure you want to cancel your appointment", "Yes", "No");
+            if (isCancelled)
             {
-                var isCancelled = await Application.Current.MainPage.DisplayAlert("Appointment cancellation",
-                    "Are you sure you want to cancel your appointment", "Yes", "No");
-                if (isCancelled)
-                {
-                    //todo here
-                    //Schedules.Remove(schedule);
-                    _toast.Show("Appointment cancelled.");
-                    //_notificationService.CancelByNotificationIds(appointment.);
-                    //todo remove to remote db
-                    //await _databaseService.Update(new Models.Services
-                    //{
-                    //    AvailableTime = schedule.AvailableTime,
-                    //    BookingStatus = BookingStatus.Cancelled,
-                    //    ServiceDescription = schedule.ServiceDescription,
-                    //    ServiceId = schedule.ServiceId,
-                    //    ServiceImage = schedule.ServiceImage,
-                    //    ServiceName = schedule.ServiceName,
-                    //    ServicePrice = schedule.ServicePrice
-                    //});
-                }
+                Schedules.Remove(appointment);
+                _notificationService.CancelByNotificationIds(appointment.AppointmentId);
+                _toast.Show("Appointment cancelled.");
             }
         }
 
@@ -104,20 +93,20 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             SelectedBookingStatus = BookingStatus.Confirmed;
             Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
                 || x.BookingStatus == BookingStatus.Pending.ToString()).OrderBy(x => x.AppointmentDate));
-            BadgeCount = Schedules.Count;
         }
 
         private Task Reschedule(AppointmentModel appointment)
         {
-            //todo here
-            return (int)appointment.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3
+            // Selected appointment's time to reschedule is today
+            return appointment.AppointmentDate.Date == DateTime.Now.Date
+                && appointment.AppointmentDate.Hour > DateTime.Now.AddHours(-2).Hour
                 ? Application.Current.MainPage.DisplayAlert("Reschedule not available",
-                    "Sorry, you can't reschedule your appointment three days before the appointment date.",
-                    "OK")
+                        "Sorry, you can't reschedule your appointment two hours before the appointment time.",
+                        "OK")
                 : NavigationService.GoTo<TimeAvailabilityPage>(new()
                 {
-                    { "booking", appointment },
-                    { "isResched", true }
+                    { "appointment", appointment },
+                    { "isResched", true },
                 });
         }
 

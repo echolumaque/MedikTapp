@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Tables;
 using SQLite;
+using System;
 
 namespace MedikTapp.Models
 {
@@ -13,5 +14,9 @@ namespace MedikTapp.Models
         public string ServiceName { get; set; }
         public string ServiceDescription { get; set; }
         public double ServicePrice { get; set; }
+        [Ignore]
+        public DateTime StartDate { get; set; }
+        [Ignore]
+        public DateTime EndDate { get; set; }
     }
 }

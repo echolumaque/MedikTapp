@@ -10,7 +10,7 @@ namespace MedikTapp.Views.Welcome.Main.Services
     {
         public override View ViewTemplate => new ServicesTab(this);
         public override string Text => "Services";
-        public override bool CanHaveBadge => false;
+        public override bool CanHaveBadge { get; set; } = false;
         public override string Icon => FontAwesomeIcons.ClipboardMedical;
         public ObservableCollection<Models.Services> AvailableServices { get; set; }
         public ICommand SearchEntryTextChangedCmd { get; }

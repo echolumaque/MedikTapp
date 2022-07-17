@@ -4,8 +4,12 @@ using MedikTapp.Services.MedikTappService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.NotificationService;
 using MedikTapp.Services.ResourceService;
+using MedikTapp.ViewModels.Base;
+using MedikTapp.Views.MainPage;
 using MedikTapp.Views.Onboarding;
 using MedikTapp.Views.Onboarding.Account;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.EventArgs;
 using Syncfusion.Licensing;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -30,6 +34,7 @@ namespace MedikTapp
         private readonly GraphicsService _graphicsService;
         private readonly InitializeDataService _initializeDataService;
         private readonly MedikTappService _medikTappService;
+        private readonly NavigationService _navigationService;
         private readonly NotificationService _notificationService;
 
         public App(AppConfigService appConfigService,
@@ -43,6 +48,7 @@ namespace MedikTapp
             _graphicsService = graphicsService;
             _medikTappService = medikTappService;
             _initializeDataService = initializeDataService;
+            _navigationService = navigationService;
             _notificationService = notificationService;
 
             SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
@@ -54,7 +60,18 @@ namespace MedikTapp
             else
                 navigationService.SetRootPage<AccountPage>();
 
-            // navigationService.SetRootPage<MainPage>();
+            NotificationCenter.Current.NotificationTapped += GotoAppointmentsTab;
+        }
+
+        private void GotoAppointmentsTab(NotificationEventArgs e)
+        {
+            if (_navigationService.GetCurrentPage() is not Views.MainPage.MainPage)
+                _navigationService.SetRootPage<MainPage>();
+
+            var bindingContext = (TabMainPageViewModelBase)_navigationService.GetCurrentPage().BindingContext;
+            bindingContext.ActiveTabIndex = 3;
+            bindingContext.Tabs[3].IsCurrentTab = true;
+            bindingContext.Tabs[3].Initialized(null);
         }
 
         private void DefineResources()

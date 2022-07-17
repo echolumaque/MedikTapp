@@ -47,18 +47,11 @@
                                     IsToggled="{Binding BindingContext.IsPromoNotificaitonEnabled, Source={x:Reference this}}"
                                     OnColor="#ABABAB"
                                     ThumbColor="#695CD5"
-                                    VerticalOptions="Center">
-                                <!--<Switch.Behaviors>
-                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsPromoNotificationToggledCmd, Source={x:Reference this}}"
-                                                                EventName="Toggled" />
-                                </Switch.Behaviors>-->
-                            </Switch>
+                                    VerticalOptions="Center" />
                         </Grid>
                     </DataTemplate>
                 </templates:SettingsOption.ContentTemplate>
             </templates:SettingsOption>
-
-
 
             <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Lock}"
                                       IsExpanded="{Binding IsPrivacyExpanded}"
@@ -146,7 +139,6 @@
                     </DataTemplate>
                 </templates:SettingsOption.ContentTemplate>
             </templates:SettingsOption>
-
         </StackLayout>
     </ScrollView>
 </views:BaseTab>

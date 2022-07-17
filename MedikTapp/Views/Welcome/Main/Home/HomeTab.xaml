@@ -45,23 +45,16 @@
                           IsBounceEnabled="True"
                           IsScrollAnimated="True"
                           IsSwipeEnabled="True"
-                          ItemsSource="{Binding Promos}"
+                          ItemsSource="{Binding PromosCollection}"
                           Loop="True"
                           Position="{Binding PromoPosition}">
                 <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:PromoModel">
-                        <!--<templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
-                                                 templates:Gestures.TappedParameter="{Binding .}"
-                                                 HeightRequest="500"
-                                                 HorizontalOptions="Center"
-                                                 Source="{Binding PromoImage, Converter={converter:Base64ToImageConverter}}"
-                                                 VerticalOptions="Center"
-                                                 WidthRequest="500" />-->
+                    <DataTemplate x:DataType="models:Services">
                         <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
                                                  templates:Gestures.TappedParameter="{Binding .}"
                                                  HeightRequest="500"
                                                  HorizontalOptions="Center"
-                                                 ImageSource="{Binding PromoImage}"
+                                                 Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                                  VerticalOptions="Center"
                                                  WidthRequest="500" />
                     </DataTemplate>

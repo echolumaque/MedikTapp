@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
+using MedikTapp.Models;
 using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.HttpService;
@@ -19,7 +20,8 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         private readonly NotificationService _notificationService;
         private readonly IToast _toast;
         private bool _isRescheduled;
-        private Models.Services _passedService;
+        private AppointmentModel _passedAppointment;
+        private int _passedLocalServiceId;
 
         public TimeAvailabilityPageViewModel(NavigationService navigationService,
             DatabaseService databaseService,

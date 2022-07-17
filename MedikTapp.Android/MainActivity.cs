@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -45,8 +46,26 @@ namespace MedikTapp.Droid
             CachedImageRenderer.InitImageViewHandler();
             SetStatusBarColor();
 
+            NotificationChannelInit();
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
             FirebasePushNotificationManager.ProcessIntent(this, Intent);
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            NotificationCenter.NotifyNotificationTapped(intent);
+            base.OnNewIntent(intent);
+        }
+
+        private void NotificationChannelInit()
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                NotificationCenter.CreateNotificationChannel(new NotificationChannelRequest
+                {
+                    Id = "Appointment Notificaitons",
+                    Name = "Appointment Notificaitons",
+                    Description = "Allows MedikTapp to notifiy you when your appoinment is incoming"
+                });
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

@@ -8,7 +8,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
     {
         public ICommand AboutTappedCmd { get; set; }
         public ICommand AppearanceTappedCmd { get; set; }
-        public override bool CanHaveBadge => false;
+        public override bool CanHaveBadge { get; set; } = false;
         public ICommand HelpTappedCmd { get; set; }
         public override string Icon => FontAwesomeIcons.Gear;
         public bool IsAboutExpanded { get; set; }

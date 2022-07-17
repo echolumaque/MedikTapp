@@ -16,8 +16,8 @@ namespace MedikTapp.Droid
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
-                FirebasePushNotificationManager.DefaultNotificationChannelId = "MedikTappPromoPushNotif";
-                FirebasePushNotificationManager.DefaultNotificationChannelName = "MedikTappPromoPushNotif";
+                FirebasePushNotificationManager.DefaultNotificationChannelId = "Promo Notificaitons";
+                FirebasePushNotificationManager.DefaultNotificationChannelName = "Promo Notificaitons";
                 FirebasePushNotificationManager.DefaultNotificationChannelImportance = NotificationImportance.Max;
             }
 

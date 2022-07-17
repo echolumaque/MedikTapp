@@ -33,7 +33,7 @@ namespace MedikTapp.Services.HttpService
             return _medikTappApi.GetService();
         }
 
-        public ConfiguredTaskAwaitable AddAppointment(AddAppointmentModel appointment)
+        public ConfiguredTaskAwaitable<int> AddAppointment(AddAppointmentModel appointment)
         {
             return _medikTappApi.AddAppointment(appointment).ConfigureAwait(false);
         }
@@ -48,9 +48,10 @@ namespace MedikTapp.Services.HttpService
             return _medikTappApi.GetAppointmentsByPatientId(patientId).ConfigureAwait(false);
         }
 
-        public ConfiguredTaskAwaitable<IEnumerable<Models.PromoModel>> GetPromos()
-        {
-            return _medikTappApi.GetPromos().ConfigureAwait(false);
-        }
+        //todo here
+        //public ConfiguredTaskAwaitable<IEnumerable<Models.PromoModel>> GetPromos()
+        //{
+        //    return _medikTappApi.GetPromos().ConfigureAwait(false);
+        //}
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Schedule.ScheduleTab"
+<views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Schedules.SchedulesTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:converter="clr-namespace:MedikTapp.Converters"
@@ -11,10 +11,10 @@
                xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
-               xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Schedule"
+               xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Schedules"
                x:Name="this"
-               x:DataType="vm:ScheduleTabViewModel"
-               x:TypeArguments="vm:ScheduleTabViewModel">
+               x:DataType="vm:SchedulesTabViewModel"
+               x:TypeArguments="vm:SchedulesTabViewModel">
     <ContentView.Resources>
         <Style x:Key="SelectedScheduleTypeFrame"
                TargetType="Frame">
@@ -61,6 +61,7 @@
             <Setter Property="TextColor" Value="#2F2F32" />
         </Style>
         <dtSelector:ScheduleDataTemplateSelector x:Key="ScheduleTemplateSelector">
+
             <dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
                 <DataTemplate x:DataType="models:AppointmentModel">
                     <Frame Padding="10"
@@ -180,6 +181,7 @@
                     </Frame>
                 </DataTemplate>
             </dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
+
             <dtSelector:ScheduleDataTemplateSelector.NotCancelledTemplate>
                 <DataTemplate x:DataType="models:AppointmentModel">
                     <Frame Padding="10"
@@ -299,7 +301,7 @@
                                 <Button Grid.Column="0"
                                         Margin="5,0"
                                         BackgroundColor="#F4F5F9"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleTabViewModel}}, Path=CancelScheduleCmd}"
+                                        Command="{Binding BindingContext.CancelScheduleCmd, Source={x:Reference this}}"
                                         CommandParameter="{Binding .}"
                                         CornerRadius="10"
                                         FontFamily="med"
@@ -310,7 +312,7 @@
                                 <Button Grid.Column="1"
                                         Margin="5,0"
                                         BackgroundColor="{StaticResource DarkPurple}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ScheduleTabViewModel}}, Path=RescheduleCmd}"
+                                        Command="{Binding BindingContext.RescheduleCmd, Source={x:Reference this}}"
                                         CommandParameter="{Binding .}"
                                         CornerRadius="10"
                                         FontFamily="med"
