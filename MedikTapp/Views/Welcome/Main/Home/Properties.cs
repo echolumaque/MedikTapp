@@ -11,7 +11,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
         public override string Icon => FontAwesomeIcons.House;
         public bool IsLoadingData { get; set; } = true;
         public int PromoPosition { get; set; }
-        public ObservableCollection<Models.Services> Promos { get; set; }
+        public ObservableCollection<Models.PromoModel> Promos { get; set; }
         public IAsyncCommand<Models.Services> ServiceConfirmationCmd { get; }
         public ObservableCollection<Models.Services> ServicesCollection { get; set; }
         public override string Text => "Home";

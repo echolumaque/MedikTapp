@@ -8,6 +8,7 @@ namespace MedikTapp.Templates.Base
         public BasePage(in TViewModel viewModel)
         {
             BindingContext = ViewModel = viewModel;
+            NavigationPage.SetHasNavigationBar(this, false);
             Visual = VisualMarker.Material;
         }
 

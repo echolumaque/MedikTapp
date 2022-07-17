@@ -73,6 +73,9 @@
     <PackageReference Include="Plugin.Fingerprint">
       <Version>2.1.5</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.FirebasePushNotification">
+      <Version>3.4.25</Version>
+    </PackageReference>
     <PackageReference Include="Plugin.LocalNotification">
       <Version>9.2.0</Version>
     </PackageReference>
@@ -91,6 +94,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfCalendar">
       <Version>20.1.0.56</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Core">
+      <Version>1.8.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
       <Version>2.0.2</Version>
     </PackageReference>
@@ -105,15 +111,23 @@
     <PackageReference Include="Xamarin.Forms.Visual.Material">
       <Version>5.0.0.2401</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Base">
+      <Version>118.0.1.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\ToastDroid.cs" />
-    <Compile Include="Renderer\BorderlessEntryAndroid.cs" />
+    <Compile Include="MainApplication.cs" />
+    <Compile Include="Renderer\BorderlessDatePickerAndroid.cs" />
+    <Compile Include="Renderer\BorderlessPickerAndroid.cs" />
     <Compile Include="Renderer\CustomFrameAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderer\BorderlesMaterialEntryAndroid.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <GoogleServicesJson Include="google-services.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

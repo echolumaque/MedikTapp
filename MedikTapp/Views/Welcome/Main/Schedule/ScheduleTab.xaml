@@ -62,7 +62,7 @@
         </Style>
         <dtSelector:ScheduleDataTemplateSelector x:Key="ScheduleTemplateSelector">
             <dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
-                <DataTemplate x:DataType="models:ScheduleModel">
+                <DataTemplate x:DataType="models:AppointmentModel">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">
@@ -181,7 +181,7 @@
                 </DataTemplate>
             </dtSelector:ScheduleDataTemplateSelector.CancelledTemplate>
             <dtSelector:ScheduleDataTemplateSelector.NotCancelledTemplate>
-                <DataTemplate x:DataType="models:ScheduleModel">
+                <DataTemplate x:DataType="models:AppointmentModel">
                     <Frame Padding="10"
                            BackgroundColor="White"
                            HasShadow="True">

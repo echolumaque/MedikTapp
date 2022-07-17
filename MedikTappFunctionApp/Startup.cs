@@ -14,9 +14,10 @@ namespace MedikTappFunctionApp
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services
-                .AddDbContext<EntityContext>(options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, Environment.GetEnvironmentVariable("SQLServerConnectionString")))
-                .AddSingleton<JsonService>()
-                .AddScoped<SqlService>();
+                .AddDbContext<EntityContext>(options =>
+                    SqlServerDbContextOptionsExtensions.UseSqlServer(options,
+                    Environment.GetEnvironmentVariable("SQLServerConnectionString")))
+                .AddSingleton<JsonService>();
         }
     }
 }

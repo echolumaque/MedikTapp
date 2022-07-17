@@ -4,6 +4,7 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace MedikTapp.Services.HttpService
 {
@@ -17,22 +18,39 @@ namespace MedikTapp.Services.HttpService
                 new RefitSettings(new SystemTextJsonContentSerializer()));
         }
 
-        public ConfiguredTaskAwaitable<PatientModel> Login(Dictionary<string, string> data) =>
-            _medikTappApi.Login(data).ConfigureAwait(false);
+        public Task<PatientModel> Login(PatientModel patient)
+        {
+            return _medikTappApi.Login(patient);
+        }
 
-        public ConfiguredTaskAwaitable<PatientModel> Register(Dictionary<string, string> data) =>
-            _medikTappApi.Register(data).ConfigureAwait(false);
+        public Task Register(PatientModel patient)
+        {
+            return _medikTappApi.Register(patient);
+        }
 
-        public ConfiguredTaskAwaitable<IEnumerable<Models.Services>> GetServices() =>
-            _medikTappApi.GetService().ConfigureAwait(false);
+        public Task<IEnumerable<Models.Services>> GetServices()
+        {
+            return _medikTappApi.GetService();
+        }
 
-        public ConfiguredTaskAwaitable AddAppointment(AppointmentModel appointment)
-            => _medikTappApi.AddAppointment(appointment).ConfigureAwait(false);
+        public ConfiguredTaskAwaitable AddAppointment(AddAppointmentModel appointment)
+        {
+            return _medikTappApi.AddAppointment(appointment).ConfigureAwait(false);
+        }
 
         public ConfiguredTaskAwaitable<IEnumerable<DateTime>> GetAppointmentAvailableTime(int serviceId, int year, int month, int day)
-            => _medikTappApi.GetAppointmentAvailableTime(serviceId, year, month, day).ConfigureAwait(false);
+        {
+            return _medikTappApi.GetAppointmentAvailableTime(serviceId, year, month, day).ConfigureAwait(false);
+        }
 
-        public ConfiguredTaskAwaitable<IEnumerable<Models.ScheduleModel>> GetAppointmentsByPatientId(int patientId)
-            => _medikTappApi.GetAppointmentsByPatientId(patientId).ConfigureAwait(false);
+        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetAppointmentsByPatientId(int patientId)
+        {
+            return _medikTappApi.GetAppointmentsByPatientId(patientId).ConfigureAwait(false);
+        }
+
+        public ConfiguredTaskAwaitable<IEnumerable<Models.PromoModel>> GetPromos()
+        {
+            return _medikTappApi.GetPromos().ConfigureAwait(false);
+        }
     }
 }

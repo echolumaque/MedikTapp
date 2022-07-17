@@ -17,8 +17,9 @@ namespace MedikTapp.ViewModels.Base
 
         public IAsyncCommand PopPage { get; }
         public IAsyncCommand PopPopup { get; }
+        public virtual void GetBadgeCount() { }
+        public virtual void Initialized(NavigationParameters parameters) { }
         public virtual void OnNavigatedFrom(NavigationParameters parameters) { }
         public virtual void OnNavigatedTo(NavigationParameters parameters) { }
-        public virtual void Initialized(NavigationParameters parameters) { }
     }
 }

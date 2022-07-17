@@ -44,9 +44,11 @@ namespace MedikTapp.DI
 
                 .AddSingleton<IMainThread, MainThreadImplementation>()
                 .AddSingleton<IPreferences, PreferencesImplementation>()
+                .AddSingleton<IDeviceDisplay, DeviceDisplayImplementation>()
+                .AddSingleton<IConnectivity, ConnectivityImplementation>()
                 .AddTransient<ServiceInfoPopupViewModel>()
                 .AddTransient<MainPageViewModel>()
-                .AddTransient<TimeAvailabilityPopupViewModel>()
+                .AddTransient<TimeAvailabilityPageViewModel>()
                 .AddTransient<HomeTabViewModel>()
                 .AddTransient<ServicesTabViewModel>()
                 .AddTransient<BookingsTabViewModel>()

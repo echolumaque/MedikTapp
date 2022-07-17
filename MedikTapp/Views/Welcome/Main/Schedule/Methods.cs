@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Enums;
+using MedikTapp.Models;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo;
 using MedikTapp.Views.Welcome.Main.TimeAvailability;
@@ -11,25 +12,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
 {
     public partial class ScheduleTabViewModel
     {
-        public override async void Initialized(NavigationParameters parameters)
+        private async Task CancelSchedule(AppointmentModel appointment)
         {
-            _schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
-            InitUpcomingCollections();
-
-            BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
-            SelectedBookingSort = BookingSortCollection.First();
-            BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
-        }
-
-        private async Task GetBadgeCount()
-        {
-            var schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
-            BadgeCount = schedules.Count();
-        }
-
-        private async Task CancelSchedule(Models.ScheduleModel schedule)
-        {
-            if ((int)schedule.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
+            if ((int)appointment.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
             {
                 await Application.Current.MainPage.DisplayAlert("Cancellation not available",
                     "Sorry, you can't cancel your appointment three days before the appointment date.",
@@ -41,9 +26,10 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
                     "Are you sure you want to cancel your appointment", "Yes", "No");
                 if (isCancelled)
                 {
+                    //todo here
                     //Schedules.Remove(schedule);
                     _toast.Show("Appointment cancelled.");
-                    _notificationService.CancelByNotificationIds(schedule.ServiceId);
+                    //_notificationService.CancelByNotificationIds(appointment.);
                     //todo remove to remote db
                     //await _databaseService.Update(new Models.Services
                     //{
@@ -59,57 +45,10 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             }
         }
 
-        private Task Reschedule(Models.ScheduleModel schedule)
-        {
-            if ((int)schedule.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3)
-            {
-                return Application.Current.MainPage.DisplayAlert("Reschedule not available",
-                    "Sorry, you can't reschedule your appointment three days before the appointment date.",
-                    "OK");
-            }
-            else
-            {
-                return NavigationService.GoTo<TimeAvailabilityPopup>(new()
-                {
-                    { "booking", schedule },
-                    { "isResched", true }
-                });
-            }
-        }
-
-        private Task ServiceTapped(Models.ScheduleModel service)
-        {
-            return NavigationService.GoTo<ServiceInfoPopup>(new()
-            {
-                { "service", service }
-            });
-        }
-
-        private void InitUpcomingCollections()
-        {
-            SelectedBookingStatus = BookingStatus.Confirmed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
-                || x.BookingStatus == BookingStatus.Pending.ToString()).OrderBy(x => x.AppointmentDate));
-            BadgeCount = Schedules.Count;
-        }
-
-        private void InitCompletedCollections()
-        {
-            SelectedBookingStatus = BookingStatus.Completed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
-                .OrderBy(x => x.AppointmentDate));
-        }
-
-        private void InitCancelledCollections()
-        {
-            SelectedBookingStatus = BookingStatus.Cancelled;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
-                .OrderBy(x => x.AppointmentDate));
-        }
-
         private void ChangeFilter(BookingSort selectedBookingSort)
         {
-            if (SelectedBookingSort == selectedBookingSort) return;
+            if (SelectedBookingSort == selectedBookingSort)
+                return;
             IsFilterExpanded = false;
             SelectedBookingSort = selectedBookingSort;
             BookingSortMainBoxText = selectedBookingSort.ToShortDescription();
@@ -144,6 +83,67 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
 
                 _ => throw new NotImplementedException(),
             });
+        }
+
+        private void InitCancelledCollections()
+        {
+            SelectedBookingStatus = BookingStatus.Cancelled;
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                .OrderBy(x => x.AppointmentDate));
+        }
+
+        private void InitCompletedCollections()
+        {
+            SelectedBookingStatus = BookingStatus.Completed;
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                .OrderBy(x => x.AppointmentDate));
+        }
+
+        private void InitUpcomingCollections()
+        {
+            SelectedBookingStatus = BookingStatus.Confirmed;
+            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
+                || x.BookingStatus == BookingStatus.Pending.ToString()).OrderBy(x => x.AppointmentDate));
+            BadgeCount = Schedules.Count;
+        }
+
+        private Task Reschedule(AppointmentModel appointment)
+        {
+            //todo here
+            return (int)appointment.AppointmentDate.Date.Subtract(DateTime.Now).TotalDays <= 3
+                ? Application.Current.MainPage.DisplayAlert("Reschedule not available",
+                    "Sorry, you can't reschedule your appointment three days before the appointment date.",
+                    "OK")
+                : NavigationService.GoTo<TimeAvailabilityPage>(new()
+                {
+                    { "booking", appointment },
+                    { "isResched", true }
+                });
+        }
+
+        private Task ServiceTapped(AppointmentModel appointment)
+        {
+            return NavigationService.GoTo<ServiceInfoPopup>(new()
+            {
+                { "appointment", appointment }
+            });
+        }
+
+        public override async void GetBadgeCount()
+        {
+            var schedules = _schedules ?? await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
+            BadgeCount = schedules.Count();
+        }
+
+        public override async void Initialized(NavigationParameters parameters)
+        {
+            BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
+            SelectedBookingSort = BookingSortCollection.First();
+            BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
+
+            _schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
+            InitUpcomingCollections();
+            GetBadgeCount();
         }
     }
 }

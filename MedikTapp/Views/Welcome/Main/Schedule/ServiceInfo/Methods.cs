@@ -1,5 +1,4 @@
 ﻿using MedikTapp.Services.NavigationService;
-using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -9,15 +8,15 @@ namespace MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo
     {
         public override void Initialized(NavigationParameters parameters)
         {
+            //todo here
             var passedService = parameters.GetValue<Models.Services>("service");
-            EarliestAvailableDate = passedService.AvailableTime;
             ServiceImage = passedService.ServiceImage;
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;
-            ProductImageSize = passedService.IsPromo
-                ? Tuple.Create(200, 250)
-                : Tuple.Create(100, 100);
+            //ProductImageSize = passedService.IsPromo
+            //    ? Tuple.Create(200, 250)
+            //    : Tuple.Create(100, 100);
         }
 
         private Task OpenMap()

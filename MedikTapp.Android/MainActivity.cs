@@ -10,6 +10,7 @@ using MedikTapp.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.FirebasePushNotification;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.Platform.Droid;
 using Rg.Plugins.Popup;
@@ -38,13 +39,14 @@ namespace MedikTapp.Droid
             Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
             Platform.Init(this, savedInstanceState);
-            CrossFingerprint.SetCurrentActivityResolver(() => Platform.CurrentActivity);
+            CrossFingerprint.SetCurrentActivityResolver(() => this);
             Popup.Init(this);
             CachedImageRenderer.Init(true);
             CachedImageRenderer.InitImageViewHandler();
             SetStatusBarColor();
 
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
+            FirebasePushNotificationManager.ProcessIntent(this, Intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
@@ -55,7 +57,9 @@ namespace MedikTapp.Droid
 
         private static void AddPlatformSpecificServices(IServiceCollection services)
         {
-            services.AddSingleton<IToast, ToastDroid>()
+            services
+                .AddSingleton<IFirebasePushNotification, FirebasePushNotificationManager>()
+                .AddSingleton<IToast, ToastDroid>()
                 .AddSingleton<IFingerprint, FingerprintImplementation>()
                 .AddSingleton<INotificationService, NotificationServiceImpl>();
         }

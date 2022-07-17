@@ -3,6 +3,7 @@ using MedikTapp.Services.NavigationService;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
@@ -31,19 +32,25 @@ namespace MedikTapp.ViewModels.Base
 
         public void AddTab<TPage>(int index = -1) where TPage : TabItemPageViewModelBase
         {
-            TPage page = _serviceProvider.GetRequiredService<TPage>();
-            if (page is null) throw new NullReferenceException("No ViewModel found for tab page");
-            if (Tabs.Count == 0) page.IsCurrentTab = true;
+            var page = _serviceProvider.GetRequiredService<TPage>();
+            if (page is null)
+                throw new NullReferenceException("No ViewModel found for tab page");
+            if (Tabs.Count == 0)
+                page.IsCurrentTab = true;
             Tabs.Add(page);
             _tabsIndex.Add(index == -1 ? Tabs.Count - 1 : index);
+
+            if (Tabs.Last().CanHaveBadge)
+                Tabs.Last().GetBadgeCount();
         }
 
         private void InvokeTabNavigateEvent(int tabPositionIndex, NavigationParameters parameters,
             NavigationType navigationType = NavigationType.To)
         {
-            int index = _tabsIndex.IndexOf(tabPositionIndex);
-            if (index == -1) return;
-            TabItemPageViewModelBase tabVm = Tabs[index];
+            var index = _tabsIndex.IndexOf(tabPositionIndex);
+            if (index == -1)
+                return;
+            var tabVm = Tabs[index];
             if (navigationType.Equals(NavigationType.To))
             {
                 ActiveTabIndex = index;
@@ -62,7 +69,7 @@ namespace MedikTapp.ViewModels.Base
         /// <param name="nextIndex"></param>
         protected void SetActiveTab(int previousIndex, int nextIndex)
         {
-            for (int i = 0; i < Tabs.Count; i++)
+            for (var i = 0; i < Tabs.Count; i++)
                 Tabs[i].IsCurrentTab = false;
             NavigationParameters parameters = new();
             InvokeTabNavigateEvent(previousIndex, parameters, NavigationType.From);
@@ -75,10 +82,11 @@ namespace MedikTapp.ViewModels.Base
         /// <param name="tabPositionIndex"></param>
         protected void SetActiveTab(int tabPositionIndex)
         {
-            for (int i = 0; i < Tabs.Count; i++)
+            for (var i = 0; i < Tabs.Count; i++)
                 Tabs[i].IsCurrentTab = false;
-            int index = _tabsIndex.IndexOf(tabPositionIndex);
-            if (index == -1) return;
+            var index = _tabsIndex.IndexOf(tabPositionIndex);
+            if (index == -1)
+                return;
             ActiveTabIndex = index;
             Tabs[index].IsCurrentTab = true;
         }

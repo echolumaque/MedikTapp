@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Enums;
+using MedikTapp.Models;
 using Xamarin.Forms;
 
 namespace MedikTapp.Helpers.DataTemplateSelector
@@ -10,7 +11,7 @@ namespace MedikTapp.Helpers.DataTemplateSelector
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return ((Models.ScheduleModel)item).BookingStatus == BookingStatus.Cancelled.ToString()
+            return ((AppointmentModel)item).BookingStatus == BookingStatus.Cancelled.ToString()
                 ? CancelledTemplate
                 : NotCancelledTemplate;
         }

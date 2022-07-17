@@ -20,6 +20,12 @@ namespace MedikTapp.Droid.Renderer
             {
                 Control.BoxStrokeWidth = 0;
                 Control.BoxStrokeWidthFocused = 0;
+                var layoutParams = new MarginLayoutParams(Control.LayoutParameters);
+                layoutParams.SetMargins(0, 0, 0, 0);
+                LayoutParameters = layoutParams;
+                Control.LayoutParameters = layoutParams;
+                Control.SetPadding(0, 0, 0, 0);
+                SetPadding(0, 0, 0, 0);
             }
         }
     }

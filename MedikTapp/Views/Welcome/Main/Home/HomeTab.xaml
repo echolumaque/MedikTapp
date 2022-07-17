@@ -16,7 +16,7 @@
     <ScrollView HorizontalScrollBarVisibility="Never"
                 VerticalScrollBarVisibility="Never">
         <Grid ColumnDefinitions="90,*"
-              RowDefinitions="80,200,450,140">
+              RowDefinitions="80,200,450,190">
             <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
             <templateImg:CachedImage Grid.Row="0"
                                      Grid.Column="0"
@@ -49,10 +49,21 @@
                           Loop="True"
                           Position="{Binding PromoPosition}">
                 <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Services">
+                    <DataTemplate x:DataType="models:PromoModel">
+                        <!--<templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                                                 templates:Gestures.TappedParameter="{Binding .}"
+                                                 HeightRequest="500"
+                                                 HorizontalOptions="Center"
+                                                 Source="{Binding PromoImage, Converter={converter:Base64ToImageConverter}}"
+                                                 VerticalOptions="Center"
+                                                 WidthRequest="500" />-->
                         <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
                                                  templates:Gestures.TappedParameter="{Binding .}"
-                                                 ImageSource="{Binding ServiceImage}" />
+                                                 HeightRequest="500"
+                                                 HorizontalOptions="Center"
+                                                 ImageSource="{Binding PromoImage}"
+                                                 VerticalOptions="Center"
+                                                 WidthRequest="500" />
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
             </CarouselView>

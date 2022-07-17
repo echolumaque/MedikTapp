@@ -3,72 +3,25 @@
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:converter="clr-namespace:MedikTapp.Converters"
-               xmlns:enums="clr-namespace:MedikTapp.Enums"
                xmlns:models="clr-namespace:MedikTapp.Models"
                xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
-               xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.Bookings"
                x:Name="this"
                x:DataType="vm:BookingsTabViewModel"
                x:TypeArguments="vm:BookingsTabViewModel">
-    <ContentView.Resources>
-        <Style x:Key="SelectedScheduleTypeFrame"
-               TargetType="Frame">
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Grid.Row" Value="1" />
-            <Setter Property="BackgroundColor" Value="#695CD5" />
-        </Style>
-        <Style x:Key="UnselectedScheduleTypeFrame"
-               TargetType="Frame">
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Grid.Row" Value="1" />
-            <Setter Property="BackgroundColor" Value="#F4F5F9" />
-        </Style>
-        <Style x:Key="SelectedScheduleTypeLabel"
-               TargetType="Label">
-            <Setter Property="TextColor" Value="White" />
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="FontFamily" Value="med" />
-        </Style>
-        <Style x:Key="UnselectedScheduleTypeLabel"
-               TargetType="Label">
-            <Setter Property="TextColor" Value="LightGray" />
-            <Setter Property="HorizontalOptions" Value="Center" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="FontFamily" Value="med" />
-        </Style>
-        <Style x:Key="ScheduleFontIcons"
-               TargetType="Label">
-            <Setter Property="TextColor" Value="#A8AFBD" />
-            <Setter Property="FontFamily" Value="fas" />
-            <Setter Property="FontSize" Value="17" />
-            <Setter Property="VerticalOptions" Value="Center" />
-            <Setter Property="HorizontalOptions" Value="Start" />
-        </Style>
-        <Style x:Key="ScheduleFontIconsDesc"
-               TargetType="Label">
-            <Setter Property="FontFamily" Value="med" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="VerticalOptions" Value="End" />
-            <Setter Property="HorizontalOptions" Value="Start" />
-            <Setter Property="TextColor" Value="#2F2F32" />
-        </Style>
-    </ContentView.Resources>
 
-    <Grid RowDefinitions="70,50,*">
+    <Grid RowDefinitions="70,*">
         <Label Grid.Row="0"
                FontFamily="med"
                FontSize="40"
                Text="Bookings"
                TextColor="#2F2F32" />
 
-        <CollectionView Grid.Row="2"
+        <CollectionView Grid.Row="1"
                         ItemSizingStrategy="MeasureAllItems"
-                        ItemsSource="{Binding Bookings}">
+                        ItemsSource="{Binding Bookings}"
+                        VerticalOptions="CenterAndExpand">
             <CollectionView.EmptyView>
                 <Frame BackgroundColor="#FBFBFB">
                     <Label FontFamily="med"
@@ -178,42 +131,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        <templates:ComboBox Grid.Row="1"
-                            Grid.RowSpan="2"
-                            DropdownBoxBackgroundColor="#FBFBFB"
-                            DropdownBoxHeight="50"
-                            DropdownBoxWidthRequest="160"
-                            HorizontalOptions="EndAndExpand"
-                            IsExpanded="{Binding IsFilterExpanded}"
-                            ItemsSource="{Binding BookingSortCollection}"
-                            MainBoxBackgroundColor="#FBFBFB"
-                            MainBoxText="{Binding BookingSortMainBoxText}"
-                            MainBoxTextColor="Black"
-                            MainBoxTextHorizontalOptions="StartAndExpand"
-                            MainBoxWidthRequest="180"
-                            OpenComboBoxCommand="{Binding OpenComboBoxCmd}"
-                            SelectedItem="{Binding SelectedBookingSort}"
-                            SelectionChangedCommand="{Binding ChangeFilterCmd}"
-                            SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
-                            VerticalOptions="StartAndExpand">
-            <templates:ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="enums:BookingSort">
-                    <Label Margin="0,5"
-                           Text="{Binding ., Converter={converter:BookingSortDescriptionConverter}}"
-                           TextColor="{StaticResource Black}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#FBFBFB" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Label>
-                </DataTemplate>
-            </templates:ComboBox.ItemTemplate>
-        </templates:ComboBox>
     </Grid>
 </views:BaseTab>

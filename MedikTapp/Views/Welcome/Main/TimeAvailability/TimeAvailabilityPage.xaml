@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage x:Class="MedikTapp.Views.Welcome.Main.TimeAvailability.TimeAvailabilityPage"
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:fa="clr-namespace:MedikTapp.Resources.Fonts"
+                xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+                xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+                xmlns:sf="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
+                xmlns:system="clr-namespace:System;assembly=mscorlib"
+                xmlns:templates="clr-namespace:MedikTapp.Templates"
+                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
+                xmlns:vm="clr-namespace:MedikTapp.Views.Welcome.Main.TimeAvailability"
+                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                x:Name="this"
+                x:DataType="vm:TimeAvailabilityPageViewModel"
+                x:TypeArguments="vm:TimeAvailabilityPageViewModel"
+                BackgroundColor="#F5F5F5">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <Grid Margin="0,20,0,-20"
+              ColumnDefinitions="*,*"
+              RowDefinitions="60,300,55,120,Auto,*">
+
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="20,0"
+                   FontFamily="med"
+                   FontSize="30"
+                   Text="Select date"
+                   TextColor="{StaticResource Black}" />
+
+            <sf:SfCalendar Grid.Row="1"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           Margin="5,0"
+                           BackgroundColor="#F5F5F5"
+                           BlackoutDates="{Binding DisabledDates}"
+                           BlackoutDatesViewMode="Stripes"
+                           CustomDayLabels="{Binding CustomDayLabels}"
+                           EnableDatesInPast="False"
+                           InlineViewMode="Inline"
+                           MaxDate="{Binding MaximumDate}"
+                           MinDate="{x:Static system:DateTime.Now}"
+                           SelectedDate="{Binding SelectedDate}"
+                           ShowLeadingAndTrailingDays="False"
+                           ShowYearView="False"
+                           VerticalOptions="CenterAndExpand">
+                <sf:SfCalendar.MonthViewSettings>
+                    <sf:MonthViewSettings BlackoutColor="Gray"
+                                          CurrentMonthBackgroundColor="#F5F5F5"
+                                          DateSelectionColor="#695CD5"
+                                          DayCellFontFamily="reg"
+                                          DayHeaderBackgroundColor="#F5F5F5"
+                                          DayHeaderFontFamily="med"
+                                          DayHeaderFormat="EEEEE"
+                                          DisabledBackgroundColor="#F5F5F5"
+                                          HeaderBackgroundColor="#F5F5F5"
+                                          HeaderFontFamily="bold"
+                                          TodayBorderColor="#695CD5"
+                                          TodaySelectionBackgroundColor="#695CD5" />
+                </sf:SfCalendar.MonthViewSettings>
+            </sf:SfCalendar>
+
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="20,0"
+                   FontFamily="med"
+                   FontSize="25"
+                   Text="Select time"
+                   TextColor="{StaticResource Black}"
+                   VerticalOptions="EndAndExpand" />
+
+            <CollectionView Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="20,0"
+                            HorizontalOptions="CenterAndExpand"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding TimeCollection}"
+                            SelectedItem="{Binding SelectedTime}"
+                            SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <Frame Padding="0"
+                           HasShadow="False"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                        <Label FontFamily="med"
+                               HorizontalOptions="Center"
+                               Text="No available time"
+                               VerticalOptions="Center" />
+                    </Frame>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="system:DateTime">
+                        <Label FontFamily="med"
+                               FontSize="20"
+                               HeightRequest="40"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Text="{Binding ., StringFormat='{0:hh:mm tt}'}"
+                               TextColor="#695CD5"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#695CD5" />
+                                            <Setter Property="TextColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <xct:Expander Grid.Row="4"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          Margin="20,0,20,0"
+                          IsExpanded="{Binding IsOnBehalf}"
+                          VerticalOptions="CenterAndExpand">
+                <xct:Expander.Header>
+                    <Grid ColumnDefinitions="30,*">
+                        <CheckBox Grid.Column="0"
+                                  HorizontalOptions="CenterAndExpand"
+                                  IsChecked="{Binding IsOnBehalf}"
+                                  VerticalOptions="CenterAndExpand"
+                                  Color="#695CD5" />
+
+                        <Label Grid.Column="1"
+                               FontFamily="reg"
+                               Text="Book for someone else?"
+                               TextColor="{StaticResource Black}"
+                               VerticalOptions="CenterAndExpand" />
+                    </Grid>
+                </xct:Expander.Header>
+                <xct:Expander.ContentTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="*,*,*">
+
+                            <templates:IconEntryWithValidation Grid.Row="0"
+                                                               Grid.Column="0"
+                                                               Grid.ColumnSpan="2"
+                                                               EntryBackgroundColor="#F5F5F5"
+                                                               Icon="{x:Static fa:FontAwesomeIcons.Signature}"
+                                                               Placeholder="Prospect's First Name"
+                                                               Text="{Binding BindingContext.ProspectFirstName, Source={x:Reference this}}"
+                                                               Validation="Name" />
+
+                            <templates:IconEntryWithValidation Grid.Row="1"
+                                                               Grid.Column="0"
+                                                               Grid.ColumnSpan="2"
+                                                               EntryBackgroundColor="#F5F5F5"
+                                                               Icon="{x:Static fa:FontAwesomeIcons.Signature}"
+                                                               Placeholder="Prospect's Last Name"
+                                                               Text="{Binding BindingContext.ProspectLastName, Source={x:Reference this}}"
+                                                               Validation="Name" />
+
+                            <templates:IconEntryWithValidation Grid.Row="2"
+                                                               Grid.Column="0"
+                                                               EntryBackgroundColor="#F5F5F5"
+                                                               Icon="{x:Static fa:FontAwesomeIcons.InputNumeric}"
+                                                               Keyboard="Numeric"
+                                                               Placeholder="Age"
+                                                               Text="{Binding BindingContext.ProspectAge, Source={x:Reference this}}" />
+
+                            <renderer:BorderlessPicker Title="Sex"
+                                                       Grid.Row="2"
+                                                       Grid.Column="1"
+                                                       BackgroundColor="#F5F5F5"
+                                                       SelectedItem="{Binding BindingContext.ProspectSex, Source={x:Reference this}}">
+                                <renderer:BorderlessPicker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Male</x:String>
+                                        <x:String>Female</x:String>
+                                    </x:Array>
+                                </renderer:BorderlessPicker.ItemsSource>
+                            </renderer:BorderlessPicker>
+                        </Grid>
+                    </DataTemplate>
+                </xct:Expander.ContentTemplate>
+            </xct:Expander>
+
+            <Button Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="20,0,0,0"
+                    Padding="0,5"
+                    BackgroundColor="#F5F5F5"
+                    Command="{Binding PopPage}"
+                    CornerRadius="10"
+                    FontFamily="reg"
+                    Text="Cancel"
+                    TextColor="Black"
+                    VerticalOptions="CenterAndExpand" />
+
+            <Button Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="0,0,20,0"
+                    Padding="0,5"
+                    BackgroundColor="{StaticResource DarkPurple}"
+                    Command="{Binding SelectScheduleCmd}"
+                    CornerRadius="10"
+                    FontFamily="reg"
+                    Text="Set schedule"
+                    TextColor="White"
+                    VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </ScrollView>
+</views:BasePage>

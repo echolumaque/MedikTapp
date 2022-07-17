@@ -30,43 +30,41 @@ namespace MedikTapp.Views.Welcome.Main.Home
 
         private void InitPromos()
         {
+            //Promos = new(_medikTappService.MedikTappPromos);
+
             Promos = new()
             {
                 new()
                 {
-                    AvailableTime = new DateTime(2022, 6, 12, 8, 15, 0),
-                    ServiceDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
-                    ServiceImage = "promo1.jpg",
-                    ServiceName = "Ultrasound (Promo)",
-                    ServicePrice = 850,
-                    IsPromo = true
+                    StartDate = new DateTime(2022, 6, 12, 8, 15, 0),
+                    PromoDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
+                    PromoImage = "promo1.jpg",
+                    PromoName = "Ultrasound (Promo)",
+                    PromoPrice = 850,
                 },
                 new()
                 {
-                    AvailableTime = new DateTime(2022, 6, 13, 8, 30, 0),
-                    ServiceDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
-                    ServiceImage = "promo2.jpg",
-                    ServiceName = "Executive Health Checkup",
-                    ServicePrice = 1500,
-                    IsPromo = true
+                    StartDate = new DateTime(2022, 6, 13, 8, 30, 0),
+                    PromoDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
+                    PromoImage = "promo2.jpg",
+                    PromoName = "Executive Health Checkup",
+                    PromoPrice = 1500,
                 },
                 new()
                 {
-                    AvailableTime = new DateTime(2022, 6, 12, 8, 45, 0),
-                    ServiceDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
-                    ServiceImage = "promo1.jpg",
-                    ServiceName = "Ultrasound (Promo)",
-                    ServicePrice = 850,
-                    IsPromo = true
+                    StartDate = new DateTime(2022, 6, 12, 8, 15, 0),
+                    PromoDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
+                    PromoImage = "promo1.jpg",
+                    PromoName = "Ultrasound (Promo)",
+                    PromoPrice = 850,
                 },
                 new()
                 {
-                    AvailableTime = new DateTime(2022, 6, 13, 9, 0, 0),
-                    ServiceDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
-                    ServiceImage = "promo2.jpg",
-                    ServiceName = "Executive Health Checkup",
-                    ServicePrice = 1500,
-                    IsPromo = true
+                    StartDate = new DateTime(2022, 6, 13, 8, 30, 0),
+                    PromoDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
+                    PromoImage = "promo2.jpg",
+                    PromoName = "Executive Health Checkup",
+                    PromoPrice = 1500,
                 },
             };
         }

@@ -11,11 +11,11 @@ namespace MedikTapp.Services.HttpService
         #region Login and Register
         [Headers("x-functions-key : PFNUfmsfwfm5S-TlTuzQuKp1USSHLwBIfKHCeJrBSe8HAzFuPHVrJA==")]
         [Post("/api/Login")]
-        Task<PatientModel> Login([Body(BodySerializationMethod.Serialized)] Dictionary<string, string> data);
+        Task<PatientModel> Login([Body(BodySerializationMethod.Serialized)] PatientModel data);
 
         [Headers("x-functions-key : chWkam7CzIRFZ2gTGrj6h5v_v_H4meHNu1GBK1RnIthmAzFuIUanpA==")]
         [Post("/api/Register")]
-        Task<PatientModel> Register([Body(BodySerializationMethod.Serialized)] Dictionary<string, string> data);
+        Task Register([Body(BodySerializationMethod.Serialized)] PatientModel data);
         #endregion
 
         #region Services
@@ -27,16 +27,21 @@ namespace MedikTapp.Services.HttpService
         #region Appointments
         [Headers("x-functions-key : 6tB18tYTeZSEKMRqmCSTJdBGBlldwkczivQ4rycK4scWAzFu9ysfkQ==")]
         [Post("/api/AddAppointment")]
-        Task AddAppointment([Body(BodySerializationMethod.Serialized)] AppointmentModel appointment);
+        Task AddAppointment([Body(BodySerializationMethod.Serialized)] AddAppointmentModel appointment);
 
-        [Headers("x-functions-key : FgwBKouW3y3ZFCYbU-C7U4JNfsnHttUta43AOWFerWj5AzFuBiw_Fg==")]
-        [Get("/api/GetAppointmentAvailableTime?serviceId={serviceId}&year={year}&month={month}&day={day}")]
+        [Headers("x-functions-key : jfCSyl4pRv8dU7lxYjLjroFYDoYX1IuEhzrMF4vVhK6hAzFuw0d-TQ==")]
+        [Get("/api/GetServiceAppointmentAvailableTimes?serviceId={serviceId}&year={year}&month={month}&day={day}")]
         Task<IEnumerable<DateTime>> GetAppointmentAvailableTime(int serviceId, int year, int month, int day);
 
         [Headers("x-functions-key : I012SyoY8TeDb7hH5X-2XQTP1Qo7OplWNpcowK_TFXMhAzFuQg49cg==")]
         [Get("/api/GetAppointmentsByPatientId?patientId={patientId}")]
-        Task<IEnumerable<Models.ScheduleModel>> GetAppointmentsByPatientId(int patientId);
+        Task<IEnumerable<AppointmentModel>> GetAppointmentsByPatientId(int patientId);
+        #endregion
+
+        #region Promos
+        [Headers("x-functions-key : n8UzakNdDPgEFSjkFZv9ZQl9qsc0jTanPakzEVz4hCb9AzFuRZ4y8A==")]
+        [Get("/api/GetPromo")]
+        Task<IEnumerable<PromoModel>> GetPromos();
         #endregion
     }
 }
-//https://mediktapp.azurewebsites.net/api/GetAppointmentsByPatientId?code=

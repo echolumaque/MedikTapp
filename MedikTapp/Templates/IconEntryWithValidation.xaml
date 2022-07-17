@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="MedikTapp.Templates.IconEntryWithValidation"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:MedikTapp.Templates"
+             xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+             x:DataType="b:IconEntryWithValidation">
+
+    <Grid ColumnDefinitions="30,*">
+
+        <Label FontFamily="fas"
+               FontSize="20"
+               HorizontalOptions="Center"
+               Text="{Binding Icon}"
+               VerticalOptions="Center" />
+
+        <StackLayout Grid.Column="1"
+                     Spacing="-5">
+            <Label Margin="16,0,0,0"
+                   FontFamily="reg"
+                   FontSize="12"
+                   IsVisible="{Binding IsValidationMessageVisible}"
+                   Text="{Binding ValidationMessage}"
+                   TextColor="Red" />
+
+            <renderer:BorderlessMaterialEntry BackgroundColor="{Binding EntryBackgroundColor}"
+                                              ClearButtonVisibility="WhileEditing"
+                                              IsPassword="{Binding IsPassword}"
+                                              IsSpellCheckEnabled="False"
+                                              IsTextPredictionEnabled="False"
+                                              Keyboard="{Binding Keyboard}"
+                                              MaxLength="{Binding MaxLength}"
+                                              Placeholder="{Binding Placeholder}"
+                                              Text="{Binding Text}"
+                                              VerticalOptions="Center" />
+        </StackLayout>
+    </Grid>
+</ContentView>

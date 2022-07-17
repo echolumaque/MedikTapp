@@ -1,10 +1,7 @@
-﻿using MedikTapp.Enums;
-using MedikTapp.Helpers.Command;
+﻿using MedikTapp.Helpers.Command;
 using MedikTapp.Services.DatabaseService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Bookings
 {
@@ -19,10 +16,6 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
 
             ScheduleCmd = new AsyncSingleCommand<Models.Services>(AddBooking);
             CancelBookingCmd = new AsyncSingleCommand<Models.Services>(CancelBooking);
-            ChangeFilterCmd = new Command<BookingSort>(filter => ChangeFilter(filter));
-            OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
-
-            GetBadgeCount().ConfigureAwait(false);
         }
     }
 }

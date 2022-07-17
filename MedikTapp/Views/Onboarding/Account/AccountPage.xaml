@@ -5,17 +5,14 @@
                 xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                 xmlns:helper="clr-namespace:MedikTapp.Helpers"
                 xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+                xmlns:template="clr-namespace:MedikTapp.Templates"
                 xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
                 x:DataType="vm:AccountPageViewModel"
-                x:TypeArguments="vm:AccountPageViewModel">
+                x:TypeArguments="vm:AccountPageViewModel"
+                BackgroundColor="#F5F5F5">
     <ContentPage.Resources>
-        <Style x:Key="InvalidEntryStyle"
-               TargetType="renderer:BorderlessMaterialEntry">
-            <Setter Property="TextColor" Value="Red" />
-        </Style>
-
         <ControlTemplate x:Key="Login">
             <StackLayout Margin="20,0"
                          Spacing="10">
@@ -39,9 +36,7 @@
                     </Label.FormattedText>
                 </Label>
 
-
-                <Grid ColumnDefinitions="30,*"
-                      RowDefinitions="*,*">
+                <Grid RowDefinitions="*,*">
                     <Label Grid.Row="0"
                            Grid.Column="0"
                            FontFamily="fas"
@@ -58,23 +53,20 @@
                            Text="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
                            VerticalOptions="Center" />
 
-                    <renderer:BorderlessMaterialEntry Grid.Row="0"
-                                                      Grid.Column="1"
-                                                      BackgroundColor="#F9F9F9"
-                                                      FontFamily="reg"
-                                                      IsEmail="True"
+                    <template:IconEntryWithValidation Grid.Row="0"
+                                                      BackgroundColor="#F5F5F5"
+                                                      Icon="{x:Static fonts:FontAwesomeIcons.At}"
+                                                      Keyboard="Email"
                                                       Placeholder="Enter your email"
-                                                      Text="{TemplateBinding BindingContext.Email}"
+                                                      Text="{TemplateBinding BindingContext.LoginEmailAddress}"
                                                       VerticalOptions="Center" />
 
-                    <renderer:BorderlessMaterialEntry Grid.Row="1"
-                                                      Grid.Column="1"
-                                                      BackgroundColor="#F9F9F9"
-                                                      FontFamily="reg"
+                    <template:IconEntryWithValidation Grid.Row="1"
+                                                      BackgroundColor="#F5F5F5"
+                                                      Icon="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
                                                       IsPassword="True"
                                                       Placeholder="Enter your password"
-                                                      Text="{TemplateBinding BindingContext.Password}"
-                                                      TextColor="#2F2F32"
+                                                      Text="{TemplateBinding BindingContext.LoginPassword}"
                                                       VerticalOptions="Center" />
                 </Grid>
 
@@ -88,7 +80,7 @@
                     <Button Grid.Column="0"
                             Padding="0,5"
                             BackgroundColor="#695CD5"
-                            Command="{TemplateBinding BindingContext.ContinueCmd}"
+                            Command="{TemplateBinding BindingContext.LoginCmd}"
                             CornerRadius="10"
                             FontFamily="med"
                             Text="Login"
@@ -121,123 +113,188 @@
         </ControlTemplate>
 
         <ControlTemplate x:Key="Register">
-            <StackLayout Margin="20,0"
-                         Spacing="10">
-                <templateImg:CachedImage HeightRequest="250"
-                                         HorizontalOptions="Center"
-                                         ImageSource="login2.png"
-                                         VerticalOptions="Center"
-                                         WidthRequest="250" />
+            <ScrollView x:Name="RegisterScrollView"
+                        Margin="20,0"
+                        VerticalScrollBarVisibility="Never">
+                <Grid RowDefinitions="*,*">
 
-                <Label HorizontalTextAlignment="Center"
-                       TextColor="#2F2F32">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span FontFamily="med"
-                                  FontSize="25"
-                                  Text="Hi there! 👋" />
-                            <Span Text="&#10;" />
-                            <Span FontFamily="med"
-                                  Text="New to Mediktapp?" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                    <Grid Grid.Row="0"
+                          RowDefinitions="350,*,*,0.5*,0.5*">
+                        <templateImg:CachedImage Grid.Row="0"
+                                                 HeightRequest="350"
+                                                 HorizontalOptions="Center"
+                                                 ImageSource="login2.png"
+                                                 VerticalOptions="StartAndExpand"
+                                                 WidthRequest="350" />
 
-                <Grid ColumnDefinitions="30,*"
-                      RowDefinitions="*,*,*"
-                      RowSpacing="-10">
-                    <Label Grid.Row="0"
-                           Grid.Column="0"
-                           FontFamily="fas"
-                           FontSize="20"
-                           HorizontalOptions="Center"
-                           Text="{x:Static fonts:FontAwesomeIcons.Signature}"
-                           VerticalOptions="Center" />
+                        <Label Grid.Row="1"
+                               HorizontalTextAlignment="Center"
+                               TextColor="#2F2F32">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontFamily="med"
+                                          FontSize="25"
+                                          Text="Hi there! 👋" />
+                                    <Span Text="&#10;" />
+                                    <Span FontFamily="med"
+                                          Text="New to Mediktapp?" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
-                    <Label Grid.Row="1"
-                           Grid.Column="0"
-                           FontFamily="fas"
-                           FontSize="20"
-                           HorizontalOptions="Center"
-                           Text="{x:Static fonts:FontAwesomeIcons.At}"
-                           VerticalOptions="Center" />
+                        <StackLayout Grid.Row="2">
+                            <Button Margin="0,10"
+                                    Padding="0,5"
+                                    BackgroundColor="#695CD5"
+                                    Command="{TemplateBinding BindingContext.JoinUsCmd}"
+                                    CommandParameter="{x:Reference RegisterScrollView}"
+                                    CornerRadius="10"
+                                    FontFamily="med"
+                                    Text="Join us"
+                                    VerticalOptions="CenterAndExpand" />
 
-                    <Label Grid.Row="2"
-                           Grid.Column="0"
-                           FontFamily="fas"
-                           FontSize="20"
-                           HorizontalOptions="Center"
-                           Text="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
-                           VerticalOptions="Center" />
+                            <Label FontFamily="reg"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="EndAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="By signing up, you agree to our " />
+                                        <Span Text="terms &#38; conditions"
+                                              TextColor="#695CD5" />
+                                        <Span Text=" and " />
+                                        <Span Text="privacy policy"
+                                              TextColor="#695CD5" />
+                                        <Span Text="." />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
-                    <renderer:BorderlessMaterialEntry Grid.Row="0"
-                                                      Grid.Column="1"
-                                                      BackgroundColor="#F9F9F9"
-                                                      FontFamily="reg"
-                                                      IsLettersOnly="True"
-                                                      Placeholder="Full name"
-                                                      Text="{TemplateBinding BindingContext.Name}"
-                                                      VerticalOptions="Center" />
+                            <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
+                                   helper:Gestures.TappedParameter="Login"
+                                   FontFamily="reg"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="EndAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Joined us before? " />
+                                        <Span Text="Login"
+                                              TextColor="#695CD5" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </Grid>
 
-                    <renderer:BorderlessMaterialEntry Grid.Row="1"
-                                                      Grid.Column="1"
-                                                      BackgroundColor="#F9F9F9"
-                                                      FontFamily="reg"
-                                                      IsEmail="True"
-                                                      Placeholder="Email"
-                                                      Text="{TemplateBinding BindingContext.Email}"
-                                                      TextColor="#2F2F32"
-                                                      VerticalOptions="Center" />
+                    <Grid x:Name="FormFields"
+                          Grid.Row="1"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*"
+                          VerticalOptions="StartAndExpand">
 
-                    <renderer:BorderlessMaterialEntry Grid.Row="2"
-                                                      Grid.Column="1"
-                                                      BackgroundColor="#F9F9F9"
-                                                      FontFamily="reg"
-                                                      IsPassword="True"
-                                                      Placeholder="Password"
-                                                      Text="{TemplateBinding BindingContext.Password}"
-                                                      TextColor="#2F2F32"
-                                                      VerticalOptions="Center" />
+                        <template:IconEntryWithValidation Grid.Row="0"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.Signature}"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterFirstNameValid}"
+                                                          Placeholder="First Name"
+                                                          Text="{TemplateBinding BindingContext.RegisterFirstName}"
+                                                          Validation="Name" />
+
+                        <template:IconEntryWithValidation Grid.Row="1"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.Signature}"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterLastNameValid}"
+                                                          Placeholder="Last Name"
+                                                          Text="{TemplateBinding BindingContext.RegisterLastName}"
+                                                          Validation="Name" />
+
+                        <template:IconEntryWithValidation Grid.Row="2"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.At}"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterEmailAddressValid}"
+                                                          Keyboard="Email"
+                                                          Placeholder="Email Address"
+                                                          Text="{TemplateBinding BindingContext.RegisterEmailAddress}"
+                                                          Validation="Email" />
+
+                        <template:IconEntryWithValidation Grid.Row="3"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"
+                                                          IsPassword="True"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterPasswordValid}"
+                                                          Placeholder="Password"
+                                                          Text="{TemplateBinding BindingContext.RegisterPassword}"
+                                                          Validation="Password" />
+
+                        <Grid Grid.Row="4"
+                              ColumnDefinitions="Auto,*"
+                              HeightRequest="60">
+
+                            <template:IconDatePickerWithValidation Grid.Column="0"
+                                                                   HorizontalOptions="CenterAndExpand"
+                                                                   IsValid="{TemplateBinding BindingContext.IsRegisterBirthDateValid}"
+                                                                   SelectedDate="{TemplateBinding BindingContext.RegisterBirthDate}"
+                                                                   ValidationMessage="Users must be of legal age" />
+
+                            <Grid Grid.Column="1"
+                                  Margin="20,0"
+                                  ColumnDefinitions="30,*">
+                                <Label Grid.Column="0"
+                                       FontFamily="fas"
+                                       FontSize="20"
+                                       HorizontalOptions="Center"
+                                       Text="{x:Static fonts:FontAwesomeIcons.MarsAndVenus}"
+                                       VerticalOptions="Center" />
+
+                                <renderer:BorderlessPicker Title="Sex"
+                                                           Grid.Column="1"
+                                                           SelectedItem="{TemplateBinding BindingContext.RegisterSex}"
+                                                           VerticalOptions="Center">
+                                    <renderer:BorderlessPicker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Male</x:String>
+                                            <x:String>Female</x:String>
+                                        </x:Array>
+                                    </renderer:BorderlessPicker.ItemsSource>
+                                </renderer:BorderlessPicker>
+                            </Grid>
+                        </Grid>
+
+                        <template:IconEntryWithValidation Grid.Row="5"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.CirclePhone}"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterContactNumberValid}"
+                                                          Keyboard="Telephone"
+                                                          MaxLength="11"
+                                                          Placeholder="Contact Number"
+                                                          Text="{TemplateBinding BindingContext.RegisterContactNumber}"
+                                                          Validation="ContactNumber" />
+
+                        <template:IconEntryWithValidation Grid.Row="6"
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.Map}"
+                                                          Placeholder="Address"
+                                                          Text="{TemplateBinding BindingContext.RegisterAddress}"
+                                                          Validation="None" />
+
+                        <Button Grid.Row="7"
+                                Margin="0,30,0,0"
+                                Padding="0,8"
+                                BackgroundColor="#695CD5"
+                                Command="{TemplateBinding BindingContext.RegisterCmd}"
+                                CornerRadius="10"
+                                Text="Register"
+                                VerticalOptions="StartAndExpand" />
+                    </Grid>
                 </Grid>
-
-                <Label FontFamily="reg">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="By signing up, you agree to our " />
-                            <Span Text="terms &#38; conditions"
-                                  TextColor="#695CD5" />
-                            <Span Text=" and " />
-                            <Span Text="privacy policy"
-                                  TextColor="#695CD5" />
-                            <Span Text="." />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <Button Margin="0,10"
-                        Padding="0,5"
-                        BackgroundColor="#695CD5"
-                        Command="{TemplateBinding BindingContext.ContinueCmd}"
-                        CornerRadius="10"
-                        FontFamily="med"
-                        Text="Register"
-                        VerticalOptions="Center" />
-
-                <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
-                       helper:Gestures.TappedParameter="Login"
-                       FontFamily="reg"
-                       HorizontalOptions="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Joined us before? " />
-                            <Span Text="Login"
-                                  TextColor="#695CD5" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </StackLayout>
+            </ScrollView>
         </ControlTemplate>
     </ContentPage.Resources>
 
-    <ContentView ControlTemplate="{Binding AccountPageTemplate}" />
+    <ContentView Margin="0,60,0,0">
+        <ContentView.Triggers>
+            <DataTrigger Binding="{Binding AccountPageTemplate}"
+                         TargetType="ContentView"
+                         Value="Register">
+                <Setter Property="ControlTemplate" Value="{StaticResource Register}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding AccountPageTemplate}"
+                         TargetType="ContentView"
+                         Value="Login">
+                <Setter Property="ControlTemplate" Value="{StaticResource Login}" />
+            </DataTrigger>
+        </ContentView.Triggers>
+    </ContentView>
 </views:BasePage>

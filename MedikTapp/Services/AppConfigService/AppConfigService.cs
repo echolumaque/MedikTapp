@@ -39,40 +39,57 @@ namespace MedikTapp.Services.AppConfigService
             {
                 await _databaseService.Insert(_appConfig = new AppConfig
                 {
-                    PatientId = 0,
-                    Email = string.Empty,
-                    Password = string.Empty,
-                    PatientName = string.Empty,
+                    Address = string.Empty,
+                    Age = 0,
+                    BirthDate = default,
+                    ContactNumber = string.Empty,
+                    EmailAddress = string.Empty,
+                    FirstName = string.Empty,
                     IsBiometricLoginEnabled = false,
                     IsDarkModeEnabled = false,
-                    IsPromoNotifEnabled = false
+                    IsPromoNotifEnabled = false,
+                    LastName = string.Empty,
+                    Password = string.Empty,
+                    PatientId = 0,
+                    Sex = "Male",
                 });
             }
 
             var config = await _databaseService.FindSingle<AppConfig>();
-            PatientId = config.PatientId;
-            Password = config.Password;
-            Email = config.Email;
+            Address = config.Address;
+            Age = config.Age;
+            BirthDate = config.BirthDate;
+            ContactNumber = config.ContactNumber;
+            EmailAddress = config.EmailAddress;
+            FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
-            PatientName = config.PatientName;
             IsDarkModeEnabled = config.IsDarkModeEnabled;
             IsPromoNotifEnabled = config.IsPromoNotifEnabled;
-
+            LastName = config.LastName;
+            Password = config.Password;
+            PatientId = config.PatientId;
+            Sex = config.Sex;
             _appConfigInitialized.RaiseEvent(this, EventArgs.Empty, nameof(AppConfigInitialized));
         }
 
         public async Task UpdateConfig(string propertyName, object value)
         {
-            await _databaseService.Execute($"UPDATE AppConfig SET {propertyName} = ?", value);
+            await _databaseService.Execute($"UPDATE AppConfig SET {propertyName} = ?", value).ConfigureAwait(false);
 
-            var config = await _databaseService.FindSingle<AppConfig>();
-            PatientId = config.PatientId;
-            Password = config.Password;
-            Email = config.Email;
+            var config = await _databaseService.FindSingle<AppConfig>().ConfigureAwait(false);
+            Address = config.Address;
+            Age = config.Age;
+            BirthDate = config.BirthDate;
+            ContactNumber = config.ContactNumber;
+            EmailAddress = config.EmailAddress;
+            FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
-            PatientName = config.PatientName;
             IsDarkModeEnabled = config.IsDarkModeEnabled;
             IsPromoNotifEnabled = config.IsPromoNotifEnabled;
+            LastName = config.LastName;
+            Password = config.Password;
+            PatientId = config.PatientId;
+            Sex = config.Sex;
         }
     }
 }

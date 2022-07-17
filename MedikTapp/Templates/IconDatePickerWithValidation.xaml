@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView x:Class="MedikTapp.Templates.IconDatePickerWithValidation"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:MedikTapp.Templates"
+             xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
+             xmlns:renderer="clr-namespace:MedikTapp.Renderers"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             x:DataType="b:IconDatePickerWithValidation">
+
+    <Grid ColumnDefinitions="30,Auto">
+
+        <Label Grid.Column="0"
+               FontFamily="fas"
+               FontSize="20"
+               HorizontalOptions="Center"
+               Text="{x:Static fonts:FontAwesomeIcons.CakeCandles}"
+               VerticalOptions="Center" />
+
+        <StackLayout Grid.Column="1"
+                     Margin="16,0,0,0"
+                     Spacing="-20">
+            <Label FontFamily="reg"
+                   FontSize="12"
+                   IsVisible="{Binding IsValidationMessageVisible}"
+                   Text="Must be of legal age"
+                   TextColor="Red" />
+
+            <renderer:BorderlessDatePicker Date="{Binding SelectedDate}"
+                                           Format="MMMM d, yyyy"
+                                           HorizontalOptions="FillAndExpand"
+                                           MaximumDate="{x:Static system:DateTime.Now}"
+                                           VerticalOptions="CenterAndExpand" />
+        </StackLayout>
+    </Grid>
+</ContentView>

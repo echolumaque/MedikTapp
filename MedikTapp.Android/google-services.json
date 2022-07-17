@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1072751109392",
+    "project_id": "mediktapp",
+    "storage_bucket": "mediktapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072751109392:android:afb82effb539cb28eef195",
+        "android_client_info": {
+          "package_name": "com.team1.mediktapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072751109392-rmer3m8rg8hfort6jb4pqf987v8vu8ih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdSX0QY9L0Jdjo0VsFYcgdOuXKuqnESrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072751109392-rmer3m8rg8hfort6jb4pqf987v8vu8ih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

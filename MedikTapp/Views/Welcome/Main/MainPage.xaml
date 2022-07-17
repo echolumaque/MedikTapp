@@ -14,37 +14,74 @@
         <templateSelector:TabContentTemplateSelector x:Key="TabContentTemplateSelector" />
         <DataTemplate x:Key="TabViewItemTemplate"
                       x:DataType="vmBase:TabItemPageViewModelBase">
-            <Grid RowDefinitions="30,*">
+            <Grid RowDefinitions="35,*">
                 <xct:BadgeView Grid.Row="0"
-                               BackgroundColor="{StaticResource Purple}"
-                               BadgePosition="TopRight"
-                               FontFamily="med"
-                               FontSize="10"
+                               AutoHide="True"
                                HorizontalOptions="CenterAndExpand"
                                IsAnimated="True"
-                               TextColor="White"
-                               VerticalOptions="End">
+                               VerticalOptions="EndAndExpand">
                     <xct:BadgeView.Triggers>
                         <DataTrigger Binding="{Binding CanHaveBadge}"
                                      TargetType="xct:BadgeView"
                                      Value="True">
-                            <Setter Property="Text" Value="{Binding BadgeCount, StringFormat=' {0} '}" />
+                            <!--<Setter Property="Text" Value="{Binding BadgeCount, StringFormat=' {0} '}" />-->
+                            <Setter Property="Content">
+                                <Grid>
+
+                                    <Label FontFamily="fas"
+                                           FontSize="18"
+                                           HorizontalOptions="CenterAndExpand"
+                                           Text="{Binding Icon}"
+                                           TextColor="Gray"
+                                           VerticalOptions="CenterAndExpand">
+                                        <Label.Triggers>
+                                            <DataTrigger Binding="{Binding IsCurrentTab}"
+                                                         TargetType="Label"
+                                                         Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+
+                                    <Frame Margin="20,-15,0,0"
+                                           Padding="0"
+                                           BackgroundColor="{StaticResource Purple}"
+                                           CornerRadius="10"
+                                           HasShadow="False"
+                                           HeightRequest="20"
+                                           VerticalOptions="CenterAndExpand"
+                                           WidthRequest="20">
+                                        <Label FontFamily="med"
+                                               FontSize="10"
+                                               HorizontalOptions="CenterAndExpand"
+                                               Text="{Binding BadgeCount}"
+                                               TextColor="White"
+                                               VerticalOptions="CenterAndExpand" />
+                                    </Frame>
+                                </Grid>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CanHaveBadge}"
+                                     TargetType="xct:BadgeView"
+                                     Value="False">
+                            <Setter Property="Content">
+                                <Label FontFamily="fas"
+                                       FontSize="18"
+                                       HorizontalOptions="CenterAndExpand"
+                                       Text="{Binding Icon}"
+                                       TextColor="Gray"
+                                       VerticalOptions="CenterAndExpand">
+                                    <Label.Triggers>
+                                        <DataTrigger Binding="{Binding IsCurrentTab}"
+                                                     TargetType="Label"
+                                                     Value="True">
+                                            <Setter Property="TextColor" Value="{StaticResource Purple}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Setter>
                         </DataTrigger>
                     </xct:BadgeView.Triggers>
-                    <Label FontFamily="fas"
-                           FontSize="18"
-                           HorizontalOptions="CenterAndExpand"
-                           Text="{Binding Icon}"
-                           TextColor="Gray"
-                           VerticalOptions="CenterAndExpand">
-                        <Label.Triggers>
-                            <DataTrigger Binding="{Binding IsCurrentTab}"
-                                         TargetType="Label"
-                                         Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource Purple}" />
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
                 </xct:BadgeView>
 
                 <Label Grid.Row="1"
@@ -57,7 +94,7 @@
                         <DataTrigger Binding="{Binding IsCurrentTab}"
                                      TargetType="Label"
                                      Value="True">
-                            <Setter Property="TextColor" Value="#6B79E4" />
+                            <Setter Property="TextColor" Value="{StaticResource Purple}" />
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>

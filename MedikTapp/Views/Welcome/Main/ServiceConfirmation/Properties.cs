@@ -8,7 +8,6 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
     {
         public IAsyncCommand AddToBookingCmd { get; }
         public IAsyncCommand CancelCmd { get; }
-        public DateTime EarliestAvailableDate { get; set; }
         public Tuple<int, int> ProductImageSize { get; set; }
         public string ServiceDescription { get; set; }
         public ImageSource ServiceImage { get; set; }

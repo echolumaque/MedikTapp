@@ -78,6 +78,7 @@
     <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
+    <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.25" />
     <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
     <PackageReference Include="Refit" Version="6.3.2" />
@@ -104,9 +105,18 @@
     <Compile Update="Views\Welcome\Main\Schedule\ServiceInfo\ServiceInfoPopup.xaml.cs">
       <DependentUpon>ServiceInfoPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Welcome\Main\TimeAvailability\TimeAvailabilityPage.xaml.cs">
+      <DependentUpon>TimeAvailabilityPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Templates\IconDatePickerWithValidation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Templates\IconEntryWithValidation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Templates\SettingsOption.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -119,7 +129,7 @@
     <EmbeddedResource Update="Views\Welcome\Main\Services\ServicesTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Welcome\Main\TimeAvailability\TimeAvailabilityPopup.xaml">
+    <EmbeddedResource Update="Views\Welcome\Main\TimeAvailability\TimeAvailabilityPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

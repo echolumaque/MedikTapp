@@ -1,17 +1,21 @@
 ﻿using MedikTapp.Enums;
+using MedikTapp.Models;
 using MedikTapp.Services.NavigationService;
-using Plugin.LocalNotification;
-using Plugin.LocalNotification.AndroidOption;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 {
-    public partial class TimeAvailabilityPopupViewModel
+    public partial class TimeAvailabilityPageViewModel
     {
+        private async void AppointmentFieldsChanged()
+        {
+            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedService.ServiceId,
+                SelectedDate.Year, SelectedDate.Month, SelectedDate.Day));
+            SelectScheduleCmd.RaiseCanExecuteChanged();
+        }
+
         private List<DateTime> GetDisabledDates()
         {
             var disabledDates = new List<DateTime>();
@@ -21,54 +25,40 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
             return disabledDates;
         }
-
-        public override void Initialized(NavigationParameters parameters)
+        private void IsOnBehalfChanged()
         {
-            _passedService = parameters.GetValue<Models.Services>("booking");
-            _isRescheduled = parameters.GetValue<bool>("isResched");
-            CustomDayLabels = DateTimeFormatInfo.CurrentInfo.AbbreviatedDayNames;
-            DisabledDates = GetDisabledDates();
-            SelectedDate = _passedService.AvailableTime == default ? DateTime.Now : _passedService.AvailableTime;
-        }
-
-        private async Task PopulateTime(bool isTodayDate)
-        {
-            if (SelectedDate.DayOfWeek != DayOfWeek.Sunday)
+            if (!IsOnBehalf)
             {
-                if (isTodayDate)
-                {
-                    var availableTimeFromAzure = await GetAvailableTime();
-
-                    var startAllowedTime = DateTime.Now.Hour + 2;
-                    var allowedTimes = Enumerable.Range(startAllowedTime, ClinicMaxHourCount - startAllowedTime);
-                    var allowedTimeOffset = new List<DateTime>();
-                    foreach (var time in allowedTimes)
-                        allowedTimeOffset.Add(DateTime.Today.Add(new TimeSpan(time, 0, 0)));
-
-                    TimeCollection = new(availableTimeFromAzure.Intersect(allowedTimeOffset));
-                }
-                else
-                    TimeCollection = new(await GetAvailableTime());
-            }
-        }
-
-        private async Task<IEnumerable<DateTime>> GetAvailableTime()
-        {
-            var allowedTimes = await _httpService
-                .GetAppointmentAvailableTime(_passedService.ServiceId, SelectedDate.Year, SelectedDate.Month, SelectedDate.Day);
-            var availableTimes = new List<DateTime>();
-            foreach (var time in allowedTimes)
-            {
-                availableTimes.Add(time);
+                ProspectFirstName = "";
+                ProspectLastName = "";
+                ProspectAge = "";
+                ProspectSex = "";
             }
 
-            return availableTimes;
+            AppointmentFieldsChanged();
         }
 
-
-        private async void RaiseSelectScheduleCanExecuteChanged()
+        private bool IsSchedulingAllowed()
         {
-            await PopulateTime(SelectedDate.Date == DateTime.Now.Date);
+            return IsOnBehalf
+                ? SelectedDate != DateTime.MinValue
+                    && SelectedTime != DateTime.MinValue
+                    && !string.IsNullOrWhiteSpace(ProspectFirstName)
+                    && !string.IsNullOrWhiteSpace(ProspectLastName)
+                    && !string.IsNullOrWhiteSpace(ProspectSex)
+                    && int.Parse(ProspectAge) > -1
+                : SelectedDate != DateTime.MinValue
+                    && SelectedTime != DateTime.MinValue;
+        }
+
+        private void SelectedDateChanged()
+        {
+            SelectedTime = DateTime.MinValue;
+            AppointmentFieldsChanged();
+        }
+
+        private void SelectedTimeChanged()
+        {
             SelectScheduleCmd.RaiseCanExecuteChanged();
         }
 
@@ -76,43 +66,44 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         {
             var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day,
                 SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
-            await _httpService.AddAppointment(new()
+            await _httpService.AddAppointment(new AddAppointmentModel
             {
                 AppointmentDate = schedule,
                 BookingStatus = BookingStatus.Confirmed.ToString(),
+                InBehalf = IsOnBehalf,
                 PatientId = _appConfigService.PatientId,
+                ProspectGender = ProspectSex,
+                ProspectLastName = ProspectLastName,
+                ProspectAge = Convert.ToInt32(ProspectAge),
+                ProspectFirstName = ProspectFirstName,
                 ServiceId = _passedService.ServiceId
             });
 
             await Task.WhenAll
             (
                 _databaseService.Delete<Models.Services>(_passedService.LocalServiceId),
-                _notificationService.Send(_passedService.ServiceId, "You have an incoming appointment!", schedule.AddHours(-1),
+                _notificationService.SendLocalNotification(_passedService.ServiceId, _passedService.ServiceId,
+                "You have an incoming appointment!",
                 $"{_passedService.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
-                categoryType: NotificationCategoryType.Reminder,
-                androidSpecificOptions: new()
-                {
-                    ChannelId = _passedService.ServiceId.ToString(),
-                    Group = "MedikTapp",
-                    IsGroupSummary = true,
-                    IconLargeName = new AndroidIcon
-                    {
-                        ResourceName = "mediktapp_notif_icon",
-                    },
-                    IconSmallName = new AndroidIcon
-                    {
-                        ResourceName = "mediktapp_notif_icon",
-                    },
-                    Priority = AndroidNotificationPriority.Max,
-                    VisibilityType = AndroidVisibilityType.Public,
-                }),
-
-                NavigationService.PopPopup()
+                schedule.AddHours(-1)),
+                _mainThread.InvokeOnMainThreadAsync(() => NavigationService.PopPage())
             );
 
             _mainThread.BeginInvokeOnMainThread(() => _toast.Show(_isRescheduled
                 ? "You have successfully rescheduled your appointment."
                 : "You have successfully booked an appointment."));
+        }
+
+        public override async void Initialized(NavigationParameters parameters)
+        {
+            //todo here
+            _passedService = parameters.GetValue<Models.Services>("booking");
+            _isRescheduled = parameters.GetValue<bool>("isResched"); //todo, include passed time based on sched here
+
+            DisabledDates = GetDisabledDates();
+            SelectedDate = DateTime.Now; //todo, include passed time based on sched here
+            TimeCollection = new(await _httpService.GetAppointmentAvailableTime(_passedService.ServiceId,
+                SelectedDate.Year, SelectedDate.Month, SelectedDate.Day));
         }
     }
 }

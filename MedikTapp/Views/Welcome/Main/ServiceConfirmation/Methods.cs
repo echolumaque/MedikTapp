@@ -11,24 +11,23 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
     {
         public override void Initialized(NavigationParameters parameters)
         {
+            //todo here
             var passedService = parameters.GetValue<Models.Services>("service");
             _serviceId = passedService.ServiceId;
             _base64String = passedService.ServiceImage;
-            EarliestAvailableDate = passedService.AvailableTime;
             ServiceImage = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(_base64String)));
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;
-            ProductImageSize = passedService.IsPromo
-                ? Tuple.Create(200, 250)
-                : Tuple.Create(100, 100);
+            //ProductImageSize = passedService.IsPromo
+            //    ? Tuple.Create(200, 250)
+            //    : Tuple.Create(100, 100);
         }
 
         private async Task AddToBooking()
         {
             await _databaseService.Insert(new Models.Services
             {
-                AvailableTime = EarliestAvailableDate,
                 ServiceDescription = ServiceDescription,
                 ServiceImage = _base64String,
                 ServiceName = ServiceName,
@@ -38,7 +37,6 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
 
             var mainPageBindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
             mainPageBindingContext.Tabs[2].BadgeCount = await _databaseService.FindCount<Models.Services>().ConfigureAwait(false);
-
             await NavigationService.PopPopup();
         }
     }

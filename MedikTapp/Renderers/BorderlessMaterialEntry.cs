@@ -38,7 +38,7 @@ namespace MedikTapp.Renderers
                     @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
                     RegexOptions.IgnoreCase);
 
-                TextColor = emailRegex ? Color.FromHex("#2F2F32") : Color.Red;
+                //TextColor = emailRegex ? Color.FromHex("#2F2F32") : Color.Red;
             }
 
             if (!IsLettersOnly)

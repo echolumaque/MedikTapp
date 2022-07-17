@@ -1,6 +1,7 @@
 ﻿using MedikTapp.Enums;
 using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
+using MedikTapp.Models;
 using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
@@ -17,7 +18,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
         private readonly AppConfigService _appConfigService;
         private readonly HttpService _httpService;
         private readonly IToast _toast;
-        private IEnumerable<Models.ScheduleModel> _schedules;
+        private IEnumerable<AppointmentModel> _schedules;
 
         public ScheduleTabViewModel(NavigationService navigationService,
             AppConfigService appConfigService,
@@ -35,11 +36,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedule
             FilterCompletedCmd = new Command(InitCompletedCollections);
             FilterUpcomingCmd = new Command(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
-            CancelScheduleCmd = new AsyncSingleCommand<Models.ScheduleModel>(CancelSchedule);
-            RescheduleCmd = new AsyncSingleCommand<Models.ScheduleModel>(Reschedule);
-            ServiceTappedCmd = new AsyncSingleCommand<Models.ScheduleModel>(ServiceTapped);
-
-            GetBadgeCount().ConfigureAwait(false);
+            CancelScheduleCmd = new AsyncSingleCommand<AppointmentModel>(CancelSchedule);
+            RescheduleCmd = new AsyncSingleCommand<AppointmentModel>(Reschedule);
+            ServiceTappedCmd = new AsyncSingleCommand<AppointmentModel>(ServiceTapped);
         }
     }
 }

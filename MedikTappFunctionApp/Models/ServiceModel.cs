@@ -12,6 +12,5 @@ namespace MedikTappFunctionApp.Models
         public string ServiceName { get; set; }
         public string ServiceDescription { get; set; }
         public double ServicePrice { get; set; }
-        public bool IsPromo { get; set; }
     }
 }
