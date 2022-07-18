@@ -14,7 +14,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
     {
         private async Task CancelSchedule(AppointmentModel appointment)
         {
-            // Selected appointment's time to cancel is today
+            // Selected appointment's time violates time constraint (2 hours before the appointment)
             if (appointment.AppointmentDate.Date == DateTime.Now.Date
                 && appointment.AppointmentDate.Hour > DateTime.Now.AddHours(-2).Hour)
             {
@@ -28,9 +28,10 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
                 "Are you sure you want to cancel your appointment", "Yes", "No");
             if (isCancelled)
             {
+                await _httpService.CancelAppointment(appointment.AppointmentId);
                 Schedules.Remove(appointment);
                 _notificationService.CancelByNotificationIds(appointment.AppointmentId);
-                _toast.Show("Appointment cancelled.");
+                _mainThread.BeginInvokeOnMainThread(() => _toast.Show("Appointment cancelled."));
             }
         }
 
@@ -97,7 +98,10 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
 
         private Task Reschedule(AppointmentModel appointment)
         {
-            // Selected appointment's time to reschedule is today
+            //if (appointment.AppointmentDate.Date == DateTime.Now.Date
+            //    && appointment.AppointmentDate.Hour > DateTime.Now.AddHours(-2).Hour)
+
+            // Selected appointment's time violates time constraint (2 hours before the appointment)
             return appointment.AppointmentDate.Date == DateTime.Now.Date
                 && appointment.AppointmentDate.Hour > DateTime.Now.AddHours(-2).Hour
                 ? Application.Current.MainPage.DisplayAlert("Reschedule not available",

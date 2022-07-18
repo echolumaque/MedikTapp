@@ -18,24 +18,14 @@ namespace MedikTapp.Services.HttpService
                 new RefitSettings(new SystemTextJsonContentSerializer()));
         }
 
-        public Task<PatientModel> Login(PatientModel patient)
-        {
-            return _medikTappApi.Login(patient);
-        }
-
-        public Task Register(PatientModel patient)
-        {
-            return _medikTappApi.Register(patient);
-        }
-
-        public Task<IEnumerable<Models.Services>> GetServices()
-        {
-            return _medikTappApi.GetService();
-        }
-
         public ConfiguredTaskAwaitable<int> AddAppointment(AddAppointmentModel appointment)
         {
             return _medikTappApi.AddAppointment(appointment).ConfigureAwait(false);
+        }
+
+        public ConfiguredTaskAwaitable CancelAppointment(int appointmentId)
+        {
+            return _medikTappApi.CancelAppointment(appointmentId).ConfigureAwait(false);
         }
 
         public ConfiguredTaskAwaitable<IEnumerable<DateTime>> GetAppointmentAvailableTime(int serviceId, int year, int month, int day)
@@ -48,6 +38,25 @@ namespace MedikTapp.Services.HttpService
             return _medikTappApi.GetAppointmentsByPatientId(patientId).ConfigureAwait(false);
         }
 
+        public Task<IEnumerable<Models.Services>> GetServices()
+        {
+            return _medikTappApi.GetService();
+        }
+
+        public Task<PatientModel> Login(PatientModel patient)
+        {
+            return _medikTappApi.Login(patient);
+        }
+
+        public Task Register(PatientModel patient)
+        {
+            return _medikTappApi.Register(patient);
+        }
+
+        public ConfiguredTaskAwaitable<int> RescheduleAppointment(AddAppointmentModel appointment)
+        {
+            return _medikTappApi.RescheduleAppointment(appointment).ConfigureAwait(false);
+        }
         //todo here
         //public ConfiguredTaskAwaitable<IEnumerable<Models.PromoModel>> GetPromos()
         //{

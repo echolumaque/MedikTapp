@@ -11,7 +11,7 @@ namespace MedikTapp.Tables
         public int Age { get; set; }
         public DateTime BirthDate { get; set; }
         public string ContactNumber { get; set; }
-        public string EmailAddress { get; set; }
+        public string Username { get; set; }
         public string FirstName { get; set; }
         public bool IsBiometricLoginEnabled { get; set; }
         public bool IsDarkModeEnabled { get; set; }

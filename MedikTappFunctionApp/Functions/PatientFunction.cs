@@ -21,15 +21,17 @@ namespace MedikTappFunctionApp.Functions
         {
             try
             {
-                await EntityContext.PatientData.AddAsync(JsonService.ReadJsonRequestMessage<PatientModel>(request.Body));
-                await EntityContext.SaveChangesAsync();
-                logger.LogInformation("Registered new patient for MedikTapp");
+                var asas = await EntityContext.PatientData.AddAsync(JsonService.ReadJsonRequestMessage<PatientModel>(request.Body));
+                var affectedRow = await EntityContext.SaveChangesAsync();
 
+                logger.LogInformation("Registered new patient for MedikTapp");
                 return new OkObjectResult("Registered new patient for MedikTapp");
             }
             catch (Exception ex)
             {
-                return ExceptionHelper(ex, logger, "Register");
+                return ex.GetType() == typeof(DbUpdateException)
+                    ? new ConflictObjectResult("Patient already exists MedikTapp's database")
+                    : ExceptionHelper(ex, logger, "Register");
             }
         }
 
@@ -41,7 +43,7 @@ namespace MedikTappFunctionApp.Functions
                 // Get the email and password sent by client
                 var requestData = JsonService.ReadJsonRequestMessage<PatientModel>(request.Body);
                 var patient = await EntityContext.PatientData.AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.EmailAddress == requestData.EmailAddress && x.Password == requestData.Password);
+                    .FirstOrDefaultAsync(x => x.Username == requestData.Username && x.Password == requestData.Password);
 
                 return patient == null
                     ? new NotFoundObjectResult("Patient is not found on MedikTapp's database")

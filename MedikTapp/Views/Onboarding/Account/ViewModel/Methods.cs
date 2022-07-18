@@ -15,14 +15,14 @@ namespace MedikTapp.Views.Onboarding.Account
     {
         private bool AllLoginValidations()
         {
-            return !string.IsNullOrWhiteSpace(LoginEmailAddress) && !string.IsNullOrWhiteSpace(LoginPassword);
+            return !string.IsNullOrWhiteSpace(LoginUsername) && !string.IsNullOrWhiteSpace(LoginPassword);
         }
 
         private bool AllRegistrationValidatons()
         {
             return AccountPageTemplate != "Login"
                 && IsRegisterContactNumberValid
-                && IsRegisterEmailAddressValid
+                && IsRegisterUsernameValid
                 && IsRegisterFirstNameValid
                 && IsRegisterLastNameValid
                 && IsRegisterPasswordValid
@@ -81,13 +81,13 @@ namespace MedikTapp.Views.Onboarding.Account
                 {
                     if (isFromFingerprint)
                     {
-                        LoginEmailAddress = _appConfigService.EmailAddress;
+                        LoginUsername = _appConfigService.Username;
                         LoginPassword = _appConfigService.Password;
                     }
 
                     var patientCredentials = await _httpService.Login(new PatientModel
                     {
-                        EmailAddress = isFromFingerprint ? _appConfigService.EmailAddress : LoginEmailAddress,
+                        Username = isFromFingerprint ? _appConfigService.Username : LoginUsername,
                         Password = isFromFingerprint ? _appConfigService.Password : LoginPassword
                     }).ConfigureAwait(false);
 
@@ -98,16 +98,22 @@ namespace MedikTapp.Views.Onboarding.Account
                                 await NavigationService.GoTo<MainPage.MainPage>();
                             }));
                 }
-                catch (ApiException ex)
+                catch (Exception ex)
                 {
-                    if (ex.StatusCode == HttpStatusCode.NotFound)
-                        // Wrong credentials
-                        await _mainThread.InvokeOnMainThreadAsync(async () =>
+                    if (ex is ApiException apiEx)
+                    {
+                        if (apiEx.StatusCode == HttpStatusCode.NotFound)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Wrong credentials",
-                                "Patient's credentials are not found. Please re-check entered email address or password if it is correct",
-                                "OK");
-                        });
+                            // Wrong credentials
+                            await _mainThread.InvokeOnMainThreadAsync(async () =>
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Wrong credentials",
+                                    "Patient's credentials are not found. Please re-check entered email address or password if it is correct",
+                                    "OK");
+                            });
+                            return;
+                        }
+                    }
                     else
                         await _mainThread.InvokeOnMainThreadAsync(async () =>
                         {
@@ -140,31 +146,56 @@ namespace MedikTapp.Views.Onboarding.Account
         {
             try
             {
-                await _httpService.Register(new PatientModel
+                if (_connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    Age = (DateTime.MinValue + (DateTime.Now - RegisterBirthDate)).Year - 1,
-                    Address = RegisterAddress.Trim(),
-                    BirthDate = RegisterBirthDate,
-                    ContactNumber = RegisterContactNumber.Trim(),
-                    EmailAddress = RegisterEmailAddress.Trim(),
-                    FirstName = RegisterFirstName.Trim(),
-                    LastName = RegisterLastName.Trim(),
-                    Password = RegisterPassword,
-                    Sex = RegisterSex.Trim()
-                }).ConfigureAwait(false);
+                    await _httpService.Register(new PatientModel
+                    {
+                        Age = (DateTime.MinValue + (DateTime.Now - RegisterBirthDate)).Year - 1,
+                        Address = RegisterAddress.Trim(),
+                        BirthDate = RegisterBirthDate,
+                        ContactNumber = RegisterContactNumber.Trim(),
+                        Username = RegisterUsername.Trim(),
+                        FirstName = RegisterFirstName.Trim(),
+                        LastName = RegisterLastName.Trim(),
+                        Password = RegisterPassword,
+                        Sex = RegisterSex.Trim()
+                    }).ConfigureAwait(false);
+                }
+                else
+                    await _mainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Application.Current.MainPage.DisplayAlert("No internet",
+                            "Sorry, it seems MedikTapp's server is unreachable. Have you tried turning on your mobile data or wi-fi for internet connectivity?",
+                            "Ok");
+                    });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _mainThread.InvokeOnMainThreadAsync(async () =>
+                if (ex is ApiException apiEx)
                 {
-                    var goToLogin = await Application.Current.MainPage.DisplayAlert("Duplicate record",
-                    "Patient is already registered. Would you like to login instead?",
-                    "OK",
-                    "Cancel");
+                    if (apiEx.StatusCode == HttpStatusCode.Conflict)
+                    {
+                        // Duplicate credentials
+                        await _mainThread.InvokeOnMainThreadAsync(async () =>
+                        {
+                            var goToLogin = await Application.Current.MainPage.DisplayAlert("Duplicate record",
+                            "Patient is already registered. Would you like to login instead?",
+                            "OK",
+                            "Cancel");
 
-                    if (goToLogin)
-                        AccountPageTemplate = "Login";
-                });
+                            if (goToLogin)
+                                AccountPageTemplate = "Login";
+                        });
+                        return;
+                    }
+                }
+                else
+                    await _mainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Technical error",
+                            $"Please contact MedikTapp admin and send this screenshot: {JsonConvert.SerializeObject(ex, Formatting.Indented)}",
+                            "OK");
+                    });
             }
         }
 
@@ -176,7 +207,7 @@ namespace MedikTapp.Views.Onboarding.Account
                 _appConfigService.UpdateConfig("Age", patientCredentials.Age),
                 _appConfigService.UpdateConfig("BirthDate", patientCredentials.BirthDate),
                 _appConfigService.UpdateConfig("ContactNumber", patientCredentials.ContactNumber),
-                _appConfigService.UpdateConfig("EmailAddress", patientCredentials.EmailAddress),
+                _appConfigService.UpdateConfig("Username", patientCredentials.Username),
                 _appConfigService.UpdateConfig("FirstName", patientCredentials.FirstName),
                 _appConfigService.UpdateConfig("LastName", patientCredentials.LastName),
                 _appConfigService.UpdateConfig("Password", patientCredentials.Password),

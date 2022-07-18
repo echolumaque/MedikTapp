@@ -5,6 +5,7 @@ namespace MedikTapp.Models
     public class AddAppointmentModel
     {
         // TODO: Used to add appointment
+        public int AppointmentId { get; set; }
         public int PatientId { get; set; }
         public int ServiceId { get; set; }
         public DateTime AppointmentDate { get; set; }

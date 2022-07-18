@@ -55,10 +55,9 @@
 
                     <template:IconEntryWithValidation Grid.Row="0"
                                                       BackgroundColor="#F5F5F5"
-                                                      Icon="{x:Static fonts:FontAwesomeIcons.At}"
-                                                      Keyboard="Email"
-                                                      Placeholder="Enter your email"
-                                                      Text="{TemplateBinding BindingContext.LoginEmailAddress}"
+                                                      Icon="{x:Static fonts:FontAwesomeIcons.InputText}"
+                                                      Placeholder="Enter your username"
+                                                      Text="{TemplateBinding BindingContext.LoginUsername}"
                                                       VerticalOptions="Center" />
 
                     <template:IconEntryWithValidation Grid.Row="1"
@@ -205,12 +204,10 @@
                                                           Validation="Name" />
 
                         <template:IconEntryWithValidation Grid.Row="2"
-                                                          Icon="{x:Static fonts:FontAwesomeIcons.At}"
-                                                          IsValid="{TemplateBinding BindingContext.IsRegisterEmailAddressValid}"
-                                                          Keyboard="Email"
-                                                          Placeholder="Email Address"
-                                                          Text="{TemplateBinding BindingContext.RegisterEmailAddress}"
-                                                          Validation="Email" />
+                                                          Icon="{x:Static fonts:FontAwesomeIcons.InputText}"
+                                                          IsValid="{TemplateBinding BindingContext.IsRegisterUsernameValid}"
+                                                          Placeholder="Username"
+                                                          Text="{TemplateBinding BindingContext.RegisterUsername}" />
 
                         <template:IconEntryWithValidation Grid.Row="3"
                                                           Icon="{x:Static fonts:FontAwesomeIcons.ShieldHalved}"

@@ -43,7 +43,7 @@ namespace MedikTapp.Services.AppConfigService
                     Age = 0,
                     BirthDate = default,
                     ContactNumber = string.Empty,
-                    EmailAddress = string.Empty,
+                    Username = string.Empty,
                     FirstName = string.Empty,
                     IsBiometricLoginEnabled = false,
                     IsDarkModeEnabled = false,
@@ -60,7 +60,7 @@ namespace MedikTapp.Services.AppConfigService
             Age = config.Age;
             BirthDate = config.BirthDate;
             ContactNumber = config.ContactNumber;
-            EmailAddress = config.EmailAddress;
+            Username = config.Username;
             FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
             IsDarkModeEnabled = config.IsDarkModeEnabled;
@@ -81,7 +81,7 @@ namespace MedikTapp.Services.AppConfigService
             Age = config.Age;
             BirthDate = config.BirthDate;
             ContactNumber = config.ContactNumber;
-            EmailAddress = config.EmailAddress;
+            Username = config.Username;
             FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
             IsDarkModeEnabled = config.IsDarkModeEnabled;

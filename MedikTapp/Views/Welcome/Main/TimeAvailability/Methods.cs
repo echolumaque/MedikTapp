@@ -68,33 +68,62 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
         {
             var schedule = new DateTime(SelectedDate.Year, SelectedDate.Month, SelectedDate.Day,
                 SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
-            var newAppointment = await _httpService.AddAppointment(new AddAppointmentModel
+
+            if (_isRescheduled)
             {
-                AppointmentDate = schedule,
-                BookingStatus = BookingStatus.Confirmed.ToString(),
-                InBehalf = IsOnBehalf,
-                PatientId = _appConfigService.PatientId,
-                ProspectGender = ProspectSex,
-                ProspectLastName = ProspectLastName,
-                ProspectAge = Convert.ToInt32(ProspectAge),
-                ProspectFirstName = ProspectFirstName,
-                ServiceId = _passedAppointment.ServiceId
-            });
+                var rescheduleAppointment = await _httpService.RescheduleAppointment(new AddAppointmentModel
+                {
+                    AppointmentId = _passedAppointment.AppointmentId,
+                    AppointmentDate = schedule,
+                    BookingStatus = BookingStatus.Confirmed.ToString(),
+                    InBehalf = IsOnBehalf,
+                    PatientId = _appConfigService.PatientId,
+                    ProspectGender = ProspectSex,
+                    ProspectLastName = ProspectLastName,
+                    ProspectAge = Convert.ToInt32(ProspectAge),
+                    ProspectFirstName = ProspectFirstName,
+                    ServiceId = _passedAppointment.ServiceId
+                });
 
-            await Task.WhenAll
-            (
-                _databaseService.Delete<Models.Services>(_passedLocalServiceId),
-                _notificationService.SendLocalNotification(newAppointment,
-                "You have an incoming appointment!", $"{_passedAppointment.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
-                schedule.AddHours(-1)),
-                _mainThread.InvokeOnMainThreadAsync(() => NavigationService.PopPage())
-            );
+                _notificationService.CancelByNotificationIds(rescheduleAppointment);
+                await Task.WhenAll
+                (
+                    _notificationService.SendLocalNotification(rescheduleAppointment,
+                    "You have an incoming appointment!", $"{_passedAppointment.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
+                    schedule.AddHours(-1)),
+                    _mainThread.InvokeOnMainThreadAsync(() => NavigationService.PopPage())
+                );
 
-            var bindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
-            bindingContext.Tabs[2].GetBadgeCount();
-            _mainThread.BeginInvokeOnMainThread(() => _toast.Show(_isRescheduled
-                ? "You have successfully rescheduled your appointment."
-                : "You have successfully booked an appointment."));
+                _mainThread.BeginInvokeOnMainThread(() => _toast.Show("You have successfully rescheduled your appointment."));
+            }
+            else
+            {
+                var newAppointment = await _httpService.AddAppointment(new AddAppointmentModel
+                {
+                    AppointmentDate = schedule,
+                    BookingStatus = BookingStatus.Confirmed.ToString(),
+                    InBehalf = IsOnBehalf,
+                    PatientId = _appConfigService.PatientId,
+                    ProspectGender = ProspectSex,
+                    ProspectLastName = ProspectLastName,
+                    ProspectAge = Convert.ToInt32(ProspectAge),
+                    ProspectFirstName = ProspectFirstName,
+                    ServiceId = _passedAppointment.ServiceId
+                });
+
+                await Task.WhenAll
+                (
+                    _databaseService.Delete<Models.Services>(_passedLocalServiceId),
+                    _notificationService.SendLocalNotification(newAppointment,
+                    "You have an incoming appointment!", $"{_passedAppointment.ServiceName}\n{schedule:MMMM dd, yyyy} | {schedule:hh:mm tt}",
+                    schedule.AddHours(-1)),
+                    _mainThread.InvokeOnMainThreadAsync(() => NavigationService.PopPage())
+                );
+
+                var bindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
+                bindingContext.Tabs[2].GetBadgeCount();
+                _mainThread.BeginInvokeOnMainThread(() => _toast.Show("You have successfully booked an appointment."));
+            }
         }
 
         public override async void Initialized(NavigationParameters parameters)

@@ -20,7 +20,7 @@ namespace MedikTapp.Views.Onboarding.Account
 
         #region Login Properties
         [OnChangedMethod(nameof(OnLoginCredentialsChanged))]
-        public string LoginEmailAddress { get; set; }
+        public string LoginUsername { get; set; }
         [OnChangedMethod(nameof(OnLoginCredentialsChanged))]
         public string LoginPassword { get; set; }
         #endregion
@@ -28,7 +28,7 @@ namespace MedikTapp.Views.Onboarding.Account
         #region Register Properties
         public bool IsRegisterBirthDateValid { get; set; }
         public bool IsRegisterContactNumberValid { get; set; }
-        public bool IsRegisterEmailAddressValid { get; set; }
+        public bool IsRegisterUsernameValid { get; set; }
         public bool IsRegisterFirstNameValid { get; set; }
         public bool IsRegisterLastNameValid { get; set; }
         public bool IsRegisterPasswordValid { get; set; }
@@ -39,7 +39,7 @@ namespace MedikTapp.Views.Onboarding.Account
         [OnChangedMethod(nameof(OnRegisterCredentialsChanged))]
         public string RegisterContactNumber { get; set; }
         [OnChangedMethod(nameof(OnRegisterCredentialsChanged))]
-        public string RegisterEmailAddress { get; set; }
+        public string RegisterUsername { get; set; }
         [OnChangedMethod(nameof(OnRegisterCredentialsChanged))]
         public string RegisterFirstName { get; set; }
         [OnChangedMethod(nameof(OnRegisterCredentialsChanged))]

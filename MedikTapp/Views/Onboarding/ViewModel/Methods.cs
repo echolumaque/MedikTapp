@@ -11,7 +11,7 @@ namespace MedikTapp.Views.Onboarding
                 new()
                 {
                     ImagePath = "resource://MedikTapp.Resources.Images.onboarding1.png",
-                    Subtitle = "Don't forget to confirm your appointment on the Bookings tab. Remember that the schedule given is auto-generated.",
+                    Subtitle = "Don't forget to confirm your appointment on the Bookings tab. Then, select your preferred appointment schedule.",
                     Title = "Set your appointment"
                 },
                 new()
@@ -23,7 +23,7 @@ namespace MedikTapp.Views.Onboarding
                 new()
                 {
                     ImagePath = "resource://MedikTapp.Resources.Images.onboarding3.png",
-                    Subtitle = "Check your notifs to book new promo, to get ready with the approaching appointment and to be notified when your doctor is out.",
+                    Subtitle = "Check your notifications for your upcoming appointments and new promo services.",
                     Title = "You'll be notified"
                 }
             };

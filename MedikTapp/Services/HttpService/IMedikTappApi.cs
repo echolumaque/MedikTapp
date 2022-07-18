@@ -29,6 +29,10 @@ namespace MedikTapp.Services.HttpService
         [Post("/api/AddAppointment")]
         Task<int> AddAppointment([Body(BodySerializationMethod.Serialized)] AddAppointmentModel appointment);
 
+        [Headers("x-functions-key : Cu3qBfOxsL_8tMEy_tKVdSOwk14SNAACx8wzZQ1ey2hTAzFuIYzn4Q==")]
+        [Delete("/api/CancelAppointment?appointmentId={appointmentId}")]
+        Task CancelAppointment(int appointmentId);
+
         [Headers("x-functions-key : jfCSyl4pRv8dU7lxYjLjroFYDoYX1IuEhzrMF4vVhK6hAzFuw0d-TQ==")]
         [Get("/api/GetServiceAppointmentAvailableTimes?serviceId={serviceId}&year={year}&month={month}&day={day}")]
         Task<IEnumerable<DateTime>> GetAppointmentAvailableTime(int serviceId, int year, int month, int day);
@@ -36,6 +40,10 @@ namespace MedikTapp.Services.HttpService
         [Headers("x-functions-key : I012SyoY8TeDb7hH5X-2XQTP1Qo7OplWNpcowK_TFXMhAzFuQg49cg==")]
         [Get("/api/GetAppointmentsByPatientId?patientId={patientId}")]
         Task<IEnumerable<AppointmentModel>> GetAppointmentsByPatientId(int patientId);
+
+        [Headers("x-functions-key : edHb3aS9Vz8H64OsKZfMlK-adW6cThs5SubCAPMtkKRGAzFuVcBKVA==")]
+        [Put("/api/RescheduleAppointment")]
+        Task<int> RescheduleAppointment(AddAppointmentModel appointment);
         #endregion
 
         #region Promos

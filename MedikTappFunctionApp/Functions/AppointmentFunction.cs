@@ -75,6 +75,28 @@ namespace MedikTappFunctionApp.Functions
             }
         }
 
+        [FunctionName("CancelAppointment")]
+        public async Task<IActionResult> CancelAppointment([HttpTrigger(AuthorizationLevel.Function, "delete")] HttpRequest request, ILogger logger)
+        {
+            try
+            {
+                var appointmentId = int.Parse(request.Query["appointmentId"]);
+                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(x => x.AppointmentId == appointmentId);
+                if (matchingAppointment != null)
+                {
+                    EntityContext.AppointmentData.Remove(matchingAppointment);
+                    await EntityContext.SaveChangesAsync();
+                }
+
+                logger.LogInformation($"Cancelled appointment with an appointment id of {appointmentId} in the database");
+                return new OkObjectResult($"Succesfully cancelled an appointment id of {appointmentId} in the database");
+            }
+            catch (Exception ex)
+            {
+                return ExceptionHelper(ex, logger, "CancelAppointment");
+            }
+        }
+
         [FunctionName("GetServiceAppointmentAvailableTimes")]
         public async Task<IActionResult> GetServiceAppointmentAvailableTimes([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
         {
@@ -151,6 +173,36 @@ namespace MedikTappFunctionApp.Functions
             catch (Exception ex)
             {
                 return ExceptionHelper(ex, logger, "GetAppointmentsByPatientId");
+            }
+        }
+
+        [FunctionName("RescheduleAppointment")]
+        public async Task<IActionResult> RescheduleAppointment([HttpTrigger(AuthorizationLevel.Function, "put")] HttpRequest request, ILogger logger)
+        {
+            try
+            {
+                var servicePayload = JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body);
+                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(x => x.AppointmentId == servicePayload.AppointmentId);
+                if (matchingAppointment != null)
+                {
+                    matchingAppointment.AppointmentDate = servicePayload.AppointmentDate;
+                    matchingAppointment.BookingStatus = servicePayload.BookingStatus;
+                    matchingAppointment.InBehalf = servicePayload.InBehalf;
+                    matchingAppointment.ProspectFirstName = servicePayload.ProspectFirstName;
+                    matchingAppointment.ProspectLastName = servicePayload.ProspectLastName;
+                    matchingAppointment.ProspectAge = servicePayload.ProspectAge;
+                    matchingAppointment.ProspectGender = servicePayload.ProspectGender;
+
+                    await EntityContext.SaveChangesAsync();
+                }
+
+                logger.LogInformation($"Edited an appointment with an appointment id of {matchingAppointment.AppointmentId} in the database");
+                return new OkObjectResult(matchingAppointment.AppointmentId);
+
+            }
+            catch (Exception ex)
+            {
+                return ExceptionHelper(ex, logger, "CancelAppointment");
             }
         }
         #endregion
