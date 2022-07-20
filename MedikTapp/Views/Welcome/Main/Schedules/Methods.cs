@@ -46,54 +46,52 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             Schedules = new((selectedBookingSort, SelectedBookingStatus) switch
             {
                 //confirmed or pendiong
-                (BookingSort.Ascending, BookingStatus.Confirmed or BookingStatus.Pending) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
-                        || x.BookingStatus == BookingStatus.Pending.ToString())
+                (BookingSort.Ascending, BookingStatus.Confirmed) =>
+                    _upcomingAppointments.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString())
                         .OrderBy(x => x.AppointmentDate),
-                (BookingSort.Descending, BookingStatus.Confirmed or BookingStatus.Pending) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
-                        || x.BookingStatus == BookingStatus.Pending.ToString())
-                    .OrderByDescending(x => x.AppointmentDate),
+                (BookingSort.Descending, BookingStatus.Confirmed) =>
+                    _upcomingAppointments.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString())
+                        .OrderByDescending(x => x.AppointmentDate),
 
                 //completed
                 (BookingSort.Ascending, BookingStatus.Completed) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                    _completedAppointments.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
                     .OrderBy(x => x.AppointmentDate),
                 (BookingSort.Descending, BookingStatus.Completed) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
+                    _completedAppointments.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
                     .OrderByDescending(x => x.AppointmentDate),
 
                 //cancelled
                 (BookingSort.Ascending, BookingStatus.Cancelled) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                    _cancelledAppointments.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
                     .OrderBy(x => x.AppointmentDate),
                 (BookingSort.Descending, BookingStatus.Cancelled) =>
-                    _schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
+                    _cancelledAppointments.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
                     .OrderByDescending(x => x.AppointmentDate),
 
                 _ => throw new NotImplementedException(),
             });
         }
 
-        private void InitCancelledCollections()
+        private async Task InitCancelledCollections()
         {
             SelectedBookingStatus = BookingStatus.Cancelled;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Cancelled.ToString())
-                .OrderBy(x => x.AppointmentDate));
+            _cancelledAppointments = await _httpService.GetPatientCancelledAppointment(_appConfigService.PatientId);
+            Schedules = new(_cancelledAppointments.OrderBy(x => x.AppointmentDate));
         }
 
-        private void InitCompletedCollections()
+        private async Task InitCompletedCollections()
         {
             SelectedBookingStatus = BookingStatus.Completed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Completed.ToString())
-                .OrderBy(x => x.AppointmentDate));
+            _completedAppointments = await _httpService.GetPatientCompletedAppointment(_appConfigService.PatientId);
+            Schedules = new(_completedAppointments.OrderBy(x => x.AppointmentDate));
         }
 
-        private void InitUpcomingCollections()
+        private async Task InitUpcomingCollections()
         {
             SelectedBookingStatus = BookingStatus.Confirmed;
-            Schedules = new(_schedules.Where(x => x.BookingStatus == BookingStatus.Confirmed.ToString()
-                || x.BookingStatus == BookingStatus.Pending.ToString()).OrderBy(x => x.AppointmentDate));
+            _upcomingAppointments = await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
+            Schedules = new(_upcomingAppointments.OrderBy(x => x.AppointmentDate));
         }
 
         private Task Reschedule(AppointmentModel appointment)
@@ -118,13 +116,21 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
         {
             return NavigationService.GoTo<ServiceInfoPopup>(new()
             {
-                { "appointment", appointment }
+                {
+                    "appointment",
+                    new Models.Services
+                    {
+                        ServiceImage = appointment.ServiceImage,
+                        ServiceName = appointment.ServiceName,
+                        ServiceDescription = appointment.ServiceDescription,
+                    }
+                }
             });
         }
 
         public override async void GetBadgeCount()
         {
-            var schedules = _schedules ?? await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
+            var schedules = _upcomingAppointments ?? await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
             BadgeCount = schedules.Count();
         }
 
@@ -134,8 +140,8 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             SelectedBookingSort = BookingSortCollection.First();
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
 
-            _schedules = await _httpService.GetAppointmentsByPatientId(_appConfigService.PatientId);
-            InitUpcomingCollections();
+            _upcomingAppointments = await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
+            await InitUpcomingCollections();
             GetBadgeCount();
         }
     }

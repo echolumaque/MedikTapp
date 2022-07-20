@@ -4,7 +4,6 @@
     {
         NotApplicable,
         Confirmed,
-        Pending,
         Completed,
         Cancelled,
     }

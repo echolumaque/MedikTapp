@@ -20,7 +20,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
         private readonly IMainThread _mainThread;
         private readonly NotificationService _notificationService;
         private readonly IToast _toast;
-        private IEnumerable<AppointmentModel> _schedules;
+        private IEnumerable<AppointmentModel> _cancelledAppointments;
+        private IEnumerable<AppointmentModel> _completedAppointments;
+        private IEnumerable<AppointmentModel> _upcomingAppointments;
 
         public SchedulesTabViewModel(NavigationService navigationService,
             AppConfigService appConfigService,
@@ -36,9 +38,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             _appConfigService = appConfigService;
 
             ChangeFilterCmd = new Command<BookingSort>(ChangeFilter);
-            FilterCancelledCmd = new Command(InitCancelledCollections);
-            FilterCompletedCmd = new Command(InitCompletedCollections);
-            FilterUpcomingCmd = new Command(InitUpcomingCollections);
+            FilterCancelledCmd = new AsyncSingleCommand(InitCancelledCollections);
+            FilterCompletedCmd = new AsyncSingleCommand(InitCompletedCollections);
+            FilterUpcomingCmd = new AsyncSingleCommand(InitUpcomingCollections);
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
             CancelScheduleCmd = new AsyncSingleCommand<AppointmentModel>(CancelSchedule);
             RescheduleCmd = new AsyncSingleCommand<AppointmentModel>(Reschedule);

@@ -54,7 +54,7 @@ namespace MedikTappFunctionApp.Functions
             try
             {
                 var servicePayload = JsonService.ReadJsonRequestMessage<ServiceModel>(request.Body);
-                var matchingService = await EntityContext.ServiceData.FirstAsync(x => x.ServiceId == servicePayload.ServiceId);
+                var matchingService = await EntityContext.ServiceData.FirstAsync(_ => _.ServiceId == servicePayload.ServiceId);
                 if (matchingService != null)
                 {
                     matchingService.ServicePrice = servicePayload.ServicePrice;
@@ -80,7 +80,7 @@ namespace MedikTappFunctionApp.Functions
             try
             {
                 var serviceId = int.Parse(request.Query["serviceId"]);
-                var matchingService = await EntityContext.ServiceData.FirstAsync(x => x.ServiceId == serviceId);
+                var matchingService = await EntityContext.ServiceData.FirstAsync(_ => _.ServiceId == serviceId);
                 if (matchingService != null)
                 {
                     EntityContext.ServiceData.Remove(matchingService);

@@ -2,6 +2,7 @@
 <views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo.ServiceInfoPopup"
                  xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:converter="clr-namespace:MedikTapp.Converters"
                  xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                  xmlns:helpers="clr-namespace:MedikTapp.Helpers"
                  xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
@@ -79,11 +80,11 @@
                 <templateImg:CachedImage Grid.Row="2"
                                          Grid.Column="0"
                                          Grid.ColumnSpan="2"
-                                         HeightRequest="{Binding ProductImageSize.Item1}"
+                                         HeightRequest="60"
                                          HorizontalOptions="Center"
-                                         ImageSource="{Binding ServiceImage}"
+                                         Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
                                          VerticalOptions="Center"
-                                         WidthRequest="{Binding ProductImageSize.Item2}" />
+                                         WidthRequest="60" />
                 <!--#endregion-->
 
                 <!--#region Description-->

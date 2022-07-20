@@ -89,7 +89,7 @@ namespace MedikTapp.Views.Onboarding.Account
                     {
                         Username = isFromFingerprint ? _appConfigService.Username : LoginUsername,
                         Password = isFromFingerprint ? _appConfigService.Password : LoginPassword
-                    }).ConfigureAwait(false);
+                    });
 
                     if (patientCredentials != null)
                         await UpdateLocalPatientConfig(patientCredentials)
@@ -159,7 +159,13 @@ namespace MedikTapp.Views.Onboarding.Account
                         LastName = RegisterLastName.Trim(),
                         Password = RegisterPassword,
                         Sex = RegisterSex.Trim()
-                    }).ConfigureAwait(false);
+                    });
+
+                    _mainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        _toast.Show("You have succesfully registered.");
+                        AccountPageTemplate = "Login";
+                    });
                 }
                 else
                     await _mainThread.InvokeOnMainThreadAsync(async () =>

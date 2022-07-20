@@ -4,7 +4,6 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace MedikTapp.Services.HttpService
 {
@@ -33,24 +32,34 @@ namespace MedikTapp.Services.HttpService
             return _medikTappApi.GetAppointmentAvailableTime(serviceId, year, month, day).ConfigureAwait(false);
         }
 
-        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetAppointmentsByPatientId(int patientId)
+        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientUpcomingAppointment(int patientId)
         {
-            return _medikTappApi.GetAppointmentsByPatientId(patientId).ConfigureAwait(false);
+            return _medikTappApi.GetPatientUpcomingAppointment(patientId).ConfigureAwait(false);
         }
 
-        public Task<IEnumerable<Models.Services>> GetServices()
+        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientCancelledAppointment(int patientId)
         {
-            return _medikTappApi.GetService();
+            return _medikTappApi.GetPatientCancelledAppointment(patientId).ConfigureAwait(false);
         }
 
-        public Task<PatientModel> Login(PatientModel patient)
+        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientCompletedAppointment(int patientId)
         {
-            return _medikTappApi.Login(patient);
+            return _medikTappApi.GetPatientCompletedAppointment(patientId).ConfigureAwait(false);
         }
 
-        public Task Register(PatientModel patient)
+        public ConfiguredTaskAwaitable<IEnumerable<Models.Services>> GetServices()
         {
-            return _medikTappApi.Register(patient);
+            return _medikTappApi.GetService().ConfigureAwait(false);
+        }
+
+        public ConfiguredTaskAwaitable<PatientModel> Login(PatientModel patient)
+        {
+            return _medikTappApi.Login(patient).ConfigureAwait(false);
+        }
+
+        public ConfiguredTaskAwaitable Register(PatientModel patient)
+        {
+            return _medikTappApi.Register(patient).ConfigureAwait(false);
         }
 
         public ConfiguredTaskAwaitable<int> RescheduleAppointment(AddAppointmentModel appointment)

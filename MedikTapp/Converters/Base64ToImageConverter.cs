@@ -19,6 +19,9 @@ namespace MedikTapp.Converters
             throw new NotImplementedException();
         }
 
-        public object ProvideValue(IServiceProvider serviceProvider) => this;
+        public object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
     }
 }

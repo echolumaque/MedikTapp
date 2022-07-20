@@ -9,11 +9,11 @@ namespace MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo
         public override void Initialized(NavigationParameters parameters)
         {
             //todo here
-            var passedService = parameters.GetValue<Models.Services>("service");
+            var passedService = parameters.GetValue<Models.Services>("appointment");
             ServiceImage = passedService.ServiceImage;
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
-            ServicePrice = passedService.ServicePrice;
+            //ServicePrice = passedService.ServicePrice;
             //ProductImageSize = passedService.IsPromo
             //    ? Tuple.Create(200, 250)
             //    : Tuple.Create(100, 100);

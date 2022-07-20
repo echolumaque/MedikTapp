@@ -33,7 +33,8 @@ namespace MedikTappFunctionApp.Functions
 
                 var appointments = await EntityContext.AppointmentData.AsNoTracking().ToListAsync();
                 var patients = await EntityContext.PatientData.AsNoTracking().ToListAsync();
-                var filteredAppointments = appointments.Where(x => x.AppointmentDate.Date == completeDateTime.Date && x.ServiceId == serviceId);
+                var filteredAppointments = appointments.Where(_ => _.AppointmentDate.Date == completeDateTime.Date
+                    && _.ServiceId == serviceId);
 
                 var filteredData = filteredAppointments.Join(patients,
                     appointments => appointments.PatientId,
@@ -76,19 +77,19 @@ namespace MedikTappFunctionApp.Functions
         }
 
         [FunctionName("CancelAppointment")]
-        public async Task<IActionResult> CancelAppointment([HttpTrigger(AuthorizationLevel.Function, "delete")] HttpRequest request, ILogger logger)
+        public async Task<IActionResult> CancelAppointment([HttpTrigger(AuthorizationLevel.Function, "put")] HttpRequest request, ILogger logger)
         {
             try
             {
                 var appointmentId = int.Parse(request.Query["appointmentId"]);
-                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(x => x.AppointmentId == appointmentId);
+                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(_ => _.AppointmentId == appointmentId);
                 if (matchingAppointment != null)
                 {
-                    EntityContext.AppointmentData.Remove(matchingAppointment);
+                    matchingAppointment.BookingStatus = "Cancelled";
                     await EntityContext.SaveChangesAsync();
                 }
 
-                logger.LogInformation($"Cancelled appointment with an appointment id of {appointmentId} in the database");
+                logger.LogInformation($"Cancelled an appointment with an appointment id of {appointmentId} in the database");
                 return new OkObjectResult($"Succesfully cancelled an appointment id of {appointmentId} in the database");
             }
             catch (Exception ex)
@@ -97,59 +98,15 @@ namespace MedikTappFunctionApp.Functions
             }
         }
 
-        [FunctionName("GetServiceAppointmentAvailableTimes")]
-        public async Task<IActionResult> GetServiceAppointmentAvailableTimes([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
-        {
-            try
-            {
-                logger.LogInformation("Returning all service's available time based on selected date and time");
-                var serviceId = int.Parse(request.Query["serviceId"]);
-                var year = int.Parse(request.Query["year"]);
-                var month = int.Parse(request.Query["month"]);
-                var day = int.Parse(request.Query["day"]);
-
-                var requestedDate = new DateTime(year, month, day);
-                var appointmentsTable = EntityContext.AppointmentData.AsNoTracking();
-                var availableDateAndTime = new List<DateTime>();
-
-                for (var i = 0; i < 10; i++)
-                    // Clinic hours: 7 am to 4pm
-                    availableDateAndTime.Add(new DateTime(year, month, day, i + 7, 0, 0));
-
-                var dbTimesToRemove = await appointmentsTable.Where(x => x.AppointmentDate.Date == requestedDate.Date
-                        && x.ServiceId == serviceId).ToListAsync();
-
-                if (requestedDate == DateTime.Now.Date)
-                {
-                    // Selected date is today
-                    var localTimesToRemove = availableDateAndTime.Where(x => x.Hour < DateTime.Now.Hour + 2).ToList();
-                    foreach (var item in localTimesToRemove)
-                        availableDateAndTime.Remove(item);
-
-                    foreach (var dbItem in dbTimesToRemove)
-                        availableDateAndTime.Remove(dbItem.AppointmentDate);
-                }
-                else
-                    // Selected date is in the future
-                    foreach (var dbItem in dbTimesToRemove)
-                        availableDateAndTime.Remove(dbItem.AppointmentDate);
-
-                return new OkObjectResult(availableDateAndTime);
-            }
-            catch (Exception ex)
-            {
-                return ExceptionHelper(ex, logger, "GetServiceAppointmentAvailableTimes");
-            }
-        }
-
-        [FunctionName("GetAppointmentsByPatientId")]
-        public async Task<IActionResult> GetAppointmentsByPatientId([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
+        [FunctionName("GetPatientUpcomingAppointment")]
+        public async Task<IActionResult> GetPatientUpcomingAppointment([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
         {
             // Appointments tab in MedikTapp
             try
             {
                 logger.LogInformation("Returning all appointments by patient's id");
-                var patientAppointments = EntityContext.AppointmentData.Where(x => x.PatientId == int.Parse(request.Query["patientId"])).AsNoTracking();
+                var patientAppointments = EntityContext.AppointmentData.AsNoTracking()
+                    .Where(_ => _.PatientId == int.Parse(request.Query["patientId"]) && _.BookingStatus == "Confirmed");
                 var servicesTable = EntityContext.ServiceData.AsNoTracking();
 
                 var getEachAppointmentDetails = patientAppointments.Join(servicesTable,
@@ -176,13 +133,126 @@ namespace MedikTappFunctionApp.Functions
             }
         }
 
+        [FunctionName("GetPatientCancelledAppointment")]
+        public async Task<IActionResult> GetPatientCancelledAppointment([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Returning all patient's cancelled appointments");
+                var cancelledAppointments = EntityContext.AppointmentData.AsNoTracking()
+                     .Where(_ => _.PatientId == int.Parse(request.Query["patientId"]) && _.BookingStatus == "Cancelled");
+                var servicesTable = EntityContext.ServiceData.AsNoTracking();
+
+                var patientCancelledAppointments = cancelledAppointments.Join(servicesTable,
+                    appointment => appointment.ServiceId,
+                    service => service.ServiceId,
+                    (appointment, service) => new
+                    {
+                        service.ServiceId,
+                        service.ServiceName,
+                        service.ServiceDescription,
+                        service.ServiceImage,
+                        appointment.AppointmentId,
+                        appointment.AppointmentDate,
+                        appointment.BookingStatus,
+                        appointment.ProspectFirstName,
+                        appointment.ProspectLastName
+                    });
+
+                return new OkObjectResult(await patientCancelledAppointments.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return ExceptionHelper(ex, logger, "CancelAppointment");
+            }
+        }
+
+        [FunctionName("GetPatientCompletedAppointment")]
+        public async Task<IActionResult> GetPatientCompletedAppointment([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Returning all patient's cancelled appointments");
+                var cancelledAppointments = EntityContext.AppointmentData.AsNoTracking()
+                     .Where(_ => _.PatientId == int.Parse(request.Query["patientId"]) && _.BookingStatus == "Completed");
+                var servicesTable = EntityContext.ServiceData.AsNoTracking();
+
+                var patientCancelledAppointments = cancelledAppointments.Join(servicesTable,
+                    appointment => appointment.ServiceId,
+                    service => service.ServiceId,
+                    (appointment, service) => new
+                    {
+                        service.ServiceId,
+                        service.ServiceName,
+                        service.ServiceDescription,
+                        service.ServiceImage,
+                        appointment.AppointmentId,
+                        appointment.AppointmentDate,
+                        appointment.BookingStatus,
+                        appointment.ProspectFirstName,
+                        appointment.ProspectLastName
+                    });
+
+                return new OkObjectResult(await patientCancelledAppointments.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return ExceptionHelper(ex, logger, "CancelAppointment");
+            }
+        }
+
+        [FunctionName("GetServiceAppointmentAvailableTimes")]
+        public async Task<IActionResult> GetServiceAppointmentAvailableTimes([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest request, ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Returning all service's available time based on selected date and time");
+                var serviceId = int.Parse(request.Query["serviceId"]);
+                var year = int.Parse(request.Query["year"]);
+                var month = int.Parse(request.Query["month"]);
+                var day = int.Parse(request.Query["day"]);
+
+                var requestedDate = new DateTime(year, month, day);
+                var appointmentsTable = EntityContext.AppointmentData.AsNoTracking();
+                var availableDateAndTime = new List<DateTime>();
+
+                for (var i = 0; i < 10; i++)
+                    // Clinic hours: 7 am to 4pm
+                    availableDateAndTime.Add(new DateTime(year, month, day, i + 7, 0, 0));
+
+                var dbTimesToRemove = await appointmentsTable.Where(_ => _.AppointmentDate.Date == requestedDate.Date
+                        && _.ServiceId == serviceId).ToListAsync();
+
+                if (requestedDate == DateTime.Now.Date)
+                {
+                    // Selected date is today
+                    var localTimesToRemove = availableDateAndTime.Where(_ => _.Hour < DateTime.Now.Hour + 2).ToList();
+                    foreach (var item in localTimesToRemove)
+                        availableDateAndTime.Remove(item);
+
+                    foreach (var dbItem in dbTimesToRemove)
+                        availableDateAndTime.Remove(dbItem.AppointmentDate);
+                }
+                else
+                    // Selected date is in the future
+                    foreach (var dbItem in dbTimesToRemove)
+                        availableDateAndTime.Remove(dbItem.AppointmentDate);
+
+                return new OkObjectResult(availableDateAndTime);
+            }
+            catch (Exception ex)
+            {
+                return ExceptionHelper(ex, logger, "GetServiceAppointmentAvailableTimes");
+            }
+        }
+
         [FunctionName("RescheduleAppointment")]
         public async Task<IActionResult> RescheduleAppointment([HttpTrigger(AuthorizationLevel.Function, "put")] HttpRequest request, ILogger logger)
         {
             try
             {
                 var servicePayload = JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body);
-                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(x => x.AppointmentId == servicePayload.AppointmentId);
+                var matchingAppointment = await EntityContext.AppointmentData.FirstAsync(_ => _.AppointmentId == servicePayload.AppointmentId);
                 if (matchingAppointment != null)
                 {
                     matchingAppointment.AppointmentDate = servicePayload.AppointmentDate;

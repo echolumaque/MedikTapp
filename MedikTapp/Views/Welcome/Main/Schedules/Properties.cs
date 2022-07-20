@@ -17,9 +17,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
         public override bool CanHaveBadge { get; set; } = true;
         public bool CanModifyAppointment { get; set; }
         public ICommand ChangeFilterCmd { get; }
-        public ICommand FilterCancelledCmd { get; }
-        public ICommand FilterCompletedCmd { get; }
-        public ICommand FilterUpcomingCmd { get; }
+        public IAsyncCommand FilterCancelledCmd { get; }
+        public IAsyncCommand FilterCompletedCmd { get; }
+        public IAsyncCommand FilterUpcomingCmd { get; }
         public override string Icon => FontAwesomeIcons.Clock;
         public bool IsFilterExpanded { get; set; }
         public ICommand OpenComboBoxCmd { get; }
