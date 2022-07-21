@@ -25,7 +25,6 @@ using Platform = Xamarin.Essentials.Platform;
 namespace MedikTapp.Droid
 {
     [Activity(Label = "MedikTapp",
-        Icon = "@mipmap/icon",
         Theme = "@style/MainTheme",
         MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize |
