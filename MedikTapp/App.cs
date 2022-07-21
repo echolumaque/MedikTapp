@@ -1,4 +1,5 @@
-﻿using MedikTapp.Services.AppConfigService;
+﻿using MedikTapp.Interfaces;
+using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.GraphicsService;
 using MedikTapp.Services.MedikTappService;
 using MedikTapp.Services.NavigationService;
@@ -13,6 +14,7 @@ using Plugin.LocalNotification.EventArgs;
 using Syncfusion.Licensing;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XF.Services.InitializeDataService;
@@ -31,25 +33,31 @@ namespace MedikTapp
     public partial class App : Application
     {
         private readonly AppConfigService _appConfigService;
+        private readonly IConnectivity _connectivity;
         private readonly GraphicsService _graphicsService;
         private readonly InitializeDataService _initializeDataService;
         private readonly MedikTappService _medikTappService;
         private readonly NavigationService _navigationService;
         private readonly NotificationService _notificationService;
+        private readonly IToast _toast;
 
         public App(AppConfigService appConfigService,
+            IConnectivity connectivity,
             GraphicsService graphicsService,
             InitializeDataService initializeDataService,
             MedikTappService medikTappService,
             NavigationService navigationService,
-            NotificationService notificationService)
+            NotificationService notificationService,
+            IToast toast)
         {
             _appConfigService = appConfigService;
+            _connectivity = connectivity;
             _graphicsService = graphicsService;
             _medikTappService = medikTappService;
             _initializeDataService = initializeDataService;
             _navigationService = navigationService;
             _notificationService = notificationService;
+            _toast = toast;
 
             SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
             DefineResources();
@@ -63,6 +71,11 @@ namespace MedikTapp
             NotificationCenter.Current.NotificationTapped += GotoAppointmentsTab;
         }
 
+        private void DefineResources()
+        {
+            Resources.Add(new LightTheme());
+        }
+
         private void GotoAppointmentsTab(NotificationEventArgs e)
         {
             if (_navigationService.GetCurrentPage() is not Views.MainPage.MainPage)
@@ -74,21 +87,23 @@ namespace MedikTapp
             bindingContext.Tabs[3].Initialized(null);
         }
 
-        private void DefineResources()
-        {
-            Resources.Add(new LightTheme());
-        }
-
         protected override async void OnStart()
         {
-            _notificationService.PromoNotificationsSubscription(true);
-            await _initializeDataService.Init().ConfigureAwait(false);
-            await Task.WhenAll
-            (
-               _medikTappService.Init(),
-               _graphicsService.PreloadImages(),
-               _appConfigService.Init()
-            ).ConfigureAwait(false);
+            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                _notificationService.PromoNotificationsSubscription(true);
+                await _initializeDataService.Init().ConfigureAwait(false);
+                await Task.WhenAll
+                (
+                   _medikTappService.Init(),
+                   _graphicsService.PreloadImages(),
+                   _appConfigService.Init()
+                ).ConfigureAwait(false);
+            }
+            else
+            {
+                _toast.Show("An active internet connection is required to use MedikTapp.");
+            }
         }
     }
 }

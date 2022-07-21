@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Android;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -15,6 +16,7 @@ using Plugin.FirebasePushNotification;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.Platform.Droid;
 using Rg.Plugins.Popup;
+using Xamarin;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Color = Android.Graphics.Color;
@@ -33,6 +35,13 @@ namespace MedikTapp.Droid
         ConfigChanges.SmallestScreenSize)]
     public class MainActivity : FormsAppCompatActivity
     {
+        private const int RequestLocationId = 0;
+        private readonly string[] LocationPermissions = new string[2]
+        {
+            Manifest.Permission.AccessCoarseLocation,
+            Manifest.Permission.AccessFineLocation
+        };
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -40,6 +49,7 @@ namespace MedikTapp.Droid
             Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
             Platform.Init(this, savedInstanceState);
+            FormsMaps.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => this);
             Popup.Init(this);
             CachedImageRenderer.Init(true);
@@ -49,6 +59,22 @@ namespace MedikTapp.Droid
             NotificationChannelInit();
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
             FirebasePushNotificationManager.ProcessIntent(this, Intent);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
+                {
+                    RequestPermissions(LocationPermissions, RequestLocationId);
+                }
+                else
+                {
+                    // Permissions already granted - display a message.
+                }
+            }
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -71,6 +97,22 @@ namespace MedikTapp.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (requestCode == RequestLocationId)
+            {
+                if ((grantResults.Length == 1) && (grantResults[0] == (int)Permission.Granted))
+                {
+                    // Permissions granted - display a message.
+                }
+                else
+                {
+                    // Permissions denied - display a message.
+                }
+            }
+            else
+            {
+                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

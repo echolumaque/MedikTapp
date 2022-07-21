@@ -44,7 +44,6 @@
     <None Remove="Resources\Images\promo1.jpg" />
     <None Remove="Resources\Images\promo2.jpg" />
     <None Remove="Resources\Images\pudci.jpg" />
-    <None Remove="Resources\Images\pudc_map.png" />
     <None Remove="Resources\Images\squiggles1.png" />
     <None Remove="Resources\Images\urine_test.png" />
     <None Remove="Resources\Images\xray.png" />
@@ -71,7 +70,6 @@
     <EmbeddedResource Include="Resources\Images\promo1.jpg" />
     <EmbeddedResource Include="Resources\Images\promo2.jpg" />
     <EmbeddedResource Include="Resources\Images\pudci.jpg" />
-    <EmbeddedResource Include="Resources\Images\pudc_map.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -85,13 +83,14 @@
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Syncfusion.Xamarin.SfCalendar" Version="20.1.0.56" />
-    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.4" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.3.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2401" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2478" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="5.0.0.2478" />
   </ItemGroup>
 
   <ItemGroup>
@@ -105,8 +104,8 @@
     <Compile Update="Views\Welcome\Main\Schedules\SchedulesTab.xaml.cs">
       <DependentUpon>SchedulesTab.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Welcome\Main\Schedules\ServiceInfo\ServiceInfoPopup.xaml.cs">
-      <DependentUpon>ServiceInfoPopup.xaml</DependentUpon>
+    <Compile Update="Views\Welcome\Main\Schedules\ServiceInfo\ServiceInfoPage.xaml.cs">
+      <DependentUpon>ServiceInfoPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Welcome\Main\TimeAvailability\TimeAvailabilityPage.xaml.cs">
       <DependentUpon>TimeAvailabilityPage.xaml</DependentUpon>

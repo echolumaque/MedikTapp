@@ -98,7 +98,7 @@
       <Version>1.8.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit">
-      <Version>2.0.2</Version>
+      <Version>2.0.4</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
@@ -106,10 +106,13 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>5.0.0.2478</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>5.0.0.2401</Version>
+      <Version>5.0.0.2478</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Base">
       <Version>118.0.1.1</Version>
@@ -123,6 +126,7 @@
     <Compile Include="Renderer\CustomFrameAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderer\BorderlesMaterialEntryAndroid.cs" />
+    <Compile Include="Renderer\JustifiedLabelAndroid.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

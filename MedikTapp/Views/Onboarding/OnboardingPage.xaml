@@ -2,9 +2,9 @@
 <views:BasePage x:Class="MedikTapp.Views.Onboarding.OnboardingPage"
                 xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                 xmlns:helper="clr-namespace:MedikTapp.Helpers"
                 xmlns:model="clr-namespace:MedikTapp.Views"
+                xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding"
                 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -36,12 +36,12 @@
                                TextColor="#695CD5"
                                VerticalOptions="CenterAndExpand" />
 
-                        <ffimage:CachedImage Grid.Row="1"
-                                             HeightRequest="300"
-                                             HorizontalOptions="CenterAndExpand"
-                                             Source="{Binding ImagePath}"
-                                             VerticalOptions="CenterAndExpand"
-                                             WidthRequest="300" />
+                        <templateImg:CachedImage Grid.Row="1"
+                                                 HeightRequest="300"
+                                                 HorizontalOptions="CenterAndExpand"
+                                                 ImageSource="{Binding ImagePath}"
+                                                 VerticalOptions="CenterAndExpand"
+                                                 WidthRequest="300" />
 
                         <Label Grid.Row="2"
                                HorizontalOptions="CenterAndExpand"
@@ -83,9 +83,10 @@
                 FontFamily="med"
                 HeightRequest="50"
                 HorizontalOptions="CenterAndExpand"
-                IsVisible="{Binding IsSkipVisible, Converter={xct:InvertedBoolConverter}}"
                 Text="Get started"
                 VerticalOptions="StartAndExpand"
                 WidthRequest="200" />
+
+        <!--IsVisible="{Binding IsSkipVisible, Converter={xct:InvertedBoolConverter}}"-->
     </Grid>
 </views:BasePage> 

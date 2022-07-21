@@ -76,7 +76,7 @@
                                                          Grid.Column="1"
                                                          HeightRequest="65"
                                                          HorizontalOptions="End"
-                                                         Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
+                                                         ImageSource="{Binding ServiceImage}"
                                                          VerticalOptions="Start"
                                                          WidthRequest="65" />
 

@@ -118,11 +118,14 @@ namespace MedikTappFunctionApp.Functions
                         service.ServiceName,
                         service.ServiceDescription,
                         service.ServiceImage,
+                        service.ServicePrice,
                         appointment.AppointmentId,
                         appointment.AppointmentDate,
                         appointment.BookingStatus,
                         appointment.ProspectFirstName,
-                        appointment.ProspectLastName
+                        appointment.ProspectLastName,
+                        appointment.ProspectAge,
+                        appointment.ProspectGender
                     });
 
                 return new OkObjectResult(await getEachAppointmentDetails.ToListAsync());
@@ -152,11 +155,14 @@ namespace MedikTappFunctionApp.Functions
                         service.ServiceName,
                         service.ServiceDescription,
                         service.ServiceImage,
+                        service.ServicePrice,
                         appointment.AppointmentId,
                         appointment.AppointmentDate,
                         appointment.BookingStatus,
                         appointment.ProspectFirstName,
-                        appointment.ProspectLastName
+                        appointment.ProspectLastName,
+                        appointment.ProspectAge,
+                        appointment.ProspectGender
                     });
 
                 return new OkObjectResult(await patientCancelledAppointments.ToListAsync());
@@ -186,11 +192,14 @@ namespace MedikTappFunctionApp.Functions
                         service.ServiceName,
                         service.ServiceDescription,
                         service.ServiceImage,
+                        service.ServicePrice,
                         appointment.AppointmentId,
                         appointment.AppointmentDate,
                         appointment.BookingStatus,
                         appointment.ProspectFirstName,
-                        appointment.ProspectLastName
+                        appointment.ProspectLastName,
+                        appointment.ProspectAge,
+                        appointment.ProspectGender
                     });
 
                 return new OkObjectResult(await patientCancelledAppointments.ToListAsync());

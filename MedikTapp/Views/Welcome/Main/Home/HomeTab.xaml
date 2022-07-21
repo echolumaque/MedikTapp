@@ -2,7 +2,6 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Home.HomeTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:converter="clr-namespace:MedikTapp.Converters"
                xmlns:models="clr-namespace:MedikTapp.Models"
                xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
@@ -54,7 +53,7 @@
                                                  templates:Gestures.TappedParameter="{Binding .}"
                                                  HeightRequest="500"
                                                  HorizontalOptions="Center"
-                                                 Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
+                                                 ImageSource="{Binding ServiceImage}"
                                                  VerticalOptions="Center"
                                                  WidthRequest="500" />
                     </DataTemplate>
@@ -106,7 +105,7 @@
                                 <templateImg:CachedImage Grid.Row="0"
                                                          HeightRequest="80"
                                                          HorizontalOptions="Center"
-                                                         Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
+                                                         ImageSource="{Binding ServiceImage}"
                                                          VerticalOptions="Start"
                                                          WidthRequest="80" />
 

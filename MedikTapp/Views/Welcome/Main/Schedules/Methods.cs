@@ -114,17 +114,9 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
 
         private Task ServiceTapped(AppointmentModel appointment)
         {
-            return NavigationService.GoTo<ServiceInfoPopup>(new()
+            return NavigationService.GoTo<ServiceInfoPage>(new()
             {
-                {
-                    "appointment",
-                    new Models.Services
-                    {
-                        ServiceImage = appointment.ServiceImage,
-                        ServiceName = appointment.ServiceName,
-                        ServiceDescription = appointment.ServiceDescription,
-                    }
-                }
+                { "appointment", appointment }
             });
         }
 

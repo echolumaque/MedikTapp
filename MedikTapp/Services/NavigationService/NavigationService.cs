@@ -22,7 +22,10 @@ namespace MedikTapp.Services.NavigationService
             _serviceProvider = serviceProvider;
         }
 
-        public Page GetCurrentPage() => ((InvisibleNavigationPage)Application.Current.MainPage)?.CurrentPage;
+        public Page GetCurrentPage()
+        {
+            return ((InvisibleNavigationPage)Application.Current.MainPage)?.CurrentPage;
+        }
 
         public Task GoTo<TPage>(NavigationParameters parameters = null) where TPage : Page
         {
@@ -63,7 +66,8 @@ namespace MedikTapp.Services.NavigationService
         {
             NavUtils.IsSystemBackButtonPressed = false;
             Page toPage = ActivatorUtilities.CreateInstance<TView>(_serviceProvider);
-            if (toPage is PopupPage) return;
+            if (toPage is PopupPage)
+                return;
             InvisibleNavigationPage navPage = new(toPage);
             navPage.Behaviors.Add(new NavigationPageBehavior());
             NavUtils.DoNavigate(GetCurrentPage(), toPage, parameters, () => Application.Current.MainPage = navPage);

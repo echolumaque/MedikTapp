@@ -2,7 +2,6 @@
 <views:BasePopup x:Class="MedikTapp.Views.Welcome.Main.ServiceConfirmation.ServiceConfirmationPopup"
                  xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:converter="clr-namespace:MedikTapp.Converters"
                  xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                  xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                  xmlns:views="clr-namespace:MedikTapp.Templates.Base"
@@ -79,7 +78,7 @@
                                      Grid.ColumnSpan="2"
                                      HeightRequest="{Binding ProductImageSize.Item1}"
                                      HorizontalOptions="Center"
-                                     Source="{Binding ServiceImage}"
+                                     ImageSource="{Binding ServiceImage}"
                                      VerticalOptions="Center"
                                      WidthRequest="{Binding ProductImageSize.Item2}" />
 

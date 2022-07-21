@@ -2,7 +2,6 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Services.ServicesTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:converter="clr-namespace:MedikTapp.Converters"
                xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                xmlns:gesture="clr-namespace:MedikTapp.Helpers"
                xmlns:models="clr-namespace:MedikTapp.Models"
@@ -70,7 +69,7 @@
                                                  Grid.Column="0"
                                                  HeightRequest="100"
                                                  HorizontalOptions="Center"
-                                                 Source="{Binding ServiceImage, Converter={converter:Base64ToImageConverter}}"
+                                                 ImageSource="{Binding ServiceImage}"
                                                  VerticalOptions="Center"
                                                  WidthRequest="100" />
 
