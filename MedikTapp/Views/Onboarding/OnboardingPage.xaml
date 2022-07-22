@@ -26,10 +26,11 @@
                       Position="{Binding Position}">
             <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="model:OnboardingModel">
-                    <Grid RowDefinitions="20,300,200">
+                    <Grid RowDefinitions="40,300,200">
                         <Label Grid.Row="0"
                                helper:Gestures.Tapped="{Binding BindingContext.SkipCmd, Source={x:Reference this}}"
                                FontFamily="med"
+                               FontSize="15"
                                HorizontalOptions="EndAndExpand"
                                IsVisible="{Binding BindingContext.IsSkipVisible, Source={x:Reference this}}"
                                Text="Skip"
@@ -83,10 +84,9 @@
                 FontFamily="med"
                 HeightRequest="50"
                 HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding IsSkipVisible, Converter={xct:InvertedBoolConverter}}"
                 Text="Get started"
                 VerticalOptions="StartAndExpand"
                 WidthRequest="200" />
-
-        <!--IsVisible="{Binding IsSkipVisible, Converter={xct:InvertedBoolConverter}}"-->
     </Grid>
 </views:BasePage> 

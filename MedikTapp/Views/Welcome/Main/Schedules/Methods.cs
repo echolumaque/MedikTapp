@@ -94,6 +94,12 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             Schedules = new(_upcomingAppointments.OrderBy(x => x.AppointmentDate));
         }
 
+        private async void OnAppConfigInitialized(object sender, EventArgs e)
+        {
+            var schedules = _upcomingAppointments ?? await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
+            BadgeCount = schedules.Count();
+        }
+
         private Task Reschedule(AppointmentModel appointment)
         {
             //if (appointment.AppointmentDate.Date == DateTime.Now.Date
@@ -125,8 +131,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             var schedules = _upcomingAppointments ?? await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
             BadgeCount = schedules.Count();
         }
-
-        public override async void Initialized(NavigationParameters parameters)
+        public override async void OnNavigatedTo(NavigationParameters parameters)
         {
             BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
             SelectedBookingSort = BookingSortCollection.First();

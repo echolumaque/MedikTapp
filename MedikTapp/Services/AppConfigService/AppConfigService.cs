@@ -11,15 +11,18 @@ namespace MedikTapp.Services.AppConfigService
         private AppConfig _appConfig;
         private readonly DatabaseService.DatabaseService _databaseService;
         private readonly DelegateWeakEventManager _appConfigInitialized;
+        private readonly NotificationService.NotificationService _notificationService;
         public event EventHandler AppConfigInitialized
         {
             add => _appConfigInitialized.AddEventHandler(value);
             remove => _appConfigInitialized.RemoveEventHandler(value);
         }
 
-        public AppConfigService(DatabaseService.DatabaseService databaseService)
+        public AppConfigService(DatabaseService.DatabaseService databaseService,
+            NotificationService.NotificationService notificationService)
         {
             _databaseService = databaseService;
+            _notificationService = notificationService;
             _appConfigInitialized = new DelegateWeakEventManager();
         }
 
@@ -47,7 +50,7 @@ namespace MedikTapp.Services.AppConfigService
                     FirstName = string.Empty,
                     IsBiometricLoginEnabled = false,
                     IsDarkModeEnabled = false,
-                    IsPromoNotifEnabled = false,
+                    IsPromoNotifEnabled = true,
                     LastName = string.Empty,
                     Password = string.Empty,
                     PatientId = 0,
@@ -70,6 +73,7 @@ namespace MedikTapp.Services.AppConfigService
             PatientId = config.PatientId;
             Sex = config.Sex;
             _appConfigInitialized.RaiseEvent(this, EventArgs.Empty, nameof(AppConfigInitialized));
+            _notificationService.PromoNotificationsSubscription(_appConfig.IsPromoNotifEnabled);
         }
 
         public async Task UpdateConfig(string propertyName, object value)

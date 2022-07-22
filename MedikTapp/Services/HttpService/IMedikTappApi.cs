@@ -8,7 +8,7 @@ namespace MedikTapp.Services.HttpService
 {
     public interface IMedikTappApi
     {
-        #region Login and Register
+        #region Login, Change Password, and Register
         [Headers("x-functions-key : PFNUfmsfwfm5S-TlTuzQuKp1USSHLwBIfKHCeJrBSe8HAzFuPHVrJA==")]
         [Post("/api/Login")]
         Task<PatientModel> Login([Body(BodySerializationMethod.Serialized)] PatientModel data);
@@ -16,6 +16,10 @@ namespace MedikTapp.Services.HttpService
         [Headers("x-functions-key : chWkam7CzIRFZ2gTGrj6h5v_v_H4meHNu1GBK1RnIthmAzFuIUanpA==")]
         [Post("/api/Register")]
         Task Register([Body(BodySerializationMethod.Serialized)] PatientModel data);
+
+        [Headers("x-functions-key : Oj3TkL-FCISUhdHOHdv650RoPjmXb-En0VDzGc7GQo8CAzFunPiHRw==")]
+        [Put("/api/ChangePassword?patientId={patientId}&newPassword={newPassword}")]
+        Task ChangePassword(int patientId, string newPassword);
         #endregion
 
         #region Services
@@ -55,10 +59,9 @@ namespace MedikTapp.Services.HttpService
         #endregion
 
         #region Promos
-        //todo here
-        //[Headers("x-functions-key : n8UzakNdDPgEFSjkFZv9ZQl9qsc0jTanPakzEVz4hCb9AzFuRZ4y8A==")]
-        //[Get("/api/GetPromo")]
-        //Task<IEnumerable<PromoModel>> GetPromos();
+        [Headers("x-functions-key : n8UzakNdDPgEFSjkFZv9ZQl9qsc0jTanPakzEVz4hCb9AzFuRZ4y8A==")]
+        [Get("/api/GetPromo")]
+        Task<IEnumerable<Models.Services>> GetPromos();
         #endregion
     }
 }

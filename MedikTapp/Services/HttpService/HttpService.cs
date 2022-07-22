@@ -27,14 +27,14 @@ namespace MedikTapp.Services.HttpService
             return _medikTappApi.CancelAppointment(appointmentId).ConfigureAwait(false);
         }
 
+        public ConfiguredTaskAwaitable ChangePassword(int patientId, string newPassword)
+        {
+            return _medikTappApi.ChangePassword(patientId, newPassword).ConfigureAwait(false);
+        }
+
         public ConfiguredTaskAwaitable<IEnumerable<DateTime>> GetAppointmentAvailableTime(int serviceId, int year, int month, int day)
         {
             return _medikTappApi.GetAppointmentAvailableTime(serviceId, year, month, day).ConfigureAwait(false);
-        }
-
-        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientUpcomingAppointment(int patientId)
-        {
-            return _medikTappApi.GetPatientUpcomingAppointment(patientId).ConfigureAwait(false);
         }
 
         public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientCancelledAppointment(int patientId)
@@ -45,6 +45,15 @@ namespace MedikTapp.Services.HttpService
         public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientCompletedAppointment(int patientId)
         {
             return _medikTappApi.GetPatientCompletedAppointment(patientId).ConfigureAwait(false);
+        }
+
+        public ConfiguredTaskAwaitable<IEnumerable<AppointmentModel>> GetPatientUpcomingAppointment(int patientId)
+        {
+            return _medikTappApi.GetPatientUpcomingAppointment(patientId).ConfigureAwait(false);
+        }
+        public ConfiguredTaskAwaitable<IEnumerable<Models.Services>> GetPromos()
+        {
+            return _medikTappApi.GetPromos().ConfigureAwait(false);
         }
 
         public ConfiguredTaskAwaitable<IEnumerable<Models.Services>> GetServices()
@@ -66,10 +75,5 @@ namespace MedikTapp.Services.HttpService
         {
             return _medikTappApi.RescheduleAppointment(appointment).ConfigureAwait(false);
         }
-        //todo here
-        //public ConfiguredTaskAwaitable<IEnumerable<Models.PromoModel>> GetPromos()
-        //{
-        //    return _medikTappApi.GetPromos().ConfigureAwait(false);
-        //}
     }
 }

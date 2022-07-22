@@ -36,6 +36,7 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             _httpService = httpService;
             _mainThread = mainThread;
             _appConfigService = appConfigService;
+            appConfigService.AppConfigInitialized += OnAppConfigInitialized;
 
             ChangeFilterCmd = new Command<BookingSort>(ChangeFilter);
             FilterCancelledCmd = new AsyncSingleCommand(InitCancelledCollections);

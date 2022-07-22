@@ -1,9 +1,7 @@
 ﻿using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -11,15 +9,6 @@ namespace MedikTapp.Views.Welcome.Main.Home
 {
     public partial class HomeTabViewModel
     {
-        private string GetImageBase64String(string imageName)
-        {
-            var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"MedikTapp.Resources.Images.{imageName}.jpg");
-            var ms = new MemoryStream();
-            resource.CopyTo(ms);
-            var hehe = Convert.ToBase64String(ms.ToArray());
-            return hehe;
-        }
-
         private Task GotoServiceConfirmationPopup(Models.Services service)
         {
             return NavigationService.GoTo<ServiceConfirmationPopup>(new()
@@ -28,62 +17,45 @@ namespace MedikTapp.Views.Welcome.Main.Home
             });
         }
 
-        private void InitPromos()
+        private void InitServices(bool shouldCreateTimer = false)
         {
-            PromosCollection = new()
+            ServicesCollection = new(_medikTappService.MedikTappServices.Take(6));
+            PromosCollection = new(_medikTappService.MedikTappPromos);
+            IsLoadingData = false;
+            if (shouldCreateTimer)
+                return;
+
+            Device.StartTimer(TimeSpan.FromSeconds(3), () =>
             {
-                new()
-                {
-                    StartDate = new DateTime(2022, 6, 12, 8, 15, 0),
-                    ServiceDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
-                    ServiceImage = GetImageBase64String("promo1"),
-                    ServiceName = "Ultrasound (Promo)",
-                    ServicePrice = 850,
-                },
-                new()
-                {
-                    StartDate = new DateTime(2022, 6, 13, 8, 30, 0),
-                    ServiceDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
-                    ServiceImage = GetImageBase64String("promo2"),
-                    ServiceName = "Executive Health Checkup",
-                    ServicePrice = 1500,
-                },
-                new()
-                {
-                    StartDate = new DateTime(2022, 6, 12, 8, 15, 0),
-                    ServiceDescription = "Enjoy PUDC's ultrasound promo with 10% off of its original price!",
-                    ServiceImage = GetImageBase64String("promo1"),
-                    ServiceName = "Ultrasound (Promo)",
-                    ServicePrice = 850,
-                },
-                new()
-                {
-                    StartDate = new DateTime(2022, 6, 13, 8, 30, 0),
-                    ServiceDescription = "Enjoy PUDC's Executive Health Checkup promo for only ₱1,500 from ₱2,992!",
-                    ServiceImage = GetImageBase64String("promo2"),
-                    ServiceName = "Executive Health Checkup",
-                    ServicePrice = 1500,
-                },
-            };
+                PromoPosition = PromoPosition == PromosCollection.Count - 1
+                    ? PromoPosition = 0
+                    : PromoPosition += 1;
+                return true;
+            });
         }
-        public override async void Initialized(NavigationParameters parameters)
+
+        private void OnMedikTappServiceInitialized(object sender, EventArgs e)
         {
-            InitPromos();
-            if (!_isAlreadyTimed)
+            InitServices(false);
+        }
+
+        private async Task Refresh()
+        {
+            IsRefreshing = true;
+            _medikTappService.MedikTappServices = await _httpService.GetServices();
+            _medikTappService.MedikTappPromos = await _httpService.GetPromos();
+            InitServices(true);
+            IsRefreshing = false;
+        }
+        public override async void OnNavigatedTo(NavigationParameters parameters)
+        {
+            if (_medikTappService.MedikTappServices == null || _medikTappService.MedikTappPromos == null)
             {
-                await Task.Delay(2000);
-                Device.StartTimer(TimeSpan.FromSeconds(3), () =>
-                {
-                    PromoPosition = PromoPosition < 3
-                        ? PromoPosition += 1
-                        : PromoPosition = 0;
-                    return true;
-                });
-                _isAlreadyTimed = true;
+                _medikTappService.MedikTappServices = await _httpService.GetServices();
+                _medikTappService.MedikTappPromos = await _httpService.GetPromos();
             }
 
-            ServicesCollection = new(_medikTappService.MedikTappServices.Take(6));
-            IsLoadingData = false;
+            InitServices(false);
         }
     }
 }

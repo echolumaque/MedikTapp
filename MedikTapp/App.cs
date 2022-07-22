@@ -18,6 +18,7 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XF.Services.InitializeDataService;
+using Preferences = MedikTapp.Constants.Preferences;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("Poppins-Bold.ttf", Alias = "bold")]
@@ -48,7 +49,8 @@ namespace MedikTapp
             MedikTappService medikTappService,
             NavigationService navigationService,
             NotificationService notificationService,
-            IToast toast)
+            IToast toast,
+            IPreferences preferences)
         {
             _appConfigService = appConfigService;
             _connectivity = connectivity;
@@ -60,31 +62,36 @@ namespace MedikTapp
             _toast = toast;
 
             SyncfusionLicenseProvider.RegisterLicense("NjQzMTA4QDMyMzAyZTMxMmUzMGdCUTc5N2ZmN21lckRHVXp2YzdranZ2V0FGTHVKeVFSa1pVSlBCaVpWL2M9");
-            DefineResources();
+            Resources.Add(new LightTheme());
             VersionTracking.Track();
 
             if (VersionTracking.IsFirstLaunchEver)
                 navigationService.SetRootPage<OnboardingPage>();
             else
-                navigationService.SetRootPage<AccountPage>();
+            {
+                if (preferences.Get(Preferences.HasLoggedAccount, false))
+                    navigationService.SetRootPage<MainPage>(isOffWhitePageBgColor: true);
+                else
+                    navigationService.SetRootPage<AccountPage>(isOffWhitePageBgColor: true);
+            }
 
             NotificationCenter.Current.NotificationTapped += GotoAppointmentsTab;
         }
 
-        private void DefineResources()
-        {
-            Resources.Add(new LightTheme());
-        }
-
         private void GotoAppointmentsTab(NotificationEventArgs e)
         {
-            if (_navigationService.GetCurrentPage() is not Views.MainPage.MainPage)
-                _navigationService.SetRootPage<MainPage>();
+            if (_connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                _navigationService.SetRootPage<MainPage>(isOffWhitePageBgColor: true);
 
-            var bindingContext = (TabMainPageViewModelBase)_navigationService.GetCurrentPage().BindingContext;
-            bindingContext.ActiveTabIndex = 3;
-            bindingContext.Tabs[3].IsCurrentTab = true;
-            bindingContext.Tabs[3].Initialized(null);
+                var bindingContext = (TabMainPageViewModelBase)_navigationService.GetCurrentPage().BindingContext;
+                bindingContext.ActiveTabIndex = 3;
+                foreach (var item in bindingContext.Tabs)
+                    item.IsCurrentTab = false;
+
+                bindingContext.Tabs[3].IsCurrentTab = true;
+                bindingContext.Tabs[3].Initialized(null);
+            }
         }
 
         protected override async void OnStart()

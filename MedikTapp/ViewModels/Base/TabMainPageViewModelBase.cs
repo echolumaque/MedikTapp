@@ -67,7 +67,7 @@ namespace MedikTapp.ViewModels.Base
         /// </summary>
         /// <param name="previousIndex"></param>
         /// <param name="nextIndex"></param>
-        protected void SetActiveTab(int previousIndex, int nextIndex)
+        public void SetActiveTab(int previousIndex, int nextIndex)
         {
             for (var i = 0; i < Tabs.Count; i++)
                 Tabs[i].IsCurrentTab = false;

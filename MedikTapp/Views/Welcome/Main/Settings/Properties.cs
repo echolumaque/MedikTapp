@@ -1,5 +1,6 @@
 ﻿using MedikTapp.Resources.Fonts;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.Settings
@@ -9,6 +10,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
         public ICommand AboutTappedCmd { get; set; }
         public ICommand AppearanceTappedCmd { get; set; }
         public override bool CanHaveBadge { get; set; } = false;
+        public IAsyncCommand ChangePasswordCmd { get; }
         public ICommand HelpTappedCmd { get; set; }
         public override string Icon => FontAwesomeIcons.Gear;
         public bool IsAboutExpanded { get; set; }
@@ -22,6 +24,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
         public bool IsPrivacyExpanded { get; set; }
         public bool IsPromoNotificaitonEnabled { get; set; }
         public ICommand IsPromoNotificationToggledCmd { get; }
+        public IAsyncCommand LogoutCmd { get; }
         public ICommand NotificationTappedCmd { get; set; }
         public ICommand PrivacyTappedCmd { get; set; }
         public override string Text => "Settings";

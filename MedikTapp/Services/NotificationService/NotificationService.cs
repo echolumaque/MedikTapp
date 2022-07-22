@@ -1,4 +1,4 @@
-﻿using Plugin.FirebasePushNotification;
+﻿using MedikTapp.Constants;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.AndroidOption;
 using Plugin.LocalNotification.EventArgs;
@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 using NotificationCategoryType = Plugin.LocalNotification.NotificationCategoryType;
 
 namespace MedikTapp.Services.NotificationService
@@ -13,16 +14,13 @@ namespace MedikTapp.Services.NotificationService
     public class NotificationService
     {
         private readonly IEnumerable<INotificationActionTapped> _actionTapped;
-        private readonly IFirebasePushNotification _firebasePushNotification;
         public readonly INotificationService _notificationService;
 
         public NotificationService(IEnumerable<INotificationActionTapped> actionTapped,
-            INotificationService notificationService,
-            IFirebasePushNotification firebasePushNotification)
+            INotificationService notificationService)
         {
             _actionTapped = actionTapped;
             _notificationService = notificationService;
-            _firebasePushNotification = firebasePushNotification;
         }
 
         public event NotificationTappedEventHandler NotificationTapped;
@@ -46,10 +44,7 @@ namespace MedikTapp.Services.NotificationService
 
         public void PromoNotificationsSubscription(bool isSubscribed)
         {
-            if (isSubscribed)
-                _firebasePushNotification.Subscribe("promo");
-            else
-                _firebasePushNotification.Unsubscribe("promo");
+            MessagingCenter.Send<object, bool>(this, Preferences.PushNotificationSubscription, isSubscribed);
         }
 
         public void RegisterCategory(HashSet<NotificationCategory> categories)
@@ -79,8 +74,7 @@ namespace MedikTapp.Services.NotificationService
                 .WithAndroidOptions(new AndroidOptions
                 {
                     ChannelId = "Appointment Notifications",
-                    Group = "MedikTapp",
-                    IsGroupSummary = true,
+                    Color = new AndroidColor(-9872171),
                     IconLargeName = androidIcon,
                     IconSmallName = androidIcon,
                     Priority = AndroidNotificationPriority.Max,

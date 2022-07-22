@@ -13,110 +13,114 @@
                x:Name="this"
                x:DataType="vm:ServicesTabViewModel"
                x:TypeArguments="vm:ServicesTabViewModel">
-    <Grid RowDefinitions="60,50,*">
-        <Label Grid.Row="0"
-               FontFamily="med"
-               FontSize="40"
-               Text="Services"
-               TextColor="#2F2F32" />
+    <RefreshView Command="{Binding RefreshCmd}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 RefreshColor="#695CD5">
+        <Grid RowDefinitions="60,50,*">
+            <Label Grid.Row="0"
+                   FontFamily="med"
+                   FontSize="40"
+                   Text="Services"
+                   TextColor="#2F2F32" />
 
-        <Frame Grid.Row="1"
-               Padding="20,0"
-               BackgroundColor="White"
-               HasShadow="False"
-               VerticalOptions="StartAndExpand">
-            <Grid ColumnDefinitions="15, *">
-                <Label Grid.Column="0"
-                       FontFamily="fas"
-                       HorizontalOptions="StartAndExpand"
-                       Text="{x:Static fonts:FontAwesomeIcons.MagnifyingGlass}"
-                       VerticalOptions="Center" />
+            <Frame Grid.Row="1"
+                   Padding="20,0"
+                   BackgroundColor="White"
+                   HasShadow="False"
+                   VerticalOptions="StartAndExpand">
+                <Grid ColumnDefinitions="15, *">
+                    <Label Grid.Column="0"
+                           FontFamily="fas"
+                           HorizontalOptions="StartAndExpand"
+                           Text="{x:Static fonts:FontAwesomeIcons.MagnifyingGlass}"
+                           VerticalOptions="Center" />
 
-                <renderers:BorderlessEntry Grid.Column="1"
-                                           BackgroundColor="White"
-                                           FontFamily="reg"
-                                           FontSize="12"
-                                           Placeholder="Search"
-                                           PlaceholderColor="Gray"
-                                           TextColor="{StaticResource Black}"
-                                           VerticalOptions="End">
-                    <renderers:BorderlessEntry.Behaviors>
-                        <xct:EventToCommandBehavior Command="{Binding SearchEntryTextChangedCmd}"
-                                                    EventName="TextChanged" />
-                    </renderers:BorderlessEntry.Behaviors>
-                </renderers:BorderlessEntry>
-            </Grid>
-        </Frame>
+                    <renderers:BorderlessMaterialEntry Grid.Column="1"
+                                                       BackgroundColor="White"
+                                                       FontFamily="reg"
+                                                       FontSize="12"
+                                                       Placeholder="Search"
+                                                       PlaceholderColor="Gray"
+                                                       TextColor="{StaticResource Black}"
+                                                       VerticalOptions="End">
+                        <renderers:BorderlessMaterialEntry.Behaviors>
+                            <xct:EventToCommandBehavior Command="{Binding SearchEntryTextChangedCmd}"
+                                                        EventName="TextChanged" />
+                        </renderers:BorderlessMaterialEntry.Behaviors>
+                    </renderers:BorderlessMaterialEntry>
+                </Grid>
+            </Frame>
 
-        <CollectionView Grid.Row="2"
-                        Margin="0,20,0,0"
-                        IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
-                        ItemSizingStrategy="MeasureAllItems"
-                        ItemsSource="{Binding AvailableServices}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="15"
-                                   Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Services">
-                    <Grid gesture:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
-                          gesture:Gestures.TappedParameter="{Binding .}"
-                          ColumnDefinitions="50, *, 10"
-                          RowDefinitions="*,*"
-                          RowSpacing="-1">
-                        <templateImg:CachedImage Grid.Row="0"
-                                                 Grid.RowSpan="2"
-                                                 Grid.Column="0"
-                                                 HeightRequest="100"
-                                                 HorizontalOptions="Center"
-                                                 ImageSource="{Binding ServiceImage}"
-                                                 VerticalOptions="Center"
-                                                 WidthRequest="100" />
+            <CollectionView Grid.Row="2"
+                            Margin="0,20,0,0"
+                            IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding AvailableServices}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="15"
+                                       Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Services">
+                        <Grid gesture:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                              gesture:Gestures.TappedParameter="{Binding .}"
+                              ColumnDefinitions="50, *, 10"
+                              RowDefinitions="*,*"
+                              RowSpacing="-1">
+                            <templateImg:CachedImage Grid.Row="0"
+                                                     Grid.RowSpan="2"
+                                                     Grid.Column="0"
+                                                     HeightRequest="100"
+                                                     HorizontalOptions="Center"
+                                                     ImageSource="{Binding ServiceImage}"
+                                                     VerticalOptions="Center"
+                                                     WidthRequest="100" />
 
-                        <Label Grid.Row="0"
-                               Grid.Column="1"
-                               FontFamily="med"
-                               FontSize="15"
-                               LineBreakMode="TailTruncation"
-                               Text="{Binding ServiceName}"
-                               TextColor="{StaticResource Black}"
-                               VerticalOptions="End" />
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
+                                   FontFamily="med"
+                                   FontSize="15"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceName}"
+                                   TextColor="{StaticResource Black}"
+                                   VerticalOptions="End" />
 
-                        <Label Grid.Row="1"
-                               Grid.Column="1"
-                               FontFamily="reg"
-                               FontSize="12"
-                               LineBreakMode="TailTruncation"
-                               Text="{Binding ServiceDescription}"
-                               VerticalOptions="Start" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   FontFamily="reg"
+                                   FontSize="12"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceDescription}"
+                                   VerticalOptions="Start" />
 
-                        <Label Grid.Row="0"
-                               Grid.RowSpan="2"
-                               Grid.Column="2"
-                               FontFamily="fas"
-                               HorizontalOptions="End"
-                               LineBreakMode="TailTruncation"
-                               Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
-                               TextColor="{StaticResource DarkPurple}"
-                               VerticalOptions="Center" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            <Label Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="2"
+                                   FontFamily="fas"
+                                   HorizontalOptions="End"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
+                                   TextColor="{StaticResource DarkPurple}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <StackLayout Grid.Row="0"
-                     Grid.RowSpan="3"
-                     HorizontalOptions="CenterAndExpand"
-                     IsEnabled="{Binding IsLoadingData}"
-                     IsVisible="{Binding IsLoadingData}"
-                     VerticalOptions="CenterAndExpand">
-            <ActivityIndicator IsRunning="{Binding IsLoadingData}"
-                               VerticalOptions="Center"
-                               Color="#695CD5" />
+            <StackLayout Grid.Row="0"
+                         Grid.RowSpan="3"
+                         HorizontalOptions="CenterAndExpand"
+                         IsEnabled="{Binding IsLoadingData}"
+                         IsVisible="{Binding IsLoadingData}"
+                         VerticalOptions="CenterAndExpand">
+                <ActivityIndicator IsRunning="{Binding IsLoadingData}"
+                                   VerticalOptions="Center"
+                                   Color="#695CD5" />
 
-            <Label FontFamily="med"
-                   Text="Loading data..."
-                   TextColor="#695CD5" />
-        </StackLayout>
-    </Grid>
+                <Label FontFamily="med"
+                       Text="Loading data..."
+                       TextColor="#695CD5" />
+            </StackLayout>
+        </Grid>
+    </RefreshView>
 </views:BaseTab>

@@ -2,6 +2,7 @@
 <views:BaseTab x:Class="MedikTapp.Views.Welcome.Main.Settings.SettingsTab"
                xmlns="http://xamarin.com/schemas/2014/forms"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:attached="clr-namespace:MedikTapp.Helpers"
                xmlns:fonts="clr-namespace:MedikTapp.Resources.Fonts"
                xmlns:templates="clr-namespace:MedikTapp.Templates"
                xmlns:views="clr-namespace:MedikTapp.Templates.Base"
@@ -17,6 +18,80 @@
                    FontSize="40"
                    Text="Settings"
                    TextColor="#2F2F32" />
+
+            <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.User}"
+                                      MainText="Account">
+                <templates:SettingsOption.ContentTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,20"
+                              ColumnDefinitions="40,*,60"
+                              HeightRequest="120"
+                              RowDefinitions="*,*"
+                              VerticalOptions="Center">
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   attached:Gestures.Tapped="{Binding BindingContext.ChangePasswordCmd, Source={x:Reference this}}"
+                                   FontFamily="fas"
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   Text="{x:Static fonts:FontAwesomeIcons.KeySkeletonLeftRight}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="EndAndExpand" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
+                                   attached:Gestures.Tapped="{Binding BindingContext.ChangePasswordCmd, Source={x:Reference this}}"
+                                   FontFamily="reg"
+                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Text="Change password"
+                                   TextColor="Black"
+                                   VerticalOptions="EndAndExpand" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="2"
+                                   attached:Gestures.Tapped="{Binding BindingContext.ChangePasswordCmd, Source={x:Reference this}}"
+                                   FontFamily="far"
+                                   FontSize="15"
+                                   HorizontalOptions="EndAndExpand"
+                                   Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="EndAndExpand" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   attached:Gestures.Tapped="{Binding BindingContext.LogoutCmd, Source={x:Reference this}}"
+                                   FontFamily="fas"
+                                   FontSize="20"
+                                   HorizontalOptions="Center"
+                                   Text="{x:Static fonts:FontAwesomeIcons.ArrowRightFromBracket}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="EndAndExpand" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   attached:Gestures.Tapped="{Binding BindingContext.LogoutCmd, Source={x:Reference this}}"
+                                   FontFamily="reg"
+                                   FontSize="15"
+                                   HorizontalOptions="Start"
+                                   Text="Logout of MedikTapp"
+                                   TextColor="Black"
+                                   VerticalOptions="EndAndExpand" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   attached:Gestures.Tapped="{Binding BindingContext.LogoutCmd, Source={x:Reference this}}"
+                                   FontFamily="far"
+                                   FontSize="15"
+                                   HorizontalOptions="EndAndExpand"
+                                   Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
+                                   TextColor="#2F2F32"
+                                   VerticalOptions="EndAndExpand" />
+                        </Grid>
+                    </DataTemplate>
+                </templates:SettingsOption.ContentTemplate>
+            </templates:SettingsOption>
+
             <templates:SettingsOption Icon="{x:Static fonts:FontAwesomeIcons.Bell}"
                                       IsExpanded="{Binding IsNotificationExpanded}"
                                       MainText="Notification"
@@ -47,7 +122,12 @@
                                     IsToggled="{Binding BindingContext.IsPromoNotificaitonEnabled, Source={x:Reference this}}"
                                     OnColor="#ABABAB"
                                     ThumbColor="#695CD5"
-                                    VerticalOptions="Center" />
+                                    VerticalOptions="Center">
+                                <Switch.Behaviors>
+                                    <xct:EventToCommandBehavior Command="{Binding BindingContext.IsPromoNotificationToggledCmd, Source={x:Reference this}}"
+                                                                EventName="Toggled" />
+                                </Switch.Behaviors>
+                            </Switch>
                         </Grid>
                     </DataTemplate>
                 </templates:SettingsOption.ContentTemplate>

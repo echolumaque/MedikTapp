@@ -46,19 +46,34 @@ namespace MedikTapp.Views.Welcome.Main.Schedule.ServiceInfo
                 {
                     try
                     {
+                        /*
                         var position = new Position(location.Result.Latitude, location.Result.Longitude);
                         var possibleAddress = await new Geocoder().GetAddressesForPositionAsync(position);
                         var address = possibleAddress.FirstOrDefault();
 
                         await _launcher.OpenAsync($"http://maps.google.com/?daddr={Uri.EscapeDataString(pudcAddress)}&saddr={Uri.EscapeDataString(address)}");
                         IsLoadingLocation = false;
+                        */
+
+                        var coordinates = await location;
+                        var position = new Position(coordinates.Latitude, coordinates.Longitude);
+                        var possibleAddress = new Geocoder().GetAddressesForPositionAsync(position)
+                        .ContinueWith(positionAddress =>
+                        {
+                            positionAddress.ContinueWith(async knownAddress =>
+                            {
+                                var address = (await knownAddress).FirstOrDefault();
+                                IsLoadingLocation = false;
+                                return _launcher.OpenAsync($"http://maps.google.com/?daddr={Uri.EscapeDataString(pudcAddress)}&saddr={Uri.EscapeDataString(address)}");
+                                //IsLoadingLocation = false;
+                            });
+
+                        });
                     }
                     catch (Exception)
                     {
                         await _launcher.OpenAsync($"geo:0,0?q={Uri.EscapeDataString(pudcAddress)}");
                     }
-
-                    IsLoadingLocation = false;
                 });
         }
     }

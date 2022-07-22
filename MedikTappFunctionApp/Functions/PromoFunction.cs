@@ -6,7 +6,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,12 +23,12 @@ namespace MedikTappFunctionApp.Functions
             try
             {
                 logger.LogInformation("Returning all promos");
-                return new OkObjectResult(await EntityContext.PromoData.OrderBy(x => x.PromoId).AsNoTracking().ToListAsync());
+                return new OkObjectResult(await EntityContext.ServiceData.Where(_ => _.ServiceName.StartsWith("(Promo)"))
+                    .AsNoTracking().ToListAsync());
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in GetPromo function, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return ExceptionHelper(ex, logger, "GetPromo");
             }
         }
 
@@ -38,7 +37,7 @@ namespace MedikTappFunctionApp.Functions
         {
             try
             {
-                await EntityContext.PromoData.AddAsync(JsonService.ReadJsonRequestMessage<PromoModel>(request.Body));
+                await EntityContext.ServiceData.AddAsync(JsonService.ReadJsonRequestMessage<ServiceModel>(request.Body));
                 await EntityContext.SaveChangesAsync();
                 logger.LogInformation("Inserted new promo in the database");
 
@@ -46,35 +45,33 @@ namespace MedikTappFunctionApp.Functions
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in  AddPromo, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return ExceptionHelper(ex, logger, "AddPromo");
             }
         }
 
         [FunctionName("EditPromo")]
-        public async Task<IActionResult> EditPromo([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request, ILogger logger)
+        public async Task<IActionResult> EditPromo([HttpTrigger(AuthorizationLevel.Function, "put")] HttpRequest request, ILogger logger)
         {
             try
             {
-                var promoPayload = JsonService.ReadJsonRequestMessage<PromoModel>(request.Body);
-                var matchingService = await EntityContext.PromoData.FirstAsync(x => x.PromoId == promoPayload.PromoId);
+                var servicePayload = JsonService.ReadJsonRequestMessage<ServiceModel>(request.Body);
+                var matchingService = await EntityContext.ServiceData.FirstAsync(_ => _.ServiceId == servicePayload.ServiceId);
                 if (matchingService != null)
                 {
-                    matchingService.PromoPrice = promoPayload.PromoPrice;
-                    matchingService.PromoImage = promoPayload.PromoImage;
-                    matchingService.PromoName = promoPayload.PromoName;
-                    matchingService.PromoDescription = promoPayload.PromoDescription;
+                    matchingService.ServicePrice = servicePayload.ServicePrice;
+                    matchingService.ServiceImage = servicePayload.ServiceImage;
+                    matchingService.ServiceName = servicePayload.ServiceName;
+                    matchingService.ServiceDescription = servicePayload.ServiceDescription;
 
                     await EntityContext.SaveChangesAsync();
                 }
 
-                logger.LogInformation($"Edited {promoPayload.PromoName} in the database");
-                return new OkObjectResult($"Succesfully edited {promoPayload.PromoName} in the database");
+                logger.LogInformation($"Edited {servicePayload.ServiceName} in the database");
+                return new OkObjectResult($"Succesfully edited {servicePayload.ServiceName} in the database");
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in EditPromo, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return ExceptionHelper(ex, logger, "EditPromo");
             }
         }
 
@@ -83,21 +80,20 @@ namespace MedikTappFunctionApp.Functions
         {
             try
             {
-                var promoId = int.Parse(request.Query["promoId"]);
-                var matchingPromo = await EntityContext.PromoData.FirstAsync(x => x.PromoId == promoId);
-                if (matchingPromo != null)
+                var serviceId = int.Parse(request.Query["serviceId"]);
+                var matchingService = await EntityContext.ServiceData.FirstAsync(_ => _.ServiceId == serviceId);
+                if (matchingService != null)
                 {
-                    EntityContext.PromoData.Remove(matchingPromo);
+                    EntityContext.ServiceData.Remove(matchingService);
                     await EntityContext.SaveChangesAsync();
                 }
 
-                logger.LogInformation($"Deleted {matchingPromo.PromoName} in the database");
-                return new OkObjectResult($"Succesfully Deleted {matchingPromo.PromoName} in the database");
+                logger.LogInformation($"Deleted {matchingService.ServiceName} in the database");
+                return new OkObjectResult($"Succesfully Deleted {matchingService.ServiceName} in the database");
             }
             catch (Exception ex)
             {
-                logger.LogError($"A problem happened in DeletePromo, see the returned response for more information: ", JsonConvert.SerializeObject(ex, Formatting.Indented));
-                return new BadRequestObjectResult(JsonConvert.SerializeObject(ex, Formatting.Indented));
+                return ExceptionHelper(ex, logger, "DeletePromo");
             }
         }
     }
