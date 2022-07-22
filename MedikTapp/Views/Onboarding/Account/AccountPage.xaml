@@ -153,27 +153,33 @@
                                     Text="Join us"
                                     VerticalOptions="CenterAndExpand" />
 
-                            <!--<Label FontFamily="reg"
+                            <Label FontFamily="reg"
                                    HorizontalTextAlignment="Center"
                                    VerticalOptions="EndAndExpand">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="By signing up, you agree to our " />
-                                        <Span helper:Gestures.Tapped="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountPageViewModel}}, Path=TermsAndConditionsCmd}"
-                                              Text="terms &#38; conditions"
-                                              TextColor="#695CD5" />
+                                        <Span Text="terms &#38; conditions"
+                                              TextColor="#695CD5">
+                                            <Span.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{TemplateBinding BindingContext.TermsAndConditionsCmd}" />
+                                            </Span.GestureRecognizers>
+                                        </Span>
                                         <Span Text=" and " />
-                                        <Span helper:Gestures.Tapped="{Binding PrivacyPolicyCmd}"
-                                              Text="privacy policy"
-                                              TextColor="#695CD5" />
+                                        <Span Text="privacy policy"
+                                              TextColor="#695CD5">
+                                            <Span.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{TemplateBinding BindingContext.PrivacyPolicyCmd}" />
+                                            </Span.GestureRecognizers>
+                                        </Span>
                                         <Span Text="." />
                                     </FormattedString>
                                 </Label.FormattedText>
-                            </Label>-->
+                            </Label>
 
 
 
-                            <StackLayout HorizontalOptions="CenterAndExpand"
+                            <!--<StackLayout HorizontalOptions="CenterAndExpand"
                                          Spacing="-5">
                                 <StackLayout Orientation="Horizontal">
                                     <Label FontFamily="reg"
@@ -192,7 +198,7 @@
                                            Text="privacy policy"
                                            TextColor="#695CD5" />
                                 </StackLayout>
-                            </StackLayout>
+                            </StackLayout>-->
 
                             <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
                                    helper:Gestures.TappedParameter="Login"

@@ -6,7 +6,6 @@ using MedikTapp.Services.HttpService;
 using MedikTapp.Services.NavigationService;
 using MedikTapp.Services.NotificationService;
 using MedikTapp.ViewModels.Base;
-using System.Threading.Tasks;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
@@ -49,25 +48,6 @@ namespace MedikTapp.Views.Welcome.Main.Settings
             LogoutCmd = new AsyncSingleCommand(Logout);
             NotificationTappedCmd = new Command(() => IsNotificationExpanded = !IsNotificationExpanded);
             PrivacyTappedCmd = new Command(() => IsPrivacyExpanded = !IsPrivacyExpanded);
-        }
-
-        private async Task ChangePassword()
-        {
-            var oldPassword = await Application.Current.MainPage.DisplayPromptAsync("Change password", "What is your old password?");
-            if (oldPassword == _appConfigService.Password)
-            {
-                var newPassword = await Application.Current.MainPage.DisplayPromptAsync("Change password", "What is your new password?");
-                await _httpService.ChangePassword(_appConfigService.PatientId, newPassword);
-                await _appConfigService.UpdateConfig("Password", newPassword)
-                    .ContinueWith(_ =>
-                    {
-                        _mainThread.BeginInvokeOnMainThread(() => _toast.Show("You have succesfully changed your password"));
-                    });
-            }
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("Wrong password", "It seems you entered a wrong password. We can't proceed to change your password right now.", "Ok");
-            }
         }
     }
 }
