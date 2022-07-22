@@ -267,7 +267,7 @@
                                      Grid.ColumnSpan="2"
                                      HeightRequest="80"
                                      HorizontalOptions="Center"
-                                     Source="{Binding ServiceImage}"
+                                     ImageSource="{Binding ServiceImage}"
                                      VerticalOptions="Center"
                                      WidthRequest="80" />
             <!--#endregion-->
