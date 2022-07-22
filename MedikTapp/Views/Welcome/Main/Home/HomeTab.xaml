@@ -14,6 +14,7 @@
 
     <RefreshView Command="{Binding RefreshCmd}"
                  IsRefreshing="{Binding IsRefreshing}"
+                 IsVisible="{Binding IsMainPageVisible}"
                  RefreshColor="#695CD5">
         <ScrollView HorizontalScrollBarVisibility="Never"
                     VerticalScrollBarVisibility="Never">
@@ -48,7 +49,7 @@
                               IsScrollAnimated="True"
                               IsSwipeEnabled="True"
                               ItemsSource="{Binding PromosCollection}"
-                              Loop="True"
+                              Loop="False"
                               Position="{Binding PromoPosition}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate x:DataType="models:Services">

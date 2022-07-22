@@ -15,8 +15,8 @@ namespace MedikTapp.Models
         public string ServiceDescription { get; set; }
         public double ServicePrice { get; set; }
         [Ignore]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [Ignore]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

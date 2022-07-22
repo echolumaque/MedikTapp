@@ -23,7 +23,8 @@ namespace MedikTappFunctionApp.Functions
             try
             {
                 logger.LogInformation("Returning all services");
-                return new OkObjectResult(await EntityContext.ServiceData.AsNoTracking().ToListAsync());
+                return new OkObjectResult(await EntityContext.ServiceData.AsNoTracking()
+                    .Where(_ => _.StartDate == null).ToListAsync());
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace MedikTappFunctionApp.Functions
         }
 
         [FunctionName("EditService")]
-        public async Task<IActionResult> EditService([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequest request, ILogger logger)
+        public async Task<IActionResult> EditService([HttpTrigger(AuthorizationLevel.Function, "put")] HttpRequest request, ILogger logger)
         {
             try
             {

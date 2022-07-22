@@ -8,7 +8,6 @@ namespace MedikTappFunctionApp.Models
 
         public DbSet<AppointmentModel> AppointmentData { get; set; }
         public DbSet<PatientModel> PatientData { get; set; }
-        public DbSet<PromoModel> PromoData { get; set; }
         public DbSet<ServiceModel> ServiceData { get; set; }
     }
 }

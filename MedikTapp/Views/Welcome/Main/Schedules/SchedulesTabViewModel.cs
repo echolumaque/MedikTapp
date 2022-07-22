@@ -39,13 +39,14 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             appConfigService.AppConfigInitialized += OnAppConfigInitialized;
 
             ChangeFilterCmd = new Command<BookingSort>(ChangeFilter);
-            FilterCancelledCmd = new AsyncSingleCommand(InitCancelledCollections);
-            FilterCompletedCmd = new AsyncSingleCommand(InitCompletedCollections);
-            FilterUpcomingCmd = new AsyncSingleCommand(InitUpcomingCollections);
+            FilterCancelledCmd = new AsyncSingleCommand(() => InitCancelledCollections(false));
+            FilterCompletedCmd = new AsyncSingleCommand(() => InitCompletedCollections(false));
+            FilterUpcomingCmd = new AsyncSingleCommand(() => InitUpcomingCollections(false));
             OpenComboBoxCmd = new Command(() => IsFilterExpanded = !IsFilterExpanded);
             CancelScheduleCmd = new AsyncSingleCommand<AppointmentModel>(CancelSchedule);
             RescheduleCmd = new AsyncSingleCommand<AppointmentModel>(Reschedule);
             ServiceTappedCmd = new AsyncSingleCommand<AppointmentModel>(ServiceTapped);
+            RefreshCmd = new AsyncSingleCommand(Refresh);
         }
     }
 }

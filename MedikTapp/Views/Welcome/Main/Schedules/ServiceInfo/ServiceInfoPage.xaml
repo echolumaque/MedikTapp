@@ -54,7 +54,7 @@
                       ColumnDefinitions="30,*"
                       ColumnSpacing="10"
                       RowDefinitions="Auto, Auto"
-                      RowSpacing="0">
+                      RowSpacing="-5">
                     <!--#region Date and Time-->
                     <Label Grid.Row="0"
                            Grid.RowSpan="2"
@@ -77,7 +77,7 @@
                       ColumnDefinitions="30,*"
                       ColumnSpacing="10"
                       RowDefinitions="Auto, Auto"
-                      RowSpacing="0">
+                      RowSpacing="-5">
                     <!--#region Price-->
                     <Label Grid.Row="0"
                            Grid.RowSpan="2"
@@ -126,45 +126,45 @@
                     </xct:Expander.Header>
                     <xct:Expander.ContentTemplate>
                         <DataTemplate>
-                            <Grid ColumnDefinitions="30,30,*"
-                                  RowDefinitions="*,*,*,*">
+                            <Grid ColumnDefinitions="30,30,*,30,*"
+                                  RowDefinitions="*,*">
                                 <Label Grid.Row="0"
                                        Grid.Column="1"
                                        FontFamily="fas"
                                        Text="{x:Static fonts:FontAwesomeIcons.Signature}" />
-
-                                <Label Grid.Row="1"
-                                       Grid.Column="1"
-                                       FontFamily="fas"
-                                       Text="{x:Static fonts:FontAwesomeIcons.Signature}" />
-
-                                <Label Grid.Row="2"
-                                       Grid.Column="1"
-                                       FontFamily="fas"
-                                       Text="{x:Static fonts:FontAwesomeIcons.InputNumeric}" />
-
-                                <Label Grid.Row="3"
-                                       Grid.Column="1"
-                                       FontFamily="fas"
-                                       Text="{x:Static fonts:FontAwesomeIcons.MarsAndVenus}" />
 
                                 <Label Grid.Row="0"
                                        Grid.Column="2"
                                        FontFamily="med"
                                        Text="{Binding BindingContext.ProspectFirstName, Source={x:Reference this}}" />
 
-                                <Label Grid.Row="1"
-                                       Grid.Column="2"
+                                <Label Grid.Row="0"
+                                       Grid.Column="3"
+                                       FontFamily="fas"
+                                       Text="{x:Static fonts:FontAwesomeIcons.Signature}" />
+
+                                <Label Grid.Row="0"
+                                       Grid.Column="4"
                                        FontFamily="med"
                                        Text="{Binding BindingContext.ProspectLastName, Source={x:Reference this}}" />
 
-                                <Label Grid.Row="2"
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       FontFamily="fas"
+                                       Text="{x:Static fonts:FontAwesomeIcons.InputNumeric}" />
+
+                                <Label Grid.Row="1"
                                        Grid.Column="2"
                                        FontFamily="med"
                                        Text="{Binding BindingContext.ProspectAge, Source={x:Reference this}}" />
 
-                                <Label Grid.Row="3"
-                                       Grid.Column="2"
+                                <Label Grid.Row="1"
+                                       Grid.Column="3"
+                                       FontFamily="fas"
+                                       Text="{x:Static fonts:FontAwesomeIcons.MarsAndVenus}" />
+
+                                <Label Grid.Row="1"
+                                       Grid.Column="4"
                                        FontFamily="med"
                                        Text="{Binding BindingContext.ProspectSex, Source={x:Reference this}}" />
                             </Grid>
@@ -180,7 +180,7 @@
                       ColumnDefinitions="30,*"
                       ColumnSpacing="10"
                       RowDefinitions="Auto, Auto"
-                      RowSpacing="0">
+                      RowSpacing="-5">
                     <!--#region Date and Time-->
                     <Label Grid.Row="0"
                            Grid.RowSpan="2"
@@ -203,7 +203,7 @@
                       ColumnDefinitions="30,*"
                       ColumnSpacing="10"
                       RowDefinitions="Auto, Auto"
-                      RowSpacing="0">
+                      RowSpacing="-5">
                     <!--#region Price-->
                     <Label Grid.Row="0"
                            Grid.RowSpan="2"
@@ -225,139 +225,137 @@
         </ControlTemplate>
     </ContentPage.Resources>
 
-    <ScrollView Margin="20"
-                VerticalScrollBarVisibility="Never">
-        <Grid ColumnDefinitions="50,*"
-              ColumnSpacing="0"
-              RowDefinitions="30,Auto,80,Auto,Auto,200">
-            <!--#region Header and Service Name-->
-            <Label Grid.Row="0"
-                   Grid.Column="0"
-                   helpers:Gestures.Tapped="{Binding PopPage}"
-                   FontFamily="fas"
-                   FontSize="16"
-                   Text="{x:Static fonts:FontAwesomeIcons.ChevronLeft}"
-                   TextColor="{StaticResource Black}"
-                   VerticalOptions="Center" />
+    <Grid Margin="20,0,20,-10"
+          ColumnDefinitions="50,*"
+          ColumnSpacing="0"
+          RowDefinitions="30,Auto,80,Auto,Auto,180">
+        <!--#region Header and Service Name-->
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               helpers:Gestures.Tapped="{Binding PopPage}"
+               FontFamily="fas"
+               FontSize="16"
+               Text="{x:Static fonts:FontAwesomeIcons.ChevronLeft}"
+               TextColor="{StaticResource Black}"
+               VerticalOptions="Center" />
 
-            <Label Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   FontFamily="med"
-                   FontSize="20"
-                   HorizontalOptions="Center"
-                   Text="Booking Information"
-                   TextColor="{StaticResource Purple}" />
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               FontFamily="med"
+               FontSize="20"
+               HorizontalOptions="Center"
+               Text="Booking Information"
+               TextColor="{StaticResource Purple}" />
 
-            <Label Grid.Row="1"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   FontFamily="bold"
-                   FontSize="25"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   LineBreakMode="TailTruncation"
-                   MaxLines="2"
-                   Text="{Binding ServiceName}"
-                   TextColor="{StaticResource Black}"
-                   VerticalOptions="End" />
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               FontFamily="bold"
+               FontSize="25"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               LineBreakMode="TailTruncation"
+               MaxLines="2"
+               Text="{Binding ServiceName}"
+               TextColor="{StaticResource Black}"
+               VerticalOptions="End" />
 
-            <templateImg:CachedImage Grid.Row="2"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2"
-                                     HeightRequest="80"
-                                     HorizontalOptions="Center"
-                                     ImageSource="{Binding ServiceImage}"
-                                     VerticalOptions="Center"
-                                     WidthRequest="80" />
-            <!--#endregion-->
+        <templateImg:CachedImage Grid.Row="2"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 HeightRequest="80"
+                                 HorizontalOptions="Center"
+                                 ImageSource="{Binding ServiceImage}"
+                                 VerticalOptions="Center"
+                                 WidthRequest="80" />
+        <!--#endregion-->
 
-            <!--#region Description-->
-            <renderer:JustifiedLabel Grid.Row="3"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2"
-                                     FontFamily="med"
-                                     HorizontalTextAlignment="Center"
-                                     LineHeight="1.1"
-                                     Text="{Binding ServiceDescription}"
-                                     TextColor="{StaticResource Black}"
-                                     VerticalOptions="StartAndExpand" />
-            <!--#endregion-->
+        <!--#region Description-->
+        <renderer:JustifiedLabel Grid.Row="3"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="2"
+                                 FontFamily="med"
+                                 HorizontalTextAlignment="Center"
+                                 LineHeight="1.1"
+                                 Text="{Binding ServiceDescription}"
+                                 TextColor="{StaticResource Black}"
+                                 VerticalOptions="StartAndExpand" />
+        <!--#endregion-->
 
-            <ContentView Grid.Row="4"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="2"
-                         ControlTemplate="{StaticResource NoProspectTemplate}">
-                <ContentView.Triggers>
-                    <DataTrigger Binding="{Binding HasProspect}"
-                                 TargetType="ContentView"
-                                 Value="True">
-                        <Setter Property="ControlTemplate" Value="{StaticResource HasProspectTemplate}" />
-                    </DataTrigger>
-                </ContentView.Triggers>
-            </ContentView>
+        <ContentView Grid.Row="4"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     ControlTemplate="{StaticResource NoProspectTemplate}">
+            <ContentView.Triggers>
+                <DataTrigger Binding="{Binding HasProspect}"
+                             TargetType="ContentView"
+                             Value="True">
+                    <Setter Property="ControlTemplate" Value="{StaticResource HasProspectTemplate}" />
+                </DataTrigger>
+            </ContentView.Triggers>
+        </ContentView>
 
-            <maps:Map Grid.Row="5"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2"
-                      HasScrollEnabled="False"
-                      HasZoomEnabled="True"
-                      IsShowingUser="True"
-                      MapType="Street"
-                      TrafficEnabled="True">
-                <x:Arguments>
-                    <maps:MapSpan>
-                        <x:Arguments>
-                            <maps:Position>
-                                <x:Arguments>
-                                    <x:Double>14.527012591878876</x:Double>
-                                    <x:Double>120.9979262823261</x:Double>
-                                </x:Arguments>
-                            </maps:Position>
-                            <x:Double>0.01</x:Double>
-                            <x:Double>0.01</x:Double>
-                        </x:Arguments>
-                    </maps:MapSpan>
-                </x:Arguments>
-                <maps:Map.Behaviors>
-                    <xct:EventToCommandBehavior Command="{Binding OpenMapCmd}"
-                                                EventName="MapClicked" />
-                </maps:Map.Behaviors>
-                <maps:Map.Pins>
-                    <maps:Pin Address="Parañaque Ultrasound &amp; Diagnostic Center Baclaran Branch"
-                              Label="Parañaque Ultrasound &amp; Diagnostic Center, Inc."
-                              Type="Place">
-                        <maps:Pin.Position>
-                            <maps:Position>
-                                <x:Arguments>
-                                    <x:Double>14.527012591878876</x:Double>
-                                    <x:Double>120.9979262823261</x:Double>
-                                </x:Arguments>
-                            </maps:Position>
-                        </maps:Pin.Position>
-                    </maps:Pin>
-                </maps:Map.Pins>
-            </maps:Map>
+        <maps:Map Grid.Row="5"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  HasScrollEnabled="False"
+                  HasZoomEnabled="True"
+                  IsShowingUser="True"
+                  MapType="Street"
+                  TrafficEnabled="True">
+            <x:Arguments>
+                <maps:MapSpan>
+                    <x:Arguments>
+                        <maps:Position>
+                            <x:Arguments>
+                                <x:Double>14.527012591878876</x:Double>
+                                <x:Double>120.9979262823261</x:Double>
+                            </x:Arguments>
+                        </maps:Position>
+                        <x:Double>0.01</x:Double>
+                        <x:Double>0.01</x:Double>
+                    </x:Arguments>
+                </maps:MapSpan>
+            </x:Arguments>
+            <maps:Map.Behaviors>
+                <xct:EventToCommandBehavior Command="{Binding OpenMapCmd}"
+                                            EventName="MapClicked" />
+            </maps:Map.Behaviors>
+            <maps:Map.Pins>
+                <maps:Pin Address="Parañaque Ultrasound &amp; Diagnostic Center Baclaran Branch"
+                          Label="Parañaque Ultrasound &amp; Diagnostic Center, Inc."
+                          Type="Place">
+                    <maps:Pin.Position>
+                        <maps:Position>
+                            <x:Arguments>
+                                <x:Double>14.527012591878876</x:Double>
+                                <x:Double>120.9979262823261</x:Double>
+                            </x:Arguments>
+                        </maps:Position>
+                    </maps:Pin.Position>
+                </maps:Pin>
+            </maps:Map.Pins>
+        </maps:Map>
 
-            <Frame Grid.Row="0"
-                   Grid.RowSpan="6"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   Padding="15"
-                   CornerRadius="10"
-                   HorizontalOptions="CenterAndExpand"
-                   IsVisible="{Binding IsLoadingLocation}"
-                   VerticalOptions="CenterAndExpand">
-                <StackLayout>
-                    <ActivityIndicator IsRunning="{Binding IsLoadingLocation}"
-                                       VerticalOptions="Center"
-                                       Color="#695CD5" />
+        <Frame Grid.Row="0"
+               Grid.RowSpan="6"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               Padding="15"
+               CornerRadius="10"
+               HorizontalOptions="CenterAndExpand"
+               IsVisible="{Binding IsLoadingLocation}"
+               VerticalOptions="CenterAndExpand">
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsLoadingLocation}"
+                                   VerticalOptions="Center"
+                                   Color="#695CD5" />
 
-                    <Label FontFamily="med"
-                           Text="Getting your location.."
-                           TextColor="#695CD5" />
-                </StackLayout>
-            </Frame>
-        </Grid>
-    </ScrollView>
+                <Label FontFamily="med"
+                       Text="Getting your location.."
+                       TextColor="#695CD5" />
+            </StackLayout>
+        </Frame>
+    </Grid>
 </views:BasePage>

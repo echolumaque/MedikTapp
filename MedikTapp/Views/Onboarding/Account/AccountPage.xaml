@@ -70,11 +70,6 @@
                                                       VerticalOptions="Center" />
                 </Grid>
 
-                <Label FontFamily="reg"
-                       HorizontalOptions="End"
-                       Text="Forgot your password?"
-                       TextColor="#695CD5" />
-
                 <Grid Margin="0,20"
                       ColumnDefinitions="*,50">
                     <Button Grid.Column="0"

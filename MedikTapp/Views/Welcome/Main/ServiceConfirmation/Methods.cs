@@ -1,9 +1,6 @@
 ﻿using MedikTapp.Services.NavigationService;
 using MedikTapp.ViewModels.Base;
-using System;
-using System.IO;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
 {
@@ -14,8 +11,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
             //todo here
             var passedService = parameters.GetValue<Models.Services>("service");
             _serviceId = passedService.ServiceId;
-            _base64String = passedService.ServiceImage;
-            ServiceImage = ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(_base64String)));
+            ServiceImage = passedService.ServiceImage;
             ServiceName = passedService.ServiceName;
             ServiceDescription = passedService.ServiceDescription;
             ServicePrice = passedService.ServicePrice;
@@ -29,7 +25,7 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
             await _databaseService.Insert(new Models.Services
             {
                 ServiceDescription = ServiceDescription,
-                ServiceImage = _base64String,
+                ServiceImage = ServiceImage,
                 ServiceName = ServiceName,
                 ServicePrice = ServicePrice,
                 ServiceId = _serviceId

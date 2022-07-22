@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedikTappFunctionApp.Models
@@ -12,5 +13,9 @@ namespace MedikTappFunctionApp.Models
         public string ServiceName { get; set; }
         public string ServiceDescription { get; set; }
         public double ServicePrice { get; set; }
+#nullable enable
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+#nullable disable
     }
 }

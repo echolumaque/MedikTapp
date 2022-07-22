@@ -119,6 +119,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\CloseApplicationDroid.cs" />
     <Compile Include="Implementations\StatusBarStyleDroid.cs" />
     <Compile Include="MedikTappFirebaseService.cs" />
     <Compile Include="Implementations\ToastDroid.cs" />

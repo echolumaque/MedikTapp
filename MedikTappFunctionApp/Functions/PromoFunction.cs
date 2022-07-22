@@ -37,11 +37,15 @@ namespace MedikTappFunctionApp.Functions
         {
             try
             {
-                await EntityContext.ServiceData.AddAsync(JsonService.ReadJsonRequestMessage<ServiceModel>(request.Body));
-                await EntityContext.SaveChangesAsync();
-                logger.LogInformation("Inserted new promo in the database");
+                var serviceTable = EntityContext.ServiceData;
+                var serviceRequest = JsonService.ReadJsonRequestMessage<ServiceModel>(request.Body);
 
-                return new OkObjectResult("Succesfully inserted new promo in the database");
+                await serviceTable.AddAsync(serviceRequest);
+                await EntityContext.SaveChangesAsync();
+                logger.LogInformation("Inserted new service in the database");
+
+                var lastAppointmentId = await serviceTable.AsNoTracking().OrderBy(_ => _.ServiceId).LastAsync();
+                return new OkObjectResult(lastAppointmentId.ServiceId);
             }
             catch (Exception ex)
             {

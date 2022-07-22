@@ -76,11 +76,11 @@
             <templateImg:CachedImage Grid.Row="2"
                                      Grid.Column="0"
                                      Grid.ColumnSpan="2"
-                                     HeightRequest="{Binding ProductImageSize.Item1}"
+                                     HeightRequest="80"
                                      HorizontalOptions="Center"
-                                     Source="{Binding ServiceImage}"
+                                     ImageSource="{Binding ServiceImage}"
                                      VerticalOptions="Center"
-                                     WidthRequest="{Binding ProductImageSize.Item2}" />
+                                     WidthRequest="80" />
 
             <!--#region Description-->
             <Label Grid.Row="3"

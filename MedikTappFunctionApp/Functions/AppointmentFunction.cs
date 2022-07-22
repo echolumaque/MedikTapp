@@ -45,6 +45,8 @@ namespace MedikTappFunctionApp.Functions
                         patientFullName = $"{patients.FirstName} {patients.LastName}",
                         appointments.InBehalf,
                         prospectFullName = $"{appointments.ProspectFirstName} {appointments.ProspectLastName}",
+                        appointments.ProspectGender,
+                        appointments.ProspectAge
                     }).ToList();
 
                 return new OkObjectResult(filteredData.ToList());

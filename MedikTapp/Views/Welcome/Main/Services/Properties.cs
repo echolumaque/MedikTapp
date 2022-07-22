@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Helpers.Command;
+using MedikTapp.Models;
 using MedikTapp.Resources.Fonts;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -19,5 +20,6 @@ namespace MedikTapp.Views.Welcome.Main.Services
         public AsyncSingleCommand<Models.Services> ServiceConfirmationCmd { get; }
         public override string Text => "Services";
         public override View ViewTemplate => new ServicesTab(this);
+        public ObservableCollection<ServicesGroup> ServiceGroup { get; set; }
     }
 }

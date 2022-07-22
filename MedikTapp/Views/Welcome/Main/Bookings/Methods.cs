@@ -33,7 +33,9 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
 
         private async Task InitCollections()
         {
+            IsLoading = true;
             Bookings = new(await _databaseService.Find<Models.Services>());
+            IsLoading = false;
         }
 
         public override async void GetBadgeCount()
@@ -45,9 +47,16 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
             BadgeCount = localBookingsCount;
         }
 
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void Initialized(NavigationParameters parameters)
         {
             await InitCollections();
+        }
+
+        private async Task Refresh()
+        {
+            IsRefreshing = true;
+            await InitCollections();
+            IsRefreshing = false;
         }
     }
 }

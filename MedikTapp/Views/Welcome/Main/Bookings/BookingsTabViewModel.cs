@@ -16,6 +16,7 @@ namespace MedikTapp.Views.Welcome.Main.Bookings
 
             ScheduleCmd = new AsyncSingleCommand<Models.Services>(AddBooking);
             CancelBookingCmd = new AsyncSingleCommand<Models.Services>(CancelBooking);
+            RefreshCmd = new AsyncSingleCommand(Refresh);
         }
     }
 }

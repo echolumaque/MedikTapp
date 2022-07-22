@@ -1,5 +1,7 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Models;
+using MedikTapp.Services.NavigationService;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -26,7 +28,14 @@ namespace MedikTapp.Views.Welcome.Main.Services
 
         private void InitServices()
         {
-            AvailableServices = new(_medikTappService.MedikTappServices);
+            //AvailableServices = new(_medikTappService.MedikTappServices);
+
+            ServiceGroup = new ObservableCollection<ServicesGroup>()
+            {
+                new ServicesGroup("Promos", _medikTappService.MedikTappPromos.ToList()),
+                new ServicesGroup("Services", _medikTappService.MedikTappServices.ToList()),
+            };
+
             IsLoadingData = false;
         }
 
@@ -44,7 +53,7 @@ namespace MedikTapp.Views.Welcome.Main.Services
             IsRefreshing = false;
         }
 
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void Initialized(NavigationParameters parameters)
         {
             if (_medikTappService.MedikTappServices == null || _medikTappService.MedikTappPromos == null)
             {

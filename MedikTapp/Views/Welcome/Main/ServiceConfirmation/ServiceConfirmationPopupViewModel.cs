@@ -8,7 +8,6 @@ namespace MedikTapp.Views.Welcome.Main.ServiceConfirmation
     public partial class ServiceConfirmationPopupViewModel : ViewModelBase
     {
         private readonly DatabaseService _databaseService;
-        private string _base64String;
         private int _serviceId;
 
         public ServiceConfirmationPopupViewModel(DatabaseService databaseService,

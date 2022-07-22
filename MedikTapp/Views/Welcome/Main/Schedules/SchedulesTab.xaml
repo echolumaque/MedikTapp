@@ -322,125 +322,149 @@
         </dtSelector:ScheduleDataTemplateSelector>
     </ContentView.Resources>
 
-    <Grid ColumnDefinitions="*,*,*"
-          RowDefinitions="70,45,45,*">
-        <Label Grid.Row="0"
-               Grid.Column="0"
-               Grid.ColumnSpan="3"
-               FontFamily="med"
-               FontSize="40"
-               Text="Schedule"
-               TextColor="#2F2F32" />
+    <RefreshView Command="{Binding RefreshCmd}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 RefreshColor="#695CD5">
+        <Grid ColumnDefinitions="*,*,*"
+              RowDefinitions="70,45,45,*">
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   FontFamily="med"
+                   FontSize="40"
+                   Text="Schedule"
+                   TextColor="#2F2F32" />
 
-        <Frame Grid.Row="1"
-               Grid.Column="0"
-               templates:Gestures.Tapped="{Binding FilterUpcomingCmd}"
-               Style="{StaticResource UnselectedScheduleTypeFrame}">
-            <Frame.Triggers>
-                <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                             TargetType="Frame"
-                             Value="{x:Static enums:BookingStatus.Confirmed}">
-                    <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
-                </DataTrigger>
-            </Frame.Triggers>
-            <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
-                   Text="Upcoming">
-                <Label.Triggers>
+            <Frame Grid.Row="1"
+                   Grid.Column="0"
+                   templates:Gestures.Tapped="{Binding FilterUpcomingCmd}"
+                   Style="{StaticResource UnselectedScheduleTypeFrame}">
+                <Frame.Triggers>
                     <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                                 TargetType="Label"
+                                 TargetType="Frame"
                                  Value="{x:Static enums:BookingStatus.Confirmed}">
-                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
                     </DataTrigger>
-                </Label.Triggers>
-            </Label>
-        </Frame>
+                </Frame.Triggers>
+                <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
+                       Text="Upcoming">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding SelectedBookingStatus}"
+                                     TargetType="Label"
+                                     Value="{x:Static enums:BookingStatus.Confirmed}">
+                            <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Frame>
 
-        <Frame Grid.Row="1"
-               Grid.Column="1"
-               templates:Gestures.Tapped="{Binding FilterCompletedCmd}"
-               Style="{StaticResource UnselectedScheduleTypeFrame}">
-            <Frame.Triggers>
-                <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                             TargetType="Frame"
-                             Value="{x:Static enums:BookingStatus.Completed}">
-                    <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
-                </DataTrigger>
-            </Frame.Triggers>
-            <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
-                   Text="Completed">
-                <Label.Triggers>
+            <Frame Grid.Row="1"
+                   Grid.Column="1"
+                   templates:Gestures.Tapped="{Binding FilterCompletedCmd}"
+                   Style="{StaticResource UnselectedScheduleTypeFrame}">
+                <Frame.Triggers>
                     <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                                 TargetType="Label"
+                                 TargetType="Frame"
                                  Value="{x:Static enums:BookingStatus.Completed}">
-                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
                     </DataTrigger>
-                </Label.Triggers>
-            </Label>
-        </Frame>
+                </Frame.Triggers>
+                <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
+                       Text="Completed">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding SelectedBookingStatus}"
+                                     TargetType="Label"
+                                     Value="{x:Static enums:BookingStatus.Completed}">
+                            <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Frame>
 
-        <Frame Grid.Row="1"
-               Grid.Column="2"
-               templates:Gestures.Tapped="{Binding FilterCancelledCmd}"
-               Style="{StaticResource UnselectedScheduleTypeFrame}">
-            <Frame.Triggers>
-                <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                             TargetType="Frame"
-                             Value="{x:Static enums:BookingStatus.Cancelled}">
-                    <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
-                </DataTrigger>
-            </Frame.Triggers>
-            <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
-                   Text="Cancelled">
-                <Label.Triggers>
+            <Frame Grid.Row="1"
+                   Grid.Column="2"
+                   templates:Gestures.Tapped="{Binding FilterCancelledCmd}"
+                   Style="{StaticResource UnselectedScheduleTypeFrame}">
+                <Frame.Triggers>
                     <DataTrigger Binding="{Binding SelectedBookingStatus}"
-                                 TargetType="Label"
+                                 TargetType="Frame"
                                  Value="{x:Static enums:BookingStatus.Cancelled}">
-                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeFrame}" />
                     </DataTrigger>
-                </Label.Triggers>
-            </Label>
-        </Frame>
+                </Frame.Triggers>
+                <Label Style="{StaticResource UnselectedScheduleTypeLabel}"
+                       Text="Cancelled">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding SelectedBookingStatus}"
+                                     TargetType="Label"
+                                     Value="{x:Static enums:BookingStatus.Cancelled}">
+                            <Setter Property="Style" Value="{StaticResource SelectedScheduleTypeLabel}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Frame>
 
-        <Grid Grid.Row="2"
-              Grid.Column="0"
-              Grid.ColumnSpan="3"
-              ColumnDefinitions="*,*"
-              HorizontalOptions="EndAndExpand"
-              VerticalOptions="CenterAndExpand">
-            <Label Grid.Column="0"
-                   helpers:Gestures.Tapped="{Binding ChangeFilterCmd}"
-                   helpers:Gestures.TappedParameter="{x:Static enums:BookingSort.Ascending}"
-                   FontFamily="fas"
-                   FontSize="22"
-                   Text="{x:Static fonts:FontAwesomeIcons.CalendarArrowUp}" />
+            <Grid Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3"
+                  ColumnDefinitions="*,*"
+                  HorizontalOptions="EndAndExpand"
+                  VerticalOptions="CenterAndExpand">
+                <Label Grid.Column="0"
+                       helpers:Gestures.Tapped="{Binding ChangeFilterCmd}"
+                       helpers:Gestures.TappedParameter="{x:Static enums:BookingSort.Ascending}"
+                       FontFamily="fas"
+                       FontSize="22"
+                       Text="{x:Static fonts:FontAwesomeIcons.CalendarArrowUp}" />
 
-            <Label Grid.Column="1"
-                   helpers:Gestures.Tapped="{Binding ChangeFilterCmd}"
-                   helpers:Gestures.TappedParameter="{x:Static enums:BookingSort.Descending}"
-                   FontFamily="fas"
-                   FontSize="22"
-                   Text="{x:Static fonts:FontAwesomeIcons.CalendarArrowDown}" />
-        </Grid>
+                <Label Grid.Column="1"
+                       helpers:Gestures.Tapped="{Binding ChangeFilterCmd}"
+                       helpers:Gestures.TappedParameter="{x:Static enums:BookingSort.Descending}"
+                       FontFamily="fas"
+                       FontSize="22"
+                       Text="{x:Static fonts:FontAwesomeIcons.CalendarArrowDown}" />
+            </Grid>
 
-        <CollectionView Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        ItemSizingStrategy="MeasureAllItems"
-                        ItemTemplate="{StaticResource ScheduleTemplateSelector}"
-                        ItemsSource="{Binding Schedules}">
-            <CollectionView.EmptyView>
-                <Frame BackgroundColor="#FBFBFB">
+            <CollectionView Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemTemplate="{StaticResource ScheduleTemplateSelector}"
+                            ItemsSource="{Binding Schedules}">
+                <CollectionView.EmptyView>
+                    <Frame BackgroundColor="#FBFBFB">
+                        <Label FontFamily="med"
+                               HorizontalOptions="CenterAndExpand"
+                               Text="No records found"
+                               TextColor="Gray"
+                               VerticalOptions="CenterAndExpand" />
+                    </Frame>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="15"
+                                       Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+
+            <Frame Grid.Row="0"
+                   Grid.RowSpan="4"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   BackgroundColor="#F5F5F5"
+                   CornerRadius="10"
+                   HorizontalOptions="CenterAndExpand"
+                   IsVisible="{Binding IsLoading}"
+                   VerticalOptions="CenterAndExpand">
+                <StackLayout>
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       VerticalOptions="Center"
+                                       Color="#695CD5" />
+
                     <Label FontFamily="med"
-                           HorizontalOptions="CenterAndExpand"
-                           Text="No records found"
-                           TextColor="Gray"
-                           VerticalOptions="CenterAndExpand" />
-                </Frame>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="15"
-                                   Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
-    </Grid>
+                           Text="Loading data..."
+                           TextColor="#695CD5" />
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </RefreshView>
 </views:BaseTab>

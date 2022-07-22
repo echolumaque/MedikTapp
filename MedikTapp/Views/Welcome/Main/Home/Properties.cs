@@ -10,6 +10,7 @@ namespace MedikTapp.Views.Welcome.Main.Home
         public override bool CanHaveBadge { get; set; } = false;
         public override string Icon => FontAwesomeIcons.House;
         public bool IsLoadingData { get; set; } = true;
+        public bool IsMainPageVisible { get; set; }
         public bool IsRefreshing { get; set; }
         public int PromoPosition { get; set; }
         public ObservableCollection<Models.Services> PromosCollection { get; set; }

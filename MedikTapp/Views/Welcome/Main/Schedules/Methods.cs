@@ -73,25 +73,31 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             });
         }
 
-        private async Task InitCancelledCollections()
+        private async Task InitCancelledCollections(bool isLoadingFromRefresh)
         {
             SelectedBookingStatus = BookingStatus.Cancelled;
+            IsLoading = !isLoadingFromRefresh;
             _cancelledAppointments = await _httpService.GetPatientCancelledAppointment(_appConfigService.PatientId);
             Schedules = new(_cancelledAppointments.OrderBy(x => x.AppointmentDate));
+            IsLoading = false;
         }
 
-        private async Task InitCompletedCollections()
+        private async Task InitCompletedCollections(bool isLoadingFromRefresh)
         {
             SelectedBookingStatus = BookingStatus.Completed;
+            IsLoading = !isLoadingFromRefresh;
             _completedAppointments = await _httpService.GetPatientCompletedAppointment(_appConfigService.PatientId);
             Schedules = new(_completedAppointments.OrderBy(x => x.AppointmentDate));
+            IsLoading = false;
         }
 
-        private async Task InitUpcomingCollections()
+        private async Task InitUpcomingCollections(bool isLoadingFromRefresh)
         {
             SelectedBookingStatus = BookingStatus.Confirmed;
+            IsLoading = !isLoadingFromRefresh;
             _upcomingAppointments = await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
             Schedules = new(_upcomingAppointments.OrderBy(x => x.AppointmentDate));
+            IsLoading = false;
         }
 
         private async void OnAppConfigInitialized(object sender, EventArgs e)
@@ -131,15 +137,37 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
             var schedules = _upcomingAppointments ?? await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
             BadgeCount = schedules.Count();
         }
-        public override async void OnNavigatedTo(NavigationParameters parameters)
+        public override async void Initialized(NavigationParameters parameters)
         {
             BookingSortCollection = Enum.GetValues(typeof(BookingSort)).Cast<BookingSort>();
             SelectedBookingSort = BookingSortCollection.First();
             BookingSortMainBoxText = SelectedBookingSort.ToShortDescription();
 
             _upcomingAppointments = await _httpService.GetPatientUpcomingAppointment(_appConfigService.PatientId);
-            await InitUpcomingCollections();
+            await InitUpcomingCollections(false);
             GetBadgeCount();
+        }
+
+        private async Task Refresh()
+        {
+            IsRefreshing = true;
+
+            switch (SelectedBookingStatus)
+            {
+                case BookingStatus.Confirmed:
+                    await InitUpcomingCollections(true);
+                    break;
+                case BookingStatus.Completed:
+                    await InitCompletedCollections(true);
+                    break;
+                case BookingStatus.Cancelled:
+                    await InitCancelledCollections(true);
+                    break;
+                default:
+                    break;
+            }
+
+            IsRefreshing = false;
         }
     }
 }

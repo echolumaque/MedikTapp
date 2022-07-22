@@ -81,7 +81,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
             return _appConfigService.UpdateConfig(nameof(AppConfig.IsPromoNotifEnabled), toggled.Value);
         }
 
-        public override void OnNavigatedTo(NavigationParameters parameters)
+        public override void Initialized(NavigationParameters parameters)
         {
             IsBiometricLoginEnabled = _appConfigService.IsBiometricLoginEnabled;
             IsDarkModeEnabled = _appConfigService.IsDarkModeEnabled;

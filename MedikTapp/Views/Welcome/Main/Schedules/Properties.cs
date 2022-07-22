@@ -22,7 +22,10 @@ namespace MedikTapp.Views.Welcome.Main.Schedules
         public IAsyncCommand FilterUpcomingCmd { get; }
         public override string Icon => FontAwesomeIcons.Clock;
         public bool IsFilterExpanded { get; set; }
+        public bool IsLoading { get; set; }
+        public bool IsRefreshing { get; set; }
         public ICommand OpenComboBoxCmd { get; }
+        public IAsyncCommand RefreshCmd { get; }
         public IAsyncCommand<AppointmentModel> RescheduleCmd { get; }
         public ObservableCollection<AppointmentModel> Schedules { get; set; }
         public BookingSort SelectedBookingSort { get; set; }

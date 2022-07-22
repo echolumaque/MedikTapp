@@ -51,7 +51,7 @@
                 </Grid>
             </Frame>
 
-            <CollectionView Grid.Row="2"
+            <!--<CollectionView Grid.Row="2"
                             Margin="0,20,0,0"
                             IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
                             ItemSizingStrategy="MeasureAllItems"
@@ -60,6 +60,70 @@
                     <LinearItemsLayout ItemSpacing="15"
                                        Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Services">
+                        <Grid gesture:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                              gesture:Gestures.TappedParameter="{Binding .}"
+                              ColumnDefinitions="50, *, 10"
+                              RowDefinitions="*,*"
+                              RowSpacing="-1">
+                            <templateImg:CachedImage Grid.Row="0"
+                                                     Grid.RowSpan="2"
+                                                     Grid.Column="0"
+                                                     HeightRequest="100"
+                                                     HorizontalOptions="Center"
+                                                     ImageSource="{Binding ServiceImage}"
+                                                     VerticalOptions="Center"
+                                                     WidthRequest="100" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
+                                   FontFamily="med"
+                                   FontSize="15"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceName}"
+                                   TextColor="{StaticResource Black}"
+                                   VerticalOptions="End" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   FontFamily="reg"
+                                   FontSize="12"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding ServiceDescription}"
+                                   VerticalOptions="Start" />
+
+                            <Label Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="2"
+                                   FontFamily="fas"
+                                   HorizontalOptions="End"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{x:Static fonts:FontAwesomeIcons.ChevronRight}"
+                                   TextColor="{StaticResource DarkPurple}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+
+            <CollectionView Grid.Row="2"
+                            Margin="0,20,0,0"
+                            IsGrouped="True"
+                            IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding ServiceGroup}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="15"
+                                       Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="models:ServicesGroup">
+                        <Label FontFamily="bold"
+                               FontSize="Large"
+                               Text="{Binding GroupName}" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Services">
                         <Grid gesture:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"

@@ -11,125 +11,147 @@
                x:DataType="vm:BookingsTabViewModel"
                x:TypeArguments="vm:BookingsTabViewModel">
 
-    <Grid RowDefinitions="70,*">
-        <Label Grid.Row="0"
-               FontFamily="med"
-               FontSize="40"
-               Text="Bookings"
-               TextColor="#2F2F32" />
+    <RefreshView Command="{Binding RefreshCmd}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 RefreshColor="#695CD5">
+        <Grid RowDefinitions="70,*">
+            <Label Grid.Row="0"
+                   FontFamily="med"
+                   FontSize="40"
+                   Text="Bookings"
+                   TextColor="#2F2F32" />
 
-        <CollectionView Grid.Row="1"
-                        ItemSizingStrategy="MeasureAllItems"
-                        ItemsSource="{Binding Bookings}"
-                        VerticalOptions="CenterAndExpand">
-            <CollectionView.EmptyView>
-                <Frame BackgroundColor="#FBFBFB">
-                    <Label FontFamily="med"
-                           HorizontalOptions="CenterAndExpand"
-                           Text="No records found"
-                           TextColor="Gray"
-                           VerticalOptions="CenterAndExpand" />
-                </Frame>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout ItemSpacing="15"
-                                   Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Services">
-                    <Frame Padding="10"
-                           BackgroundColor="White"
-                           HasShadow="True">
-                        <Grid ColumnDefinitions="*,*"
-                              RowDefinitions="80,50,50">
-
-                            <!--#region  Doc or Service Name, Doc Specialty, and Image-->
-                            <Grid Grid.Row="0"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="2"
-                                  ColumnDefinitions="*,65"
-                                  RowDefinitions="80,80">
-                                <Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       FontFamily="med"
-                                       FontSize="20"
-                                       HorizontalOptions="StartAndExpand"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="1"
-                                       Text="{Binding ServiceName}"
-                                       TextColor="{StaticResource Black}"
-                                       WidthRequest="280" />
-
-                                <Label Grid.Row="0"
-                                       Grid.Column="0"
-                                       Margin="0,20,0,0"
-                                       FontFamily="reg"
-                                       HorizontalOptions="StartAndExpand"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="2"
-                                       Text="{Binding ServiceDescription}"
-                                       TextColor="Gray"
-                                       VerticalOptions="CenterAndExpand"
-                                       WidthRequest="280" />
-
-                                <templateImg:CachedImage Grid.Row="0"
-                                                         Grid.Column="1"
-                                                         HeightRequest="65"
-                                                         HorizontalOptions="End"
-                                                         ImageSource="{Binding ServiceImage}"
-                                                         VerticalOptions="Start"
-                                                         WidthRequest="65" />
-
-                                <BoxView Grid.Row="0"
-                                         Grid.Column="0"
-                                         Grid.ColumnSpan="2"
-                                         Margin="0,0,0,-7"
-                                         BackgroundColor="#F2F3F6"
-                                         HeightRequest=".7"
-                                         VerticalOptions="End" />
-                            </Grid>
-
-                            <!--#endregion-->
-
-                            <!--#region Earliest time available-->
-                            <Label Grid.Row="1"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   FontFamily="bold"
-                                   FontSize="14"
-                                   Text="{Binding ServicePrice, StringFormat='Price: ₱{0:N2}'}"
-                                   TextColor="{StaticResource Black}"
-                                   VerticalOptions="Center" />
-
-                            <!--  endregion  -->
-
-                            <Button Grid.Row="2"
-                                    Grid.Column="0"
-                                    Margin="5,0"
-                                    BackgroundColor="#F4F5F9"
-                                    CharacterSpacing="0.9"
-                                    Command="{Binding BindingContext.CancelBookingCmd, Source={x:Reference this}}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="10"
-                                    FontFamily="reg"
-                                    Text="Cancel"
-                                    TextColor="Black" />
-
-                            <Button Grid.Row="2"
-                                    Grid.Column="1"
-                                    Margin="5,0"
-                                    BackgroundColor="{StaticResource DarkPurple}"
-                                    CharacterSpacing="0.2"
-                                    Command="{Binding BindingContext.ScheduleCmd, Source={x:Reference this}}"
-                                    CommandParameter="{Binding .}"
-                                    CornerRadius="10"
-                                    FontFamily="reg"
-                                    Text="Set schedule"
-                                    TextColor="White" />
-                        </Grid>
+            <CollectionView Grid.Row="1"
+                            ItemSizingStrategy="MeasureAllItems"
+                            ItemsSource="{Binding Bookings}"
+                            VerticalOptions="CenterAndExpand">
+                <CollectionView.EmptyView>
+                    <Frame BackgroundColor="#FBFBFB">
+                        <Label FontFamily="med"
+                               HorizontalOptions="CenterAndExpand"
+                               Text="No records found"
+                               TextColor="Gray"
+                               VerticalOptions="CenterAndExpand" />
                     </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="15"
+                                       Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Services">
+                        <Frame Padding="10"
+                               BackgroundColor="White"
+                               HasShadow="True">
+                            <Grid ColumnDefinitions="*,*"
+                                  RowDefinitions="80,50,50">
+
+                                <!--#region  Doc or Service Name, Doc Specialty, and Image-->
+                                <Grid Grid.Row="0"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      ColumnDefinitions="*,65"
+                                      RowDefinitions="80,80">
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           FontFamily="med"
+                                           FontSize="20"
+                                           HorizontalOptions="StartAndExpand"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1"
+                                           Text="{Binding ServiceName}"
+                                           TextColor="{StaticResource Black}"
+                                           WidthRequest="280" />
+
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0"
+                                           Margin="0,20,0,0"
+                                           FontFamily="reg"
+                                           HorizontalOptions="StartAndExpand"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           Text="{Binding ServiceDescription}"
+                                           TextColor="Gray"
+                                           VerticalOptions="CenterAndExpand"
+                                           WidthRequest="280" />
+
+                                    <templateImg:CachedImage Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             HeightRequest="65"
+                                                             HorizontalOptions="End"
+                                                             ImageSource="{Binding ServiceImage}"
+                                                             VerticalOptions="Start"
+                                                             WidthRequest="65" />
+
+                                    <BoxView Grid.Row="0"
+                                             Grid.Column="0"
+                                             Grid.ColumnSpan="2"
+                                             Margin="0,0,0,-7"
+                                             BackgroundColor="#F2F3F6"
+                                             HeightRequest=".7"
+                                             VerticalOptions="End" />
+                                </Grid>
+
+                                <!--#endregion-->
+
+                                <!--#region Earliest time available-->
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       FontFamily="bold"
+                                       FontSize="14"
+                                       Text="{Binding ServicePrice, StringFormat='Price: ₱{0:N2}'}"
+                                       TextColor="{StaticResource Black}"
+                                       VerticalOptions="Center" />
+
+                                <!--  endregion  -->
+
+                                <Button Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="5,0"
+                                        BackgroundColor="#F4F5F9"
+                                        CharacterSpacing="0.9"
+                                        Command="{Binding BindingContext.CancelBookingCmd, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        CornerRadius="10"
+                                        FontFamily="reg"
+                                        Text="Cancel"
+                                        TextColor="Black" />
+
+                                <Button Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="5,0"
+                                        BackgroundColor="{StaticResource DarkPurple}"
+                                        CharacterSpacing="0.2"
+                                        Command="{Binding BindingContext.ScheduleCmd, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        CornerRadius="10"
+                                        FontFamily="reg"
+                                        Text="Set schedule"
+                                        TextColor="White" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Frame Grid.Row="0"
+                   Grid.RowSpan="2"
+                   BackgroundColor="#F5F5F5"
+                   CornerRadius="10"
+                   HorizontalOptions="CenterAndExpand"
+                   IsVisible="{Binding IsLoading}"
+                   VerticalOptions="CenterAndExpand">
+                <StackLayout>
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       VerticalOptions="Center"
+                                       Color="#695CD5" />
+
+                    <Label FontFamily="med"
+                           Text="Loading data..."
+                           TextColor="#695CD5" />
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </RefreshView>
 </views:BaseTab>

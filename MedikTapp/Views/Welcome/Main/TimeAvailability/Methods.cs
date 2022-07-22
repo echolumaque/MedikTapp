@@ -48,7 +48,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                     && !string.IsNullOrWhiteSpace(ProspectFirstName)
                     && !string.IsNullOrWhiteSpace(ProspectLastName)
                     && !string.IsNullOrWhiteSpace(ProspectSex)
-                    && int.Parse(ProspectAge) > -1
+                    && !string.IsNullOrWhiteSpace(ProspectAge)
                 : SelectedDate != DateTime.MinValue
                     && SelectedTime != DateTime.MinValue;
         }
@@ -80,7 +80,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                     PatientId = _appConfigService.PatientId,
                     ProspectGender = ProspectSex,
                     ProspectLastName = ProspectLastName,
-                    ProspectAge = Convert.ToInt32(ProspectAge),
+                    ProspectAge = string.IsNullOrWhiteSpace(ProspectAge) ? null : Convert.ToInt32(ProspectAge),
                     ProspectFirstName = ProspectFirstName,
                     ServiceId = _passedAppointment.ServiceId
                 });
@@ -106,7 +106,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
                     PatientId = _appConfigService.PatientId,
                     ProspectGender = ProspectSex,
                     ProspectLastName = ProspectLastName,
-                    ProspectAge = Convert.ToInt32(ProspectAge),
+                    ProspectAge = string.IsNullOrWhiteSpace(ProspectAge) ? null : Convert.ToInt32(ProspectAge),
                     ProspectFirstName = ProspectFirstName,
                     ServiceId = _passedAppointment.ServiceId
                 });
@@ -122,6 +122,7 @@ namespace MedikTapp.Views.Welcome.Main.TimeAvailability
 
                 var bindingContext = (TabMainPageViewModelBase)NavigationService.GetCurrentPage().BindingContext;
                 bindingContext.Tabs[2].GetBadgeCount();
+                bindingContext.Tabs[3].GetBadgeCount();
                 _mainThread.BeginInvokeOnMainThread(() => _toast.Show("You have successfully booked an appointment."));
             }
         }

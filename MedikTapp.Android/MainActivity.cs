@@ -142,6 +142,7 @@ namespace MedikTapp.Droid
         private static void AddPlatformSpecificServices(IServiceCollection services)
         {
             services.AddSingleton<IStatusBarStyle, StatusBarStyleDroid>()
+                .AddSingleton<ICloseApplication, CloseApplicationDroid>()
                 .AddSingleton<IToast, ToastDroid>()
                 .AddSingleton<IFingerprint, FingerprintImplementation>()
                 .AddSingleton<INotificationService, NotificationServiceImpl>();
