@@ -54,6 +54,30 @@ namespace MedikTappFunctionApp.Functions
                 return ExceptionHelper(ex, logger, "GetAppointments");
             }
         }
+
+        [FunctionName("CleanupAppointments")]
+        public async Task CleanupAppointments([TimerTrigger("0 0 8-17 * * Mon-Sat")] TimerInfo timerInfo, ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation($"Appointment cleanup executed at: {DateTime.Now: MMMM dd, yyy hh:mm:ss tt}");
+
+                var currentDay = DateTime.Now;
+                var finishedAppointments = EntityContext.AppointmentData.Where(_ => _.AppointmentDate.Date == currentDay.Date
+                    && _.AppointmentDate.Hour == currentDay.Hour - 1 && _.BookingStatus == "Confirmed");
+
+                if (!finishedAppointments.Any())
+                    return;
+
+                foreach (var item in finishedAppointments)
+                    item.BookingStatus = "Completed";
+                await EntityContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHelper(ex, logger, "CleanupAppointments");
+            }
+        }
         #endregion
 
         #region Patient
@@ -63,7 +87,12 @@ namespace MedikTappFunctionApp.Functions
             try
             {
                 var appointmentTable = EntityContext.AppointmentData;
-                await appointmentTable.AddAsync(JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body));
+                var appointmentRequest = JsonService.ReadJsonRequestMessage<AppointmentModel>(request.Body);
+                if (await appointmentTable.AsNoTracking().AnyAsync(_ => _.ServiceId == appointmentRequest.ServiceId
+                    && _.AppointmentDate == appointmentRequest.AppointmentDate))
+                    return new ConflictObjectResult("Selected appointment date is already occupied!");
+
+                await appointmentTable.AddAsync(appointmentRequest);
                 await EntityContext.SaveChangesAsync();
                 logger.LogInformation("Inserted new service in the database");
 

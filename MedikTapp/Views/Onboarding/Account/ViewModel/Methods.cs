@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Preferences = MedikTapp.Constants.Preferences;
 
 namespace MedikTapp.Views.Onboarding.Account
 {
@@ -95,6 +96,7 @@ namespace MedikTapp.Views.Onboarding.Account
                         await UpdateLocalPatientConfig(patientCredentials)
                             .ContinueWith(async x => await _mainThread.InvokeOnMainThreadAsync(async () =>
                             {
+                                _preferences.Set(Preferences.HasLoggedAccount, true);
                                 await NavigationService.GoTo<MainPage.MainPage>();
                             }));
                 }
@@ -205,6 +207,15 @@ namespace MedikTapp.Views.Onboarding.Account
             }
         }
 
+        private Task ShowPrivacyPolicy()
+        {
+            return Application.Current.MainPage.DisplayAlert("Privacy Policy", PrivacyPolicy, "OK");
+        }
+
+        private Task ShowTermsAndConditions()
+        {
+            return Application.Current.MainPage.DisplayAlert("Terms and Conditions", TermsAndConditions, "OK");
+        }
         private Task UpdateLocalPatientConfig(PatientModel patientCredentials)
         {
             return Task.WhenAll

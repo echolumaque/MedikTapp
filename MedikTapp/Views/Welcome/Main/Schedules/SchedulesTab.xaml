@@ -72,27 +72,25 @@
                               RowDefinitions="80,50">
 
                             <!--#region  Doc or Service Name, Doc Specialty, and Image-->
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   FontFamily="med"
-                                   FontSize="20"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   Text="{Binding ServiceName}"
-                                   TextColor="{StaticResource Black}"
-                                   VerticalOptions="Start" />
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0"
+                                  RowDefinitions="25,*">
+                                <Label Grid.Row="0"
+                                       FontFamily="med"
+                                       FontSize="20"
+                                       LineBreakMode="TailTruncation"
+                                       Text="{Binding ServiceName}"
+                                       TextColor="{StaticResource Black}"
+                                       VerticalOptions="CenterAndExpand" />
 
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Margin="0,20,0,0"
-                                   FontFamily="reg"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   MaxLines="2"
-                                   Text="{Binding ServiceDescription}"
-                                   TextColor="Gray"
-                                   VerticalOptions="CenterAndExpand"
-                                   WidthRequest="280" />
+                                <Label Grid.Row="1"
+                                       FontFamily="reg"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       Text="{Binding ServiceDescription}"
+                                       TextColor="Gray"
+                                       VerticalOptions="CenterAndExpand" />
+                            </Grid>
 
 
                             <templateImg:CachedImage Grid.Row="0"
@@ -190,27 +188,25 @@
                               ColumnDefinitions="*,65"
                               RowDefinitions="80,50,50">
                             <!--#region  Doc or Service Name, Doc Specialty, and Image-->
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   FontFamily="med"
-                                   FontSize="20"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   Text="{Binding ServiceName}"
-                                   TextColor="{StaticResource Black}"
-                                   VerticalOptions="Start" />
+                            <Grid Grid.Row="0"
+                                  Grid.Column="0"
+                                  RowDefinitions="25,*">
+                                <Label Grid.Row="0"
+                                       FontFamily="med"
+                                       FontSize="20"
+                                       LineBreakMode="TailTruncation"
+                                       Text="{Binding ServiceName}"
+                                       TextColor="{StaticResource Black}"
+                                       VerticalOptions="CenterAndExpand" />
 
-                            <Label Grid.Row="0"
-                                   Grid.Column="0"
-                                   Margin="0,20,0,0"
-                                   FontFamily="reg"
-                                   HorizontalOptions="StartAndExpand"
-                                   LineBreakMode="TailTruncation"
-                                   MaxLines="2"
-                                   Text="{Binding ServiceDescription}"
-                                   TextColor="Gray"
-                                   VerticalOptions="CenterAndExpand"
-                                   WidthRequest="280" />
+                                <Label Grid.Row="1"
+                                       FontFamily="reg"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       Text="{Binding ServiceDescription}"
+                                       TextColor="Gray"
+                                       VerticalOptions="CenterAndExpand" />
+                            </Grid>
 
 
                             <templateImg:CachedImage Grid.Row="0"

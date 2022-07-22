@@ -12,171 +12,179 @@
                x:DataType="vm:HomeTabViewModel"
                x:TypeArguments="vm:HomeTabViewModel">
 
-    <ScrollView HorizontalScrollBarVisibility="Never"
-                VerticalScrollBarVisibility="Never">
-        <Grid ColumnDefinitions="90,*"
-              RowDefinitions="80,200,450,190">
-            <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
-            <templateImg:CachedImage Grid.Row="0"
-                                     Grid.Column="0"
-                                     HeightRequest="80"
-                                     HorizontalOptions="Start"
-                                     ImageSource="pudci.jpg"
-                                     VerticalOptions="Center"
-                                     WidthRequest="80" />
+    <RefreshView Command="{Binding RefreshCmd}"
+                 IsRefreshing="{Binding IsRefreshing}"
+                 RefreshColor="#695CD5">
+        <ScrollView HorizontalScrollBarVisibility="Never"
+                    VerticalScrollBarVisibility="Never">
+            <Grid ColumnDefinitions="90,*"
+                  RowDefinitions="80,200,450,190">
+                <!--#region Greetings, profile picturem and book a clinic/consult a doctor-->
+                <templateImg:CachedImage Grid.Row="0"
+                                         Grid.Column="0"
+                                         HeightRequest="80"
+                                         HorizontalOptions="Start"
+                                         ImageSource="pudci.png"
+                                         VerticalOptions="Center"
+                                         WidthRequest="80" />
 
-            <Label Grid.Row="0"
-                   Grid.Column="1"
-                   FontFamily="bold"
-                   FontSize="18"
-                   HorizontalOptions="Start"
-                   LineHeight="0.85"
-                   Text="Parañaque Ultrasound&#10;Diagnostic Center&#10;Incorporated"
-                   TextColor="{StaticResource Black}"
-                   VerticalOptions="Center" />
-            <!--#endregion-->
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       FontFamily="bold"
+                       FontSize="18"
+                       HorizontalOptions="Start"
+                       LineHeight="0.85"
+                       Text="Parañaque Ultrasound&#10;Diagnostic Center&#10;Incorporated"
+                       TextColor="{StaticResource Black}"
+                       VerticalOptions="Center" />
+                <!--#endregion-->
 
-            <!--#region Promos-->
-            <CarouselView Grid.Row="1"
-                          Grid.Column="0"
-                          Grid.ColumnSpan="2"
-                          IndicatorView="IndicatorView"
-                          IsBounceEnabled="True"
-                          IsScrollAnimated="True"
-                          IsSwipeEnabled="True"
-                          ItemsSource="{Binding PromosCollection}"
-                          Loop="True"
-                          Position="{Binding PromoPosition}">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Services">
-                        <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
-                                                 templates:Gestures.TappedParameter="{Binding .}"
-                                                 HeightRequest="500"
-                                                 HorizontalOptions="Center"
-                                                 ImageSource="{Binding ServiceImage}"
-                                                 VerticalOptions="Center"
-                                                 WidthRequest="500" />
-                    </DataTemplate>
-                </CarouselView.ItemTemplate>
-            </CarouselView>
+                <!--#region Promos-->
+                <CarouselView Grid.Row="1"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              IndicatorView="IndicatorView"
+                              IsBounceEnabled="True"
+                              IsScrollAnimated="True"
+                              IsSwipeEnabled="True"
+                              ItemsSource="{Binding PromosCollection}"
+                              Loop="True"
+                              Position="{Binding PromoPosition}">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Services">
+                            <templateImg:CachedImage templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                                                     templates:Gestures.TappedParameter="{Binding .}"
+                                                     HeightRequest="500"
+                                                     HorizontalOptions="Center"
+                                                     ImageSource="{Binding ServiceImage}"
+                                                     VerticalOptions="Center"
+                                                     WidthRequest="500" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
 
-            <IndicatorView x:Name="IndicatorView"
-                           Grid.Row="1"
-                           Grid.Column="0"
-                           Grid.ColumnSpan="2"
-                           HorizontalOptions="Center"
-                           IndicatorColor="Gray"
-                           IndicatorSize="7"
-                           SelectedIndicatorColor="#695CD4"
-                           VerticalOptions="End" />
+                <IndicatorView x:Name="IndicatorView"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               HorizontalOptions="Center"
+                               IndicatorColor="Gray"
+                               IndicatorSize="7"
+                               SelectedIndicatorColor="#695CD4"
+                               VerticalOptions="End" />
 
-            <!--#endregion-->
+                <!--#endregion-->
 
-            <!--#region Popular services-->
-            <CollectionView Grid.Row="2"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
-                            ItemSizingStrategy="MeasureAllItems"
-                            ItemsSource="{Binding ServicesCollection}"
-                            VerticalOptions="Start">
-                <CollectionView.Header>
-                    <Label FontFamily="med"
-                           FontSize="20"
-                           Text="Popular Services"
-                           TextColor="Black" />
-                </CollectionView.Header>
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout HorizontalItemSpacing="10"
-                                     Orientation="Vertical"
-                                     Span="3"
-                                     VerticalItemSpacing="10" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Services">
-                        <Frame Padding="5,20"
-                               templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
-                               templates:Gestures.TappedParameter="{Binding .}"
-                               CornerRadius="10"
-                               HasShadow="False"
-                               HeightRequest="160"
-                               VerticalOptions="Center">
-                            <Grid RowDefinitions="80,Auto,20">
-                                <templateImg:CachedImage Grid.Row="0"
-                                                         HeightRequest="80"
-                                                         HorizontalOptions="Center"
-                                                         ImageSource="{Binding ServiceImage}"
-                                                         VerticalOptions="Start"
-                                                         WidthRequest="80" />
+                <!--#region Popular services-->
+                <CollectionView Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                IsVisible="{Binding IsLoadingData, Converter={xct:InvertedBoolConverter}}"
+                                ItemSizingStrategy="MeasureAllItems"
+                                ItemsSource="{Binding ServicesCollection}"
+                                VerticalOptions="Start">
+                    <CollectionView.Header>
+                        <Label FontFamily="med"
+                               FontSize="20"
+                               Text="Popular Services"
+                               TextColor="Black" />
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout HorizontalItemSpacing="10"
+                                         Orientation="Vertical"
+                                         Span="3"
+                                         VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Services">
+                            <Frame Padding="5,20"
+                                   templates:Gestures.Tapped="{Binding BindingContext.ServiceConfirmationCmd, Source={x:Reference this}}"
+                                   templates:Gestures.TappedParameter="{Binding .}"
+                                   CornerRadius="10"
+                                   HasShadow="False"
+                                   HeightRequest="160"
+                                   VerticalOptions="Center">
+                                <Grid RowDefinitions="80,Auto,20">
+                                    <templateImg:CachedImage Grid.Row="0"
+                                                             HeightRequest="80"
+                                                             HorizontalOptions="Center"
+                                                             ImageSource="{Binding ServiceImage}"
+                                                             VerticalOptions="Start"
+                                                             WidthRequest="80" />
 
-                                <Label Grid.Row="1"
-                                       FontFamily="bold"
-                                       FontSize="15"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"
-                                       LineBreakMode="TailTruncation"
-                                       MaxLines="2"
-                                       Text="{Binding ServiceName}"
-                                       TextColor="{StaticResource Black}"
-                                       VerticalOptions="Start" />
+                                    <Label Grid.Row="1"
+                                           FontFamily="bold"
+                                           FontSize="15"
+                                           HorizontalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="2"
+                                           Text="{Binding ServiceName}"
+                                           TextColor="{StaticResource Black}"
+                                           VerticalOptions="Start" />
 
-                                <Label Grid.Row="2"
-                                       FontFamily="med"
-                                       FontSize="15"
-                                       HorizontalOptions="Center"
-                                       Text="{Binding ServicePrice, StringFormat='₱ {0:n}'}"
-                                       TextColor="Gray"
-                                       VerticalOptions="End" />
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                    <Label Grid.Row="2"
+                                           FontFamily="med"
+                                           FontSize="15"
+                                           HorizontalOptions="Center"
+                                           Text="{Binding ServicePrice, StringFormat='₱ {0:n}'}"
+                                           TextColor="Gray"
+                                           VerticalOptions="End" />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-            <StackLayout Grid.Row="2"
-                         Grid.Column="0"
-                         Grid.ColumnSpan="2"
-                         HorizontalOptions="CenterAndExpand"
-                         IsEnabled="{Binding IsLoadingData}"
-                         IsVisible="{Binding IsLoadingData}"
-                         VerticalOptions="CenterAndExpand">
-                <ActivityIndicator IsRunning="{Binding IsLoadingData}"
-                                   VerticalOptions="Center"
-                                   Color="#695CD5" />
+                <Frame Grid.Row="0"
+                       Grid.RowSpan="3"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       BackgroundColor="#F5F5F5"
+                       CornerRadius="10"
+                       HorizontalOptions="CenterAndExpand"
+                       IsVisible="{Binding IsLoadingData}"
+                       VerticalOptions="CenterAndExpand">
+                    <StackLayout>
+                        <ActivityIndicator IsRunning="{Binding IsLoadingData}"
+                                           VerticalOptions="Center"
+                                           Color="#695CD5" />
 
-                <Label FontFamily="med"
-                       Text="Loading data..."
-                       TextColor="#695CD5" />
-            </StackLayout>
-            <!--#endregion-->
+                        <Label FontFamily="med"
+                               Text="Loading data..."
+                               TextColor="#695CD5" />
+                    </StackLayout>
+                </Frame>
+                <!--#endregion-->
 
-            <Frame Grid.Row="3"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   Padding="5,20"
-                   BackgroundColor="#E2C7FB">
-                <StackLayout HorizontalOptions="Center">
-                    <Label FontFamily="bold"
-                           HorizontalTextAlignment="Center"
-                           Text="Parañaque Ultrasound Diagnostic Center"
-                           TextColor="Black" />
+                <Frame Grid.Row="3"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Padding="5,20"
+                       BackgroundColor="#E2C7FB">
+                    <StackLayout HorizontalOptions="Center">
+                        <Label FontFamily="bold"
+                               HorizontalTextAlignment="Center"
+                               Text="Parañaque Ultrasound Diagnostic Center"
+                               TextColor="Black" />
 
-                    <Label FontFamily="reg"
-                           HorizontalTextAlignment="Center"
-                           Text="#0459 Quirino Avenue Don Galo, Parañaque City"
-                           TextColor="Black" />
+                        <Label FontFamily="reg"
+                               HorizontalTextAlignment="Center"
+                               Text="#0459 Quirino Avenue Don Galo, Parañaque City"
+                               TextColor="Black" />
 
-                    <Label FontFamily="reg"
-                           HorizontalTextAlignment="Center"
-                           Text="09494565465 / 939-56-65"
-                           TextColor="Black" />
+                        <Label FontFamily="reg"
+                               HorizontalTextAlignment="Center"
+                               Text="09494565465 / 939-56-65"
+                               TextColor="Black" />
 
-                    <Label FontFamily="med"
-                           HorizontalTextAlignment="Center"
-                           Text="ALL RIGHTS RESERVED 2022"
-                           TextColor="Black" />
-                </StackLayout>
-            </Frame>
-        </Grid>
-    </ScrollView>
+                        <Label FontFamily="med"
+                               HorizontalTextAlignment="Center"
+                               Text="ALL RIGHTS RESERVED 2022"
+                               TextColor="Black" />
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </ScrollView>
+    </RefreshView>
 </views:BaseTab>

@@ -4,15 +4,15 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
 using FFImageLoading.Forms.Platform;
+using Firebase.Messaging;
+using MedikTapp.Constants;
 using MedikTapp.DI;
 using MedikTapp.Droid.Implementations;
 using MedikTapp.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
-using Plugin.FirebasePushNotification;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.Platform.Droid;
 using Rg.Plugins.Popup;
@@ -53,27 +53,27 @@ namespace MedikTapp.Droid
             Popup.Init(this);
             CachedImageRenderer.Init(true);
             CachedImageRenderer.InitImageViewHandler();
-            SetStatusBarColor();
 
             NotificationChannelInit();
             LoadApplication(Startup.Init(AddPlatformSpecificServices).GetRequiredService<App>());
-            FirebasePushNotificationManager.ProcessIntent(this, Intent);
+            MessagingCenter.Subscribe<object, bool>(this, Preferences.PushNotificationSubscription, (args, e)
+                => FirebaseTopicSubscription(e));
+        }
+
+        private void FirebaseTopicSubscription(bool isSubscribed)
+        {
+            if (isSubscribed)
+                FirebaseMessaging.Instance.SubscribeToTopic("promo");
+            else
+                FirebaseMessaging.Instance.UnsubscribeFromTopic("promo");
         }
 
         protected override void OnStart()
         {
             base.OnStart();
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
-            {
                 if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
-                {
                     RequestPermissions(LocationPermissions, RequestLocationId);
-                }
-                else
-                {
-                    // Permissions already granted - display a message.
-                }
-            }
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -85,12 +85,40 @@ namespace MedikTapp.Droid
         private void NotificationChannelInit()
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                NotificationCenter.CreateNotificationChannel(new NotificationChannelRequest
+            {
+                var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+                notificationManager.CreateNotificationChannelGroup(new NotificationChannelGroup("MedikTapp", "MedikTapp"));
+
+                var localNotifChannel = new NotificationChannel("Appointment Notifications", "Appointment Notifications", NotificationImportance.Max)
                 {
-                    Id = "Appointment Notificaitons",
-                    Name = "Appointment Notificaitons",
-                    Description = "Allows MedikTapp to notifiy you when your appoinment is incoming"
-                });
+                    Name = "Appointment Notifications",
+                    Description = "Allows MedikTapp to notify you when your appoinment is incoming",
+                    Importance = NotificationImportance.Max,
+                    LightColor = Color.ParseColor("#695CD5"),
+                    LockscreenVisibility = NotificationVisibility.Public,
+                    Group = "MedikTapp"
+                };
+                localNotifChannel.SetBypassDnd(true);
+                localNotifChannel.EnableLights(true);
+                localNotifChannel.EnableVibration(true);
+                localNotifChannel.SetShowBadge(true);
+                notificationManager.CreateNotificationChannel(localNotifChannel);
+
+                var pushNotifChannel = new NotificationChannel("Promo Notifications", "Promo Notifications", NotificationImportance.Max)
+                {
+                    Name = "Promo Notifications",
+                    Description = "Allows MedikTapp to notify you when a new promo started",
+                    Importance = NotificationImportance.Max,
+                    LightColor = Color.ParseColor("#695CD5"),
+                    LockscreenVisibility = NotificationVisibility.Public,
+                    Group = "MedikTapp"
+                };
+                pushNotifChannel.SetBypassDnd(true);
+                pushNotifChannel.EnableLights(true);
+                pushNotifChannel.EnableVibration(true);
+                pushNotifChannel.SetShowBadge(true);
+                notificationManager.CreateNotificationChannel(pushNotifChannel);
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
@@ -108,34 +136,15 @@ namespace MedikTapp.Droid
                 }
             }
             else
-            {
                 base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
-
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         private static void AddPlatformSpecificServices(IServiceCollection services)
         {
-            services
-                .AddSingleton<IFirebasePushNotification, FirebasePushNotificationManager>()
+            services.AddSingleton<IStatusBarStyle, StatusBarStyleDroid>()
                 .AddSingleton<IToast, ToastDroid>()
                 .AddSingleton<IFingerprint, FingerprintImplementation>()
                 .AddSingleton<INotificationService, NotificationServiceImpl>();
-        }
-
-        private void SetStatusBarColor()
-        {
-            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
-            Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            Window.SetStatusBarColor(Color.ParseColor("#F5F5F5"));
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
-                Window.InsetsController?.SetSystemBarsAppearance((int)WindowInsetsControllerAppearance.LightStatusBars,
-                        (int)WindowInsetsControllerAppearance.LightStatusBars);
-            else
-#pragma warning disable
-                Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
-#pragma warning restore
         }
     }
 }

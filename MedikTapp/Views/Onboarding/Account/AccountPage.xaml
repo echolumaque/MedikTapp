@@ -9,6 +9,7 @@
                 xmlns:templateImg="clr-namespace:MedikTapp.Templates.Images"
                 xmlns:views="clr-namespace:MedikTapp.Templates.Base"
                 xmlns:vm="clr-namespace:MedikTapp.Views.Onboarding.Account"
+                x:Name="this"
                 x:DataType="vm:AccountPageViewModel"
                 x:TypeArguments="vm:AccountPageViewModel"
                 BackgroundColor="#F5F5F5">
@@ -152,21 +153,46 @@
                                     Text="Join us"
                                     VerticalOptions="CenterAndExpand" />
 
-                            <Label FontFamily="reg"
+                            <!--<Label FontFamily="reg"
                                    HorizontalTextAlignment="Center"
                                    VerticalOptions="EndAndExpand">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="By signing up, you agree to our " />
-                                        <Span Text="terms &#38; conditions"
+                                        <Span helper:Gestures.Tapped="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountPageViewModel}}, Path=TermsAndConditionsCmd}"
+                                              Text="terms &#38; conditions"
                                               TextColor="#695CD5" />
                                         <Span Text=" and " />
-                                        <Span Text="privacy policy"
+                                        <Span helper:Gestures.Tapped="{Binding PrivacyPolicyCmd}"
+                                              Text="privacy policy"
                                               TextColor="#695CD5" />
                                         <Span Text="." />
                                     </FormattedString>
                                 </Label.FormattedText>
-                            </Label>
+                            </Label>-->
+
+
+
+                            <StackLayout HorizontalOptions="CenterAndExpand"
+                                         Spacing="-5">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label FontFamily="reg"
+                                           Text="By signing up, you agree to our" />
+                                    <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.TermsAndConditionsCmd}"
+                                           FontFamily="reg"
+                                           Text="terms &amp; conditions"
+                                           TextColor="#695CD5" />
+                                </StackLayout>
+                                <StackLayout HorizontalOptions="CenterAndExpand"
+                                             Orientation="Horizontal">
+                                    <Label FontFamily="reg"
+                                           Text="and " />
+                                    <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.PrivacyPolicyCmd}"
+                                           FontFamily="reg"
+                                           Text="privacy policy"
+                                           TextColor="#695CD5" />
+                                </StackLayout>
+                            </StackLayout>
 
                             <Label helper:Gestures.Tapped="{TemplateBinding BindingContext.ChangeTemplateCmd}"
                                    helper:Gestures.TappedParameter="Login"

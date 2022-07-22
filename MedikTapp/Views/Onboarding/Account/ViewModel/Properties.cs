@@ -15,7 +15,9 @@ namespace MedikTapp.Views.Onboarding.Account
         public bool IsBiometricsAvailable { get; set; }
         public IAsyncCommand<ScrollView> JoinUsCmd { get; set; }
         public IAsyncCommand LoginCmd { get; }
+        public IAsyncCommand PrivacyPolicyCmd { get; }
         public IAsyncCommand RegisterCmd { get; }
+        public IAsyncCommand TermsAndConditionsCmd { get; }
         #endregion
 
         #region Login Properties

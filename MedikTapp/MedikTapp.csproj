@@ -41,9 +41,7 @@
     <None Remove="Resources\Images\onboarding2.png" />
     <None Remove="Resources\Images\onboarding3.png" />
     <None Remove="Resources\Images\pregnant.png" />
-    <None Remove="Resources\Images\promo1.jpg" />
-    <None Remove="Resources\Images\promo2.jpg" />
-    <None Remove="Resources\Images\pudci.jpg" />
+    <None Remove="Resources\Images\pudci.png" />
     <None Remove="Resources\Images\squiggles1.png" />
     <None Remove="Resources\Images\urine_test.png" />
     <None Remove="Resources\Images\xray.png" />
@@ -67,16 +65,13 @@
     <EmbeddedResource Include="Resources\Images\onboarding1.png" />
     <EmbeddedResource Include="Resources\Images\onboarding2.png" />
     <EmbeddedResource Include="Resources\Images\onboarding3.png" />
-    <EmbeddedResource Include="Resources\Images\promo1.jpg" />
-    <EmbeddedResource Include="Resources\Images\promo2.jpg" />
-    <EmbeddedResource Include="Resources\Images\pudci.jpg" />
+    <EmbeddedResource Include="Resources\Images\pudci.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
-    <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.25" />
     <PackageReference Include="Plugin.LocalNotification" Version="9.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
     <PackageReference Include="Refit" Version="6.3.2" />

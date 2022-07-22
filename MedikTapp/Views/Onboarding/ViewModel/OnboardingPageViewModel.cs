@@ -10,7 +10,7 @@ namespace MedikTapp.Views.Onboarding
         public OnboardingPageViewModel(NavigationService navigationService) : base(navigationService)
         {
             SkipCmd = new Command(() => Position = 2);
-            ContinueCmd = new Command(() => NavigationService.SetRootPage<AccountPage>());
+            ContinueCmd = new Command(() => NavigationService.SetRootPage<AccountPage>(isOffWhitePageBgColor: true));
         }
     }
 }

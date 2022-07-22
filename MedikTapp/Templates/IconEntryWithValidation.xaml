@@ -24,7 +24,6 @@
                    TextColor="Red" />
 
             <renderer:BorderlessMaterialEntry BackgroundColor="{Binding EntryBackgroundColor}"
-                                              ClearButtonVisibility="WhileEditing"
                                               IsPassword="{Binding IsPassword}"
                                               IsSpellCheckEnabled="False"
                                               IsTextPredictionEnabled="False"

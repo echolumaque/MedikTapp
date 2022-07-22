@@ -1,4 +1,5 @@
 ﻿using MedikTapp.Helpers.CustomViews;
+using MedikTapp.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
@@ -15,11 +16,13 @@ namespace MedikTapp.Services.NavigationService
     {
         private readonly IPopupNavigation _popupNavigation;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IStatusBarStyle _statusBarStyle;
 
-        public NavigationService(IServiceProvider serviceProvider)
+        public NavigationService(IServiceProvider serviceProvider, IStatusBarStyle statusBarStyle)
         {
             _popupNavigation = PopupNavigation.Instance;
             _serviceProvider = serviceProvider;
+            _statusBarStyle = statusBarStyle;
         }
 
         public Page GetCurrentPage()
@@ -62,7 +65,7 @@ namespace MedikTapp.Services.NavigationService
                 () => Application.Current.MainPage.Navigation.PopToRootAsync(true));
         }
 
-        public void SetRootPage<TView>(NavigationParameters parameters = null) where TView : Page
+        public void SetRootPage<TView>(NavigationParameters parameters = null, bool? isOffWhitePageBgColor = null) where TView : Page
         {
             NavUtils.IsSystemBackButtonPressed = false;
             Page toPage = ActivatorUtilities.CreateInstance<TView>(_serviceProvider);
@@ -71,6 +74,13 @@ namespace MedikTapp.Services.NavigationService
             InvisibleNavigationPage navPage = new(toPage);
             navPage.Behaviors.Add(new NavigationPageBehavior());
             NavUtils.DoNavigate(GetCurrentPage(), toPage, parameters, () => Application.Current.MainPage = navPage);
+            if (isOffWhitePageBgColor.HasValue)
+            {
+                if (isOffWhitePageBgColor.Value)
+                    _statusBarStyle.SetStatusBarColor("#F5F5F5");
+            }
+            else
+                _statusBarStyle.SetStatusBarColor("#FFFFFF");
         }
     }
 }
