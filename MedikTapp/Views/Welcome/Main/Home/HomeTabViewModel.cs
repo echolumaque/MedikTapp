@@ -1,4 +1,6 @@
-﻿using MedikTapp.Helpers.Command;
+﻿using AsyncAwaitBestPractices;
+using MedikTapp.Constants;
+using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.MedikTappService;
@@ -40,6 +42,8 @@ namespace MedikTapp.Views.Welcome.Main.Home
             _medikTappService.MedikTappServiceInitialized += OnMedikTappServiceInitialized;
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(GotoServiceConfirmationPopup);
             RefreshCmd = new AsyncSingleCommand(Refresh);
+
+            InitialBiometrics(_preferences.Get(Preferences.IsBiometricsEnabled, false)).SafeFireAndForget();
         }
     }
 }

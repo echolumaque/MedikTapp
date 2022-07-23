@@ -11,7 +11,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
     {
         private Task BiometricLoginToggled(ToggledEventArgs toggled)
         {
-            return _appConfigService.UpdateConfig(nameof(AppConfig.IsBiometricLoginEnabled), toggled.Value);
+            return _appConfigService.UpdateConfig(nameof(AppConfig.IsBiometricLoginEnabled), IsBiometricLoginEnabled);
         }
 
         private async Task ChangePassword()
@@ -32,6 +32,7 @@ namespace MedikTapp.Views.Welcome.Main.Settings
                 await Application.Current.MainPage.DisplayAlert("Wrong password", "It seems you entered a wrong password. We can't proceed to change your password right now.", "Ok");
             }
         }
+
         private Task DarkModeToggled(ToggledEventArgs toggled)
         {
             return _appConfigService.UpdateConfig(nameof(AppConfig.IsDarkModeEnabled), toggled.Value);
@@ -77,15 +78,16 @@ namespace MedikTapp.Views.Welcome.Main.Settings
 
         private Task PromoNotificationToggled(ToggledEventArgs toggled)
         {
-            _notificationService.PromoNotificationsSubscription(toggled.Value);
+            _preferences.Set(Preferences.PushNotificationSubscription, IsPromoNotificaitonEnabled);
+            _notificationService.PromoNotificationsSubscription(IsPromoNotificaitonEnabled);
             return _appConfigService.UpdateConfig(nameof(AppConfig.IsPromoNotifEnabled), toggled.Value);
         }
 
-        public override void Initialized(NavigationParameters parameters)
+        public override void OnNavigatedTo(NavigationParameters parameters)
         {
             IsBiometricLoginEnabled = _appConfigService.IsBiometricLoginEnabled;
             IsDarkModeEnabled = _appConfigService.IsDarkModeEnabled;
-            IsPromoNotificaitonEnabled = _appConfigService.IsPromoNotifEnabled;
+            IsPromoNotificaitonEnabled = _preferences.Get(Preferences.PushNotificationSubscription, false);
         }
     }
 }

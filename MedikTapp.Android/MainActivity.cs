@@ -62,7 +62,7 @@ namespace MedikTapp.Droid
 
         private void FirebaseTopicSubscription(bool isSubscribed)
         {
-            if (isSubscribed)
+            if (Xamarin.Essentials.Preferences.Get(Preferences.PushNotificationSubscription, false))
                 FirebaseMessaging.Instance.SubscribeToTopic("promo");
             else
                 FirebaseMessaging.Instance.UnsubscribeFromTopic("promo");
