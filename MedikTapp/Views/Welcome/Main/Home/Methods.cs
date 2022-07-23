@@ -1,4 +1,5 @@
-﻿using MedikTapp.Services.NavigationService;
+﻿using MedikTapp.Constants;
+using MedikTapp.Services.NavigationService;
 using MedikTapp.Views.Welcome.Main.ServiceConfirmation;
 using Plugin.Fingerprint.Abstractions;
 using System;
@@ -58,12 +59,13 @@ namespace MedikTapp.Views.Welcome.Main.Home
                 _medikTappService.MedikTappPromos = await _httpService.GetPromos();
             }
 
+            await InitialBiometrics(_preferences.Get(Preferences.IsBiometricsEnabled, false));
             InitServices();
         }
 
-        private async void OnAppConfigInitialized(object sender, EventArgs e)
+        private async Task InitialBiometrics(bool biometricsEnabled)
         {
-            if (_appConfigService.IsBiometricLoginEnabled)
+            if (biometricsEnabled)
             {
                 var isFingerPrintAuthAvailable = await _fingerprint.IsAvailableAsync();
                 if (isFingerPrintAuthAvailable)

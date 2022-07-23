@@ -75,20 +75,5 @@ namespace MedikTapp.ViewModels.Base
             InvokeTabNavigateEvent(previousIndex, parameters, NavigationType.From);
             InvokeTabNavigateEvent(nextIndex, parameters);
         }
-
-        /// <summary>
-        /// Change the active tab but DO NOT invoke OnNavigatedTo/From events.
-        /// </summary>
-        /// <param name="tabPositionIndex"></param>
-        protected void SetActiveTab(int tabPositionIndex)
-        {
-            for (var i = 0; i < Tabs.Count; i++)
-                Tabs[i].IsCurrentTab = false;
-            var index = _tabsIndex.IndexOf(tabPositionIndex);
-            if (index == -1)
-                return;
-            ActiveTabIndex = index;
-            Tabs[index].IsCurrentTab = true;
-        }
     }
 }

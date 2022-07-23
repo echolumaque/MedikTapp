@@ -1,6 +1,5 @@
 ﻿using MedikTapp.Helpers.Command;
 using MedikTapp.Interfaces;
-using MedikTapp.Services.AppConfigService;
 using MedikTapp.Services.HttpService;
 using MedikTapp.Services.MedikTappService;
 using MedikTapp.Services.NavigationService;
@@ -12,12 +11,12 @@ namespace MedikTapp.Views.Welcome.Main.Home
 {
     public partial class HomeTabViewModel : TabItemPageViewModelBase
     {
-        private readonly AppConfigService _appConfigService;
         private readonly ICloseApplication _closeApplication;
         private readonly IFingerprint _fingerprint;
         private readonly HttpService _httpService;
         private readonly IMainThread _mainThread;
         private readonly MedikTappService _medikTappService;
+        private readonly IPreferences _preferences;
         private readonly IToast _toast;
         private bool _isTimed;
 
@@ -25,8 +24,8 @@ namespace MedikTapp.Views.Welcome.Main.Home
             ICloseApplication closeApplication,
             IToast toast,
             IMainThread mainThread,
+            IPreferences preferences,
             IFingerprint fingerprint,
-            AppConfigService appConfigService,
             HttpService httpService,
             MedikTappService medikTappService) : base(navigationService)
         {
@@ -35,10 +34,9 @@ namespace MedikTapp.Views.Welcome.Main.Home
             _toast = toast;
             _httpService = httpService;
             _mainThread = mainThread;
-            _appConfigService = appConfigService;
             _fingerprint = fingerprint;
+            _preferences = preferences;
 
-            _appConfigService.AppConfigInitialized += OnAppConfigInitialized;
             _medikTappService.MedikTappServiceInitialized += OnMedikTappServiceInitialized;
             ServiceConfirmationCmd = new AsyncSingleCommand<Models.Services>(GotoServiceConfirmationPopup);
             RefreshCmd = new AsyncSingleCommand(Refresh);

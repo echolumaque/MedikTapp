@@ -1,8 +1,10 @@
-﻿using MedikTapp.Tables;
+﻿using MedikTapp.Constants;
+using MedikTapp.Tables;
 using System;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials.Interfaces;
 
 namespace MedikTapp.Services.AppConfigService
 {
@@ -12,6 +14,7 @@ namespace MedikTapp.Services.AppConfigService
         private readonly DatabaseService.DatabaseService _databaseService;
         private readonly DelegateWeakEventManager _appConfigInitialized;
         private readonly NotificationService.NotificationService _notificationService;
+        private readonly IPreferences _preferences;
         public event EventHandler AppConfigInitialized
         {
             add => _appConfigInitialized.AddEventHandler(value);
@@ -19,10 +22,12 @@ namespace MedikTapp.Services.AppConfigService
         }
 
         public AppConfigService(DatabaseService.DatabaseService databaseService,
+            IPreferences preferences,
             NotificationService.NotificationService notificationService)
         {
             _databaseService = databaseService;
             _notificationService = notificationService;
+            _preferences = preferences;
             _appConfigInitialized = new DelegateWeakEventManager();
         }
 
@@ -66,6 +71,7 @@ namespace MedikTapp.Services.AppConfigService
             Username = config.Username;
             FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
+            _preferences.Set(Preferences.IsBiometricsEnabled, IsBiometricLoginEnabled);
             IsDarkModeEnabled = config.IsDarkModeEnabled;
             IsPromoNotifEnabled = config.IsPromoNotifEnabled;
             LastName = config.LastName;
@@ -88,6 +94,7 @@ namespace MedikTapp.Services.AppConfigService
             Username = config.Username;
             FirstName = config.FirstName;
             IsBiometricLoginEnabled = config.IsBiometricLoginEnabled;
+            _preferences.Set(Preferences.IsBiometricsEnabled, IsBiometricLoginEnabled);
             IsDarkModeEnabled = config.IsDarkModeEnabled;
             IsPromoNotifEnabled = config.IsPromoNotifEnabled;
             LastName = config.LastName;
