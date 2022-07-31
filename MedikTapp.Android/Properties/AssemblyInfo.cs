@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MedikTapp.Android")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MedikTapp")]
 [assembly: AssemblyProduct("MedikTapp.Android")]
 [assembly: AssemblyCopyright("Copyright © MedikTapp Team 2022")]
 [assembly: AssemblyTrademark("")]

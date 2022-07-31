@@ -37,6 +37,7 @@ namespace MedikTapp
         private readonly IConnectivity _connectivity;
         private readonly GraphicsService _graphicsService;
         private readonly InitializeDataService _initializeDataService;
+        private readonly IMainThread _mainThread;
         private readonly MedikTappService _medikTappService;
         private readonly NavigationService _navigationService;
         private readonly NotificationService _notificationService;
@@ -46,6 +47,7 @@ namespace MedikTapp
             IConnectivity connectivity,
             GraphicsService graphicsService,
             InitializeDataService initializeDataService,
+            IMainThread mainThread,
             MedikTappService medikTappService,
             NavigationService navigationService,
             NotificationService notificationService,
@@ -57,6 +59,7 @@ namespace MedikTapp
             _graphicsService = graphicsService;
             _medikTappService = medikTappService;
             _initializeDataService = initializeDataService;
+            _mainThread = mainThread;
             _navigationService = navigationService;
             _notificationService = notificationService;
             _toast = toast;
@@ -96,6 +99,22 @@ namespace MedikTapp
 
         protected override async void OnStart()
         {
+            await _mainThread.InvokeOnMainThreadAsync(() => MainPage.DisplayAlert("Created by the MedikTapp Team",
+                "Capstone Symposium Best Presentor\n\n" +
+                "With the supervision of Prof. Josephine M. Dela Isla under DICT 3-1 Batch 2021-2022\n\n" +
+                "Group Leader:\n" +
+                "Recreo, Ann Bernadette B.\n\n" +
+                "Developers:\n" +
+                "Lumaque, Jhericoh Janquill N. - Lead Developer\n" +
+                "Corpuz, Bithiah Pelaiah T.\n\n" +
+                "Group Members:\n" +
+                "Guisadio, Ana Beatriz A.\n" +
+                "Hernandez, Johannah Marie R.\n" +
+                "Corales, Mark Reinell S.\n" +
+                "Fernandez, Kathrina Bianca R.\n" +
+                "Serrano, Regina Lei C.",
+                "OK"));
+
             if (_connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 _notificationService.PromoNotificationsSubscription(true);
@@ -111,6 +130,22 @@ namespace MedikTapp
             {
                 _toast.Show("An active internet connection is required to use MedikTapp.");
             }
+
+            //await _mainThread.InvokeOnMainThreadAsync(() => MainPage.DisplayAlert("Created by the MedikTapp Team",
+            //    "Capstone Symposium Best Presentor\n\n" +
+            //    "With the supervision of Prof. Josephine M. Dela Isla under DICT 3-1 Batch 2021-2022\n\n" +
+            //    "Group Leader:\n" +
+            //    "Recreo, Ann Bernadette B.\n\n" +
+            //    "Developers:\n" +
+            //    "Lumaque, Jhericoh Janquill N. - Lead Developer\n" +
+            //    "Corpuz, Bithiah Pelaiah T.\n\n" +
+            //    "Group Members:\n" +
+            //    "Guisadio, Ana Beatriz A.\n" +
+            //    "Hernandez, Johannah Marie R.\n" +
+            //    "Corales, Mark Reinell S.\n" +
+            //    "Fernandez, Kathrina Bianca R.\n" +
+            //    "Serrano, Regina Lei C.",
+            //    "OK"));
         }
     }
 }
