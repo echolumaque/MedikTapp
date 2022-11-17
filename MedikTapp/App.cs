@@ -12,6 +12,7 @@ using MedikTapp.Views.Onboarding.Account;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.EventArgs;
 using Syncfusion.Licensing;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
