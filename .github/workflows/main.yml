@@ -35,7 +35,7 @@ jobs:
 
     - name: Setup .NET SDK 6.0
       uses: actions/setup-dotnet@v3 
-        dotnet-version: '6.0.x'
+      dotnet-version: '6.0.x'
       with:
 
     - name: Install dependencies
