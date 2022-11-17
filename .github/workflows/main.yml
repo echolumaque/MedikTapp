@@ -43,4 +43,4 @@ jobs:
 
     - name: Build Android project
       #run: msbuild <csproj_file_path> /t:PackageForAndroid /p:Configuration=Debug
-      run: msbuild MedikTapp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
+      run: msbuild MedikTapp.Android/MedikTapp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
