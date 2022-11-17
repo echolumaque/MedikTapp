@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedikTapp.Android", "MedikT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedikTapp", "MedikTapp\MedikTapp.csproj", "{7B0C8B95-5C80-424F-8EC3-0E47BFEC04F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedikTappMock", "MedikTappMock\MedikTappMock.csproj", "{0A787904-0B62-4117-B7B1-03CC5A6FC099}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedikTappFunctionApp", "MedikTappFunctionApp\MedikTappFunctionApp.csproj", "{B915F924-B798-4DE4-B1A3-8447A5EEFE79}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +25,6 @@ Global
 		{7B0C8B95-5C80-424F-8EC3-0E47BFEC04F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B0C8B95-5C80-424F-8EC3-0E47BFEC04F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B0C8B95-5C80-424F-8EC3-0E47BFEC04F5}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{0A787904-0B62-4117-B7B1-03CC5A6FC099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A787904-0B62-4117-B7B1-03CC5A6FC099}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A787904-0B62-4117-B7B1-03CC5A6FC099}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B915F924-B798-4DE4-B1A3-8447A5EEFE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B915F924-B798-4DE4-B1A3-8447A5EEFE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B915F924-B798-4DE4-B1A3-8447A5EEFE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
