@@ -2,16 +2,16 @@ name: CI on Push and Pull Request
 
 on: [push, pull_request]
 
-jobs:
-  Android:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2.5.0
-    - name: Android
-      run: |
-        nuget restore
-        cd MedikTapp.Android
-        msbuild MedikTapp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
+# jobs:
+  # Android:
+    # runs-on: macos-latest
+    # steps:
+    # - uses: actions/checkout@v2.5.0
+    # - name: Android
+      # run: |
+        # nuget restore
+        # cd MedikTapp.Android
+        # msbuild MedikTapp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
         
   #iOS:
     #runs-on: macos-latest
@@ -21,3 +21,26 @@ jobs:
       #run: |
         #nuget restore
         #msbuild MedikTapp.iOS.csproj /verbosity:normal /t:Rebuild /p:Platform=iPhoneSimulator /p:Configuration=Release
+        
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3.0.1
+    - name: Set default Xamarin SDK versions
+      run: |
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --android=12.0
+
+    - name: Setup .NET SDK 6.0
+      uses: actions/setup-dotnet@v3 
+        dotnet-version: '6.0.x'
+      with:
+
+    - name: Install dependencies
+      run: nuget restore
+
+    - name: Build Android project
+      #run: msbuild <csproj_file_path> /t:PackageForAndroid /p:Configuration=Debug
+      run: msbuild MedikTapp.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
