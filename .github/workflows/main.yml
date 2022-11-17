@@ -21,4 +21,4 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1.3
 
     - name: Build Android Project
-      run: msbuild MedikTapp/MedikTapp.Android.csproj /t:PackageForAndroid /p:Configuration=Release
+      run: msbuild MedikTapp.Android.csproj /t:PackageForAndroid /p:Configuration=Release
